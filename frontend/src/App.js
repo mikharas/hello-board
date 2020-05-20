@@ -1,9 +1,9 @@
 import React from 'react';
-import Board from './board';
+import BoardContainer from './board/BoardContainer';
 
 function App() {
   return (
-    <Board />
+    <BoardContainer />
   );
 }
 

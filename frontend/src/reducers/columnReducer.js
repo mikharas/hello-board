@@ -18,21 +18,65 @@ const initialColumnsData = {
 
 const columnReducer = (state = initialColumnsData, { type, payload }) => {
   switch (type) {
-    case 'CHANGE_TITLE':
+    case 'ADD_COLUMN':
+      return {
+        ...state,
+        [payload]: {
+          id: payload,
+          title: 'New Column',
+          taskOrder: [],
+        },
+      };
+
+    case 'DEL_COLUMN':
+      const newState = { ...state };
+      delete newState[payload];
+      return newState;
+
+    case 'SWAP_TASKS_IN_COLUMN':
+      const newTaskOrder = [...state[payload.columnId].taskOrder];
+
+      const save = newTaskOrder[payload.index1];
+      newTaskOrder[payload.index1] = newTaskOrder[payload.index2];
+      newTaskOrder[payload.index2] = save;
+
       return {
         ...state,
         [payload.columnId]: {
           ...state[payload.columnId],
-          title: payload,
+          taskOrder: newTaskOrder,
         },
       };
+
+    case 'MOVE_TASK_BETWEEN_COLUMN':
+      const newTaskOrder1 = [...state[payload.columnId1].taskOrder];
+      const newTaskOrder2 = [...state[payload.columnId2].taskOrder];
+
+      newTaskOrder1.splice(payload.index1, 1);
+      newTaskOrder2.splice(payload.index2, 0, payload.taskId);
+
+      return {
+        ...state,
+        [payload.columnId1]: {
+          ...state[payload.columnId1],
+          taskOrder: newTaskOrder1,
+        },
+        [payload.columnId2]: {
+          ...state[payload.columnId2],
+          taskOrder: newTaskOrder2,
+        },
+      };
+
 
     case 'ADD_TASK':
       return {
         ...state,
         [payload.columnId]: {
           ...state[payload.columnId],
-          taskOrder: [...state[payload.columnId].taskOrder, payload.taskId],
+          taskOrder: [
+            ...state[payload.columnId].taskOrder,
+            payload.taskId,
+          ],
         },
       };
 
@@ -44,6 +88,15 @@ const columnReducer = (state = initialColumnsData, { type, payload }) => {
           taskOrder: state[payload.columnId].taskOrder.filter(taskId => (
             payload.taskId !== taskId
           )),
+        },
+      };
+
+    case 'CHANGE_TITLE':
+      return {
+        ...state,
+        [payload.columnId]: {
+          ...state[payload.columnId],
+          title: payload.title,
         },
       };
 
