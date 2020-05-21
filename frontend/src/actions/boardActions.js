@@ -3,9 +3,9 @@ export const changeTitle = title => ({
   payload: title,
 });
 
-export const addColumn = columnId => ({
+export const addColumn = (columnId, insertAfter) => ({
   type: 'ADD_COLUMN',
-  payload: columnId,
+  payload: { columnId, insertAfter },
 });
 
 export const delColumn = columnId => ({

@@ -5,6 +5,7 @@ const initialBoardData = {
 };
 
 const boardReducer = (state = initialBoardData, { type, payload }) => {
+  const newColumnOrder = [...state.columnOrder];
   switch (type) {
     case 'CHANGE_TITLE':
       return {
@@ -12,9 +13,11 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
         title: payload,
       };
     case 'ADD_COLUMN':
+      const index = newColumnOrder.indexOf(payload.columnId) + 1;
+      newColumnOrder.splice(index, 0, payload.insertAfter);
       return {
         ...state,
-        columnOrder: [...state.columnOrder, payload],
+        columnOrder: newColumnOrder,
       };
     case 'DEL_COLUMN':
       const newState = {
@@ -26,11 +29,9 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
     case 'SWAP_COLUMNS':
       const col_1_index = state.columnOrder.indexOf(payload.col_1);
       const col_2_index = state.columnOrder.indexOf(payload.col_2);
-      const newColumnOrder = [...state.columnOrder];
       const save = newColumnOrder[col_1_index];
       newColumnOrder[col_1_index] = newColumnOrder[col_2_index];
       newColumnOrder[col_2_index] = save;
-      console.log('new columnorder ', newColumnOrder);
       return {
         ...state,
         columnOrder: newColumnOrder,

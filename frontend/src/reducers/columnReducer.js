@@ -21,8 +21,8 @@ const columnReducer = (state = initialColumnsData, { type, payload }) => {
     case 'ADD_COLUMN':
       return {
         ...state,
-        [payload]: {
-          id: payload,
+        [payload.insertAfter]: {
+          id: payload.insertAfter,
           title: 'New Column',
           taskOrder: [],
         },

@@ -26,10 +26,9 @@ const BoardStyled = styled.div`
 `;
 
 const Board = ({
-  title, columnOrder, changeTitle, delColumn, addColumn, selectedColumn, setSelectedColumn, swapColumns, swapTasksInColumn, moveTaskBetweenColumn, delTask,
+  title, columnOrder, changeTitle, delColumn, selectedColumn, setSelectedColumn, swapColumns, swapTasksInColumn, moveTaskBetweenColumn, delTask,
 }) => {
   console.log('rendering board');
-  console.log('column order is ', columnOrder);
 
   const isLargeScreen = useMediaQuery({ minWidth: 800 });
 
@@ -90,11 +89,6 @@ const Board = ({
           onClick={() => changeTitle('hi')}
         >
           changeTitle
-        </Button>
-        <Button
-          onClick={() => addColumn(uuidv4())}
-        >
-          addcolumn
         </Button>
       </BoardStyled>
     </StylesProvider>

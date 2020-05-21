@@ -64,8 +64,9 @@ const Header = React.memo(({ title }) => {
 });
 
 const Column = forwardRef(({
-  skipRender, title, columnId, addTask, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
+  skipRender, title, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
 }, ref) => {
+  console.log('rendering ', columnId)
   if (skipRender) {
     return null;
   }
@@ -94,6 +95,7 @@ const Column = forwardRef(({
         )}
       </Droppable>
       <Button onClick={() => delColumn(columnId)}>Delete column</Button>
+      <Button onClick={() => addColumn(columnId, uuidv4())}>Insert Column</Button>
       <Button onClick={() => addTask(columnId, uuidv4())}>Add Task</Button>
       <Button onClick={() => flagColumnHandler(columnId)}>Swap column</Button>
     </ColumnStyled>

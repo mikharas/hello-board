@@ -11,7 +11,7 @@ export const swapTasksInColumn = (columnId, index1, index2) => ({
 export const moveTaskBetweenColumn = (columnId1, columnId2, index1, index2, taskId) => ({
   type: 'MOVE_TASK_BETWEEN_COLUMN',
   payload: {
-    columnId1, columnId2, index1, index2, taskId
+    columnId1, columnId2, index1, index2, taskId,
   },
 });
 

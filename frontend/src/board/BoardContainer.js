@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-  addColumn, changeTitle, delColumn, swapColumns, setSelectedColumn,
+  changeTitle, delColumn, swapColumns, setSelectedColumn,
 } from '../actions/boardActions';
 import {
   addTask, delTask, swapTasksInColumn, moveTaskBetweenColumn,
@@ -14,7 +14,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  addColumn,
   delColumn,
   changeTitle,
   swapColumns,
