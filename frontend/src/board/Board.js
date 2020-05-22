@@ -7,6 +7,7 @@ import FlipMove from 'react-flip-move';
 import { useMediaQuery } from 'react-responsive';
 import { v4 as uuidv4 } from 'uuid';
 import ColumnContainer from '../column/ColumnContainer';
+import EditableTitle from '../subcomponents/editableTitle';
 
 const Columns = styled.div`
   width: 100%;
@@ -65,7 +66,10 @@ const Board = ({
   return (
     <StylesProvider injectFirst>
       <BoardStyled>
-        <h1>{title}</h1>
+        <EditableTitle
+          title={title}
+          changeTitle={changeTitle}
+        />
         <Columns>
           <DragDropContext
             onDragEnd={onDragEnd}
