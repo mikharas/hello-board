@@ -1,6 +1,6 @@
-export const changeTitle = title => ({
-  type: 'CHANGE_TITLE',
-  payload: title,
+export const changeTitle = (columnId, title) => ({
+  type: 'CHANGE_COLUMN_TITLE',
+  payload: { columnId, title },
 });
 
 export const swapTasksInColumn = (columnId, index1, index2) => ({

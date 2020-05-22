@@ -91,7 +91,7 @@ const columnReducer = (state = initialColumnsData, { type, payload }) => {
         },
       };
 
-    case 'CHANGE_TITLE':
+    case 'CHANGE_COLUMN_TITLE':
       return {
         ...state,
         [payload.columnId]: {

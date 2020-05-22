@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Column from './Column';
-import { addTask } from '../actions/columnActions';
+import { addTask, changeTitle } from '../actions/columnActions';
 import { addColumn } from '../actions/boardActions';
 
 
@@ -20,6 +20,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   addTask,
   addColumn,
+  changeTitle,
 };
 
 export default React.memo(connect(mapStateToProps, mapDispatchToProps)(Column));

@@ -1,9 +1,10 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Button, Paper } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import TaskContainer from '../task/TaskContainer';
+import EditableTitle from '../subcomponents/editableTitle';
 
 const ColumnStyled = styled(Paper)`
   background: #EBECF0;
@@ -54,28 +55,37 @@ const HeaderStyled = styled.div`
   }
 `;
 
-const Header = React.memo(({ title }) => {
+const Header = React.memo(({ title, changeColumnTitle }) => {
   console.log('TITLE');
   return (
     <HeaderStyled>
-      <h1>{title}</h1>
+      <EditableTitle
+        title={title}
+        changeTitle={changeColumnTitle}
+      />
     </HeaderStyled>
   );
 });
 
 const Column = forwardRef(({
-  skipRender, title, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
+  skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
 }, ref) => {
-  console.log('rendering ', columnId)
+
+  const changeColumnTitle = useCallback((newTitle) => {
+    changeTitle(columnId, newTitle);
+  }, [columnId]);
+
+  console.log('rendering ', columnId);
   if (skipRender) {
     return null;
   }
+
   return (
     <ColumnStyled
       isLargeScreen={isLargeScreen}
       elevation={boardSelectedColumn === columnId ? 24 : 0}
     >
-      <Header title={title} />
+      <Header title={title} changeColumnTitle={changeColumnTitle} />
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
           <TaskList
@@ -94,6 +104,7 @@ const Column = forwardRef(({
           </TaskList>
         )}
       </Droppable>
+      <Button onClick={() => changeTitle(columnId, 'newTitle')}>change title</Button>
       <Button onClick={() => delColumn(columnId)}>Delete column</Button>
       <Button onClick={() => addColumn(columnId, uuidv4())}>Insert Column</Button>
       <Button onClick={() => addTask(columnId, uuidv4())}>Add Task</Button>
