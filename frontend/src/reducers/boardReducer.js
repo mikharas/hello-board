@@ -13,8 +13,13 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
         title: payload,
       };
     case 'ADD_COLUMN':
-      const index = newColumnOrder.indexOf(payload.columnId) + 1;
-      newColumnOrder.splice(index, 0, payload.insertAfter);
+      if (!payload.columnId) {
+        newColumnOrder.push(payload.insertAfter);
+      } else {
+        const index = newColumnOrder.indexOf(payload.columnId) + 1;
+        newColumnOrder.splice(index, 0, payload.insertAfter);
+      }
+      console.log(newColumnOrder)
       return {
         ...state,
         columnOrder: newColumnOrder,

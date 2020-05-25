@@ -4,6 +4,7 @@ import { addTask, delTask } from '../actions/columnActions';
 
 const mapStateToProps = (state, props) => ({
   title: state.tasks[props.taskId].title,
+  todo: state.tasks[props.taskId].todo,
 });
 
 

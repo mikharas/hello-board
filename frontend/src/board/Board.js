@@ -26,12 +26,28 @@ const BoardStyled = styled.div`
   justify-content: center;
 `;
 
+const ColumnWrapper = styled.div`
+  width: ${({ isLargeScreen }) => (isLargeScreen ? '350px' : '100%')};
+`;
+
+const titleInputStyle = {
+  outline: 'none',
+  border: '1px solid lightgray',
+  borderRadius: '15px',
+  background: 'white',
+  marginTop: '13px',
+  marginBottom: '15px',
+  fontSize: '30px',
+  fontFamily: 'inherit',
+  fontWeight: 'bold',
+};
+
 const Board = ({
-  title, columnOrder, changeTitle, delColumn, selectedColumn, setSelectedColumn, swapColumns, swapTasksInColumn, moveTaskBetweenColumn, delTask,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, swapTasksInColumn, moveTaskBetweenColumn, delTask,
 }) => {
   console.log('rendering board');
 
-  const isLargeScreen = useMediaQuery({ minWidth: 800 });
+  const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
   const flagColumnHandler = useCallback((columnId) => {
     console.log('flagging column', columnId);
@@ -69,6 +85,7 @@ const Board = ({
         <EditableTitle
           title={title}
           changeTitle={changeTitle}
+          style={titleInputStyle}
         />
         <Columns>
           <DragDropContext
@@ -76,7 +93,10 @@ const Board = ({
           >
             <FlipMove typeName={null}>
               {columnOrder.map(columnId => (
-                <div key={`${columnId}`}>
+                <ColumnWrapper
+                  key={`${columnId}`}
+                  isLargeScreen={isLargeScreen}
+                >
                   <ColumnContainer
                     key={columnId}
                     isLargeScreen={isLargeScreen}
@@ -84,16 +104,16 @@ const Board = ({
                     delColumn={delColumn}
                     flagColumnHandler={flagColumnHandler}
                   />
-                </div>
+                </ColumnWrapper>
               ))}
             </FlipMove>
           </DragDropContext>
         </Columns>
-        <Button
-          onClick={() => changeTitle('hi')}
-        >
-          changeTitle
-        </Button>
+        {columnOrder.length === 0 && (
+          <Button onClick={() => addColumn(0, uuidv4())}>
+            + Add column
+          </Button>
+        )}
       </BoardStyled>
     </StylesProvider>
   );

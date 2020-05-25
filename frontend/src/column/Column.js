@@ -4,6 +4,7 @@ import { Button, Paper } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import TaskContainer from '../task/TaskContainer';
+import NewTask from '../task/NewTask';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const ColumnStyled = styled(Paper)`
@@ -14,8 +15,6 @@ const ColumnStyled = styled(Paper)`
   padding: 6px;
   margin: 10px;
   flex-grow: 1;
-  width: 300px;
-  max-width: ${({ isLargeScreen }) => (isLargeScreen ? '300px' : 'default')};
 `;
 
 
@@ -70,7 +69,6 @@ const Header = React.memo(({ title, changeColumnTitle }) => {
 const Column = forwardRef(({
   skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
 }, ref) => {
-
   const changeColumnTitle = useCallback((newTitle) => {
     changeTitle(columnId, newTitle);
   }, [columnId]);
@@ -104,10 +102,12 @@ const Column = forwardRef(({
           </TaskList>
         )}
       </Droppable>
-      <Button onClick={() => changeTitle(columnId, 'newTitle')}>change title</Button>
+      <NewTask
+        columnId={columnId}
+        addTask={addTask}
+      />
       <Button onClick={() => delColumn(columnId)}>Delete column</Button>
       <Button onClick={() => addColumn(columnId, uuidv4())}>Insert Column</Button>
-      <Button onClick={() => addTask(columnId, uuidv4())}>Add Task</Button>
       <Button onClick={() => flagColumnHandler(columnId)}>Swap column</Button>
     </ColumnStyled>
   );

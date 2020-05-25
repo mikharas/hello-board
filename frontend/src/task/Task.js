@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Button, Card } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
+import TaskModal from './TaskModal';
 
 const TaskCard = styled(Card)`
   padding: 8px;
@@ -27,9 +28,13 @@ const Title = React.memo(({ title }) => {
 });
 
 const Task = ({
-  title, columnId, taskId, index, delTask, addTask,
+  title, columnId, taskId, index, delTask, addTask, todo,
 }) => {
   console.log('rendering ', taskId);
+  const [openModal, setOpenModal] = useState(false);
+  const toggleModal = useCallback(() => {
+    setOpenModal(!openModal);
+  }, [openModal]);
   return (
     <Draggable
       key={taskId}
@@ -49,7 +54,16 @@ const Task = ({
               ref={provided.innerRef}
               style={style}
             >
-              <TaskCard>
+              <TaskModal
+                title={title}
+                columnId={columnId}
+                taskId={taskId}
+                description={taskId}
+                openModal={openModal}
+                toggleModal={toggleModal}
+                todo={todo}
+              />
+              <TaskCard onClick={toggleModal}>
                 <Title title={title} />
                 <Button onClick={() => delTask(columnId, taskId)}>Delete Task</Button>
               </TaskCard>

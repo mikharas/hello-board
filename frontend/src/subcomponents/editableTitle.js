@@ -11,8 +11,10 @@ const defaultTitleStyle = {
   fontFamily: 'inherit',
   fontWeight: 'bold',
   fontSize: '30px',
-  padding: '20px',
+  padding: '15px',
   width: '90%',
+  borderRadius: '15px',
+  border: '0',
 };
 
 const EditableTitle = ({
@@ -47,7 +49,7 @@ const EditableTitle = ({
       }}
     >
       <TextareaAutosize
-        style={defaultTitleStyle}
+        style={style || defaultTitleStyle}
         autoFocus
         onFocus={e => e.target.select()}
         value={value}
