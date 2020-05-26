@@ -33,12 +33,12 @@ const columnReducer = (state = initialColumnsData, { type, payload }) => {
       delete newState[payload];
       return newState;
 
-    case 'SWAP_TASKS_IN_COLUMN':
+    case 'MOVE_TASKS_IN_COLUMN':
       const newTaskOrder = [...state[payload.columnId].taskOrder];
 
       const save = newTaskOrder[payload.index1];
-      newTaskOrder[payload.index1] = newTaskOrder[payload.index2];
-      newTaskOrder[payload.index2] = save;
+      newTaskOrder.splice(payload.index1, 1);
+      newTaskOrder.splice(payload.index2, 0, save);
 
       return {
         ...state,

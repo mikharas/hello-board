@@ -3,7 +3,7 @@ import {
   changeTitle, addColumn, delColumn, swapColumns, setSelectedColumn,
 } from '../actions/boardActions';
 import {
-  addTask, delTask, swapTasksInColumn, moveTaskBetweenColumn,
+  addTask, delTask, moveTasksInColumn, moveTaskBetweenColumn,
 } from '../actions/columnActions';
 import Board from './Board';
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = {
   changeTitle,
   swapColumns,
   setSelectedColumn,
-  swapTasksInColumn,
+  moveTasksInColumn,
   moveTaskBetweenColumn,
   addTask,
   delTask,

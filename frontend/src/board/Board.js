@@ -43,7 +43,7 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, swapTasksInColumn, moveTaskBetweenColumn, delTask,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask,
 }) => {
   console.log('rendering board');
 
@@ -72,7 +72,7 @@ const Board = ({
     ) return;
 
     if (source.droppableId === destination.droppableId) {
-      swapTasksInColumn(source.droppableId, source.index, destination.index);
+      moveTasksInColumn(source.droppableId, source.index, destination.index);
       return;
     }
 

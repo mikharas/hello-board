@@ -3,8 +3,8 @@ export const changeTitle = (columnId, title) => ({
   payload: { columnId, title },
 });
 
-export const swapTasksInColumn = (columnId, index1, index2) => ({
-  type: 'SWAP_TASKS_IN_COLUMN',
+export const moveTasksInColumn = (columnId, index1, index2) => ({
+  type: 'MOVE_TASKS_IN_COLUMN',
   payload: { columnId, index1, index2 },
 });
 

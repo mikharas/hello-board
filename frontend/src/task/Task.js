@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Button, Card } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
-import TaskModal from './TaskModal';
+import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const TaskCard = styled(Card)`
@@ -41,17 +41,12 @@ const titleEditStyle = {
   fontWeight: 'normal',
 };
 
-const Title = React.memo(({ title }) => {
-  console.log('TITLE of task');
-  return (
-    <h1>{title}</h1>
-  );
-});
-
 const Task = ({
-  changeTitle, title, columnId, taskId, index, delTask, addTask, todo,
+  changeTitle, title, description, columnId, taskId, index, delTask, todo,
+  moveTodosInTask, addTodoItem,
 }) => {
   console.log('rendering ', taskId);
+
   const [openModal, setOpenModal] = useState(false);
 
   const changeTaskTitle = useCallback((newTitle) => {
@@ -61,6 +56,7 @@ const Task = ({
   const toggleModal = useCallback(() => {
     setOpenModal(!openModal);
   }, [openModal]);
+
   return (
     <Draggable
       key={taskId}
@@ -82,13 +78,15 @@ const Task = ({
             >
               <TaskModal
                 title={title}
+                description={description}
                 columnId={columnId}
                 taskId={taskId}
-                description={taskId}
                 openModal={openModal}
                 toggleModal={toggleModal}
                 todo={todo}
                 changeTitle={changeTaskTitle}
+                moveTodosInTask={moveTodosInTask}
+                addTodoItem={addTodoItem}
               />
               <TaskCard>
                 <EditableTitle

@@ -25,14 +25,13 @@ const initialTasksData = {
 const taskReducer = (state = initialTasksData, { type, payload }) => {
   switch (type) {
     case 'CHANGE_TASK_TITLE':
-      const newState =  {
+      const newState = {
         ...state,
         [payload.taskId]: {
           ...state[payload.taskId],
           title: payload.newTitle,
         },
       };
-      console.log(newState);
       return newState;
 
     case 'ADD_TASK':
@@ -51,6 +50,45 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
       newState = { ...state };
       delete newState[payload.taskId];
       return newState;
+
+    case 'MOVE_TODOS_IN_TASK':
+      console.log(payload);
+      const newTodo = [...state[payload.taskId].todo];
+
+      const save = newTodo[payload.index1];
+      newTodo.splice(payload.index1, 1);
+      newTodo.splice(payload.index2, 0, save);
+
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          todo: newTodo,
+        },
+      };
+
+    case 'ADD_TODO_ITEM':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          todo: [
+            ...state[payload.taskId].todo,
+            payload.todoItemId,
+          ],
+        },
+      };
+
+    case 'DEL_TODO_ITEM':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          todo: state[payload.taskId].todo.filter(todoItemId => (
+            payload.todoItemId !== todoItemId
+          )),
+        },
+      };
 
     default:
       return state;

@@ -7,8 +7,9 @@ import {
   Backdrop,
   IconButton,
 } from '@material-ui/core';
+import { DragDropContext } from 'react-beautiful-dnd';
 import EditableTitle from '../subcomponents/editableTitle';
-import TodoItem from '../todoitem/TodoItem';
+import TodoList from './TodoList';
 
 const TaskModalStyled = styled(Modal)`
   z-index: 10;
@@ -16,17 +17,30 @@ const TaskModalStyled = styled(Modal)`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
+
   .card {
     width: 70%;
     height: 70%;
     border-radius: 15px;
+    padding: 10px;
   }
 `;
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, addTodoItem, moveTodosInTask,
 }) => {
   console.log('rendering taskModal of ', taskId);
+
+  const onDragEnd = ({ destination, source }) => {
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId
+      && destination.index === source.index
+    ) return;
+
+    moveTodosInTask(source.droppableId, source.index, destination.index);
+  };
+
   return (
     <TaskModalStyled
       BackdropComponent={Backdrop}
@@ -39,9 +53,16 @@ const TaskModal = ({
             title={title}
             changeTitle={changeTitle}
           />
-          {todo.map(todoItemId => (
-            <h1>{todoItemId}</h1>
-          ))}
+          <p>{description}</p>
+          <DragDropContext
+            onDragEnd={onDragEnd}
+          >
+            <TodoList
+              todo={todo}
+              taskId={taskId}
+              addTodoItem={addTodoItem}
+            />
+          </DragDropContext>
         </Paper>
       </Fade>
     </TaskModalStyled>
