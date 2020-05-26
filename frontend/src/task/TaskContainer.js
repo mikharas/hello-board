@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Task from './Task';
 import { addTask, delTask } from '../actions/columnActions';
+import { changeTitle } from '../actions/taskActions';
 
 const mapStateToProps = (state, props) => ({
   title: state.tasks[props.taskId].title,
@@ -9,6 +10,7 @@ const mapStateToProps = (state, props) => ({
 
 
 const mapDispatchToProps = {
+  changeTitle,
   addTask,
   delTask,
 };

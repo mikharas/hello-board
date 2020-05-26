@@ -24,13 +24,16 @@ const initialTasksData = {
 
 const taskReducer = (state = initialTasksData, { type, payload }) => {
   switch (type) {
-    case 'CHANGE_TITLE':
-      return {
+    case 'CHANGE_TASK_TITLE':
+      const newState =  {
         ...state,
         [payload.taskId]: {
+          ...state[payload.taskId],
           title: payload.newTitle,
         },
       };
+      console.log(newState);
+      return newState;
 
     case 'ADD_TASK':
       return {
@@ -45,7 +48,7 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
       };
 
     case 'DEL_TASK':
-      const newState = { ...state };
+      newState = { ...state };
       delete newState[payload.taskId];
       return newState;
 

@@ -24,7 +24,7 @@ const TaskModalStyled = styled(Modal)`
 `;
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle
 }) => {
   console.log('rendering taskModal of ', taskId);
   return (
@@ -35,6 +35,10 @@ const TaskModal = ({
     >
       <Fade in={openModal}>
         <Paper className="card">
+          <EditableTitle
+            title={title}
+            changeTitle={changeTitle}
+          />
           {todo.map(todoItemId => (
             <h1>{todoItemId}</h1>
           ))}

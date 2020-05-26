@@ -69,6 +69,7 @@ const Header = React.memo(({ title, changeColumnTitle }) => {
 const Column = forwardRef(({
   skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
 }, ref) => {
+
   const changeColumnTitle = useCallback((newTitle) => {
     changeTitle(columnId, newTitle);
   }, [columnId]);

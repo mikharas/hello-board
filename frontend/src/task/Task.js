@@ -4,6 +4,7 @@ import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Button, Card } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
 import TaskModal from './TaskModal';
+import EditableTitle from '../subcomponents/editableTitle';
 
 const TaskCard = styled(Card)`
   padding: 8px;
@@ -20,6 +21,26 @@ const TaskCard = styled(Card)`
   min-height: 40px;
 `;
 
+const titleStyle = {
+  width: '100%',
+  outline: 'none',
+  border: 'none',
+  background: 'transparent',
+  fontSize: '18px',
+  fontFamily: 'inherit',
+  fontWeight: 'normal',
+};
+
+const titleEditStyle = {
+  width: '100%',
+  outline: 'none',
+  border: 'none',
+  background: 'transparent',
+  fontSize: '18px',
+  fontFamily: 'inherit',
+  fontWeight: 'normal',
+};
+
 const Title = React.memo(({ title }) => {
   console.log('TITLE of task');
   return (
@@ -28,10 +49,15 @@ const Title = React.memo(({ title }) => {
 });
 
 const Task = ({
-  title, columnId, taskId, index, delTask, addTask, todo,
+  changeTitle, title, columnId, taskId, index, delTask, addTask, todo,
 }) => {
   console.log('rendering ', taskId);
   const [openModal, setOpenModal] = useState(false);
+
+  const changeTaskTitle = useCallback((newTitle) => {
+    changeTitle(taskId, newTitle);
+  }, [taskId]);
+
   const toggleModal = useCallback(() => {
     setOpenModal(!openModal);
   }, [openModal]);
@@ -62,10 +88,17 @@ const Task = ({
                 openModal={openModal}
                 toggleModal={toggleModal}
                 todo={todo}
+                changeTitle={changeTaskTitle}
               />
-              <TaskCard onClick={toggleModal}>
-                <Title title={title} />
-                <Button onClick={() => delTask(columnId, taskId)}>Delete Task</Button>
+              <TaskCard>
+                <EditableTitle
+                  title={title}
+                  changeTitle={changeTaskTitle}
+                  style={titleEditStyle}
+                  normalStyle={titleStyle}
+                />
+                <Button onClick={toggleModal}>open</Button>
+
               </TaskCard>
             </div>
           )}

@@ -1,4 +1,4 @@
 export const changeTitle = (taskId, newTitle) => ({
-  type: 'CHANGE_TITLE',
+  type: 'CHANGE_TASK_TITLE',
   payload: { taskId, newTitle },
 });

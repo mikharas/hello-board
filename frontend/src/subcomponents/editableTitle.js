@@ -21,6 +21,7 @@ const EditableTitle = ({
   title,
   changeTitle,
   style,
+  normalStyle,
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
@@ -33,7 +34,16 @@ const EditableTitle = ({
   console.log('render editable title');
 
   if (!isEditmode) {
-    return <h1 onClick={() => toggleEditMode()}>{title}</h1>;
+    return (
+      <h1
+        onClick={() => toggleEditMode()}
+        style={style && normalStyle}
+      >
+        {title}
+      </h1>
+
+
+    );
   }
 
   return (
@@ -71,4 +81,4 @@ const EditableTitle = ({
   );
 };
 
-export default EditableTitle;
+export default React.memo(EditableTitle);
