@@ -4,28 +4,29 @@ const initialTasksData = {
     title: 'first task',
     description: 'Do this and do that',
     todo: ['todo-1', 'todo-2', 'todo-3'],
-    completed: null,
+    completedCount: 0,
   },
   'task-2': {
     id: 'task-2',
     title: 'second task',
     description: 'Do this and do that',
     todo: [],
-    completed: null,
+    completedCount: 0,
   },
   'task-3': {
     id: 'task-3',
     title: 'third task',
     description: 'Do this and do that',
     todo: [],
-    completed: null,
+    completedCount: 0,
   },
 };
 
 const taskReducer = (state = initialTasksData, { type, payload }) => {
+  let newState;
   switch (type) {
     case 'CHANGE_TASK_TITLE':
-      const newState = {
+      newState = {
         ...state,
         [payload.taskId]: {
           ...state[payload.taskId],
@@ -33,6 +34,34 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
         },
       };
       return newState;
+
+    case 'CHANGE_TASK_DESCRIPTION':
+      newState = {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          description: payload.newDescription,
+        },
+      };
+      return newState;
+
+    case 'INCREMENT_COMPLETED_COUNT':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          completedCount: state[payload.taskId].completedCount + 1,
+        },
+      };
+
+    case 'DECREMENT_COMPLETED_COUNT':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          completedCount: state[payload.taskId].completedCount - 1,
+        },
+      };
 
     case 'ADD_TASK':
       return {
@@ -42,7 +71,7 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
           title: payload.content || 'New Task',
           description: '',
           todo: [],
-          completed: 0,
+          completedCount: 0,
         },
       };
 
@@ -52,7 +81,6 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
       return newState;
 
     case 'MOVE_TODOS_IN_TASK':
-      console.log(payload);
       const newTodo = [...state[payload.taskId].todo];
 
       const save = newTodo[payload.index1];

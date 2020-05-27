@@ -3,6 +3,21 @@ export const changeTitle = (taskId, newTitle) => ({
   payload: { taskId, newTitle },
 });
 
+export const changeDescription = (taskId, newDescription) => ({
+  type: 'CHANGE_TASK_DESCRIPTION',
+  payload: { taskId, newDescription },
+});
+
+export const incrementCompleted = taskId => ({
+  type: 'INCREMENT_COMPLETED_COUNT',
+  payload: { taskId },
+});
+
+export const decrementCompleted = taskId => ({
+  type: 'DECREMENT_COMPLETED_COUNT',
+  payload: { taskId },
+});
+
 export const addTodoItem = (taskId, todoItemId, title = null) => ({
   type: 'ADD_TODO_ITEM',
   payload: { taskId, todoItemId, title },

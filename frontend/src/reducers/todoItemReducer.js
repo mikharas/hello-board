@@ -17,9 +17,10 @@ const initialTodoItemData = {
 };
 
 const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
+  let newState;
   switch (type) {
     case 'CHANGE_TODO_ITEM_TITLE':
-      const newState =  {
+      newState = {
         ...state,
         [payload.todoItemId]: {
           ...state[payload.todoItemId],
@@ -27,6 +28,18 @@ const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
         },
       };
       return newState;
+
+    case 'TOGGLE_IS_COMPLETED':
+      newState = {
+        ...state,
+        [payload.todoItemId]: {
+          ...state[payload.todoItemId],
+          isCompleted: !state[payload.todoItemId].isCompleted,
+        },
+      };
+
+      return newState;
+
 
     case 'ADD_TODO_ITEM':
       return {
@@ -36,7 +49,7 @@ const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
           title: payload.title || 'New todo item',
           isCompleted: false,
         },
-      }
+      };
 
     case 'DEL_TODO_ITEM':
       newState = { ...state };

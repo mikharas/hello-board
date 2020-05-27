@@ -41,8 +41,6 @@ const EditableTitle = ({
       >
         {title}
       </h1>
-
-
     );
   }
 

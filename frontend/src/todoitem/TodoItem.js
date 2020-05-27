@@ -10,6 +10,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import EditableTitle from '../subcomponents/editableTitle';
+import { incrementCompleted } from '../actions/taskActions';
 
 const ItemStyled = styled(ListItem)`
   background: ${({ isHovered }) => isHovered && '#EBECF0'};
@@ -25,16 +26,16 @@ const titleStyle = {
   fontWeight: 'normal',
   fontSize: '15px',
   fontFamily: 'inherit',
-}
+};
 
 const TodoItem = ({
-  key, index, todoItemId, title, isCompleted, changeTitle,
+  key, index, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted,
 }) => {
   console.log('rendering todoitem ', todoItemId);
 
   const changeTodoItemTitle = useCallback((newTitle) => {
-    changeTitle(todoItemId, newTitle)
-  }, [todoItemId])
+    changeTitle(todoItemId, newTitle);
+  }, [todoItemId]);
 
   return (
     <Draggable
@@ -48,6 +49,17 @@ const TodoItem = ({
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
+          <Checkbox
+            checked={isCompleted}
+            edge="start"
+            tabIndex={-1}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleIsCompleted(todoItemId);
+              if (isCompleted) decrementCompleted(taskId);
+              else incrementCompleted(taskId);
+            }}
+          />
           <EditableTitle
             title={title}
             changeTitle={changeTodoItemTitle}

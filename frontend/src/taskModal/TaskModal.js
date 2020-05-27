@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
+  Button,
   Paper,
   Modal,
   Fade,
@@ -26,8 +27,18 @@ const TaskModalStyled = styled(Modal)`
   }
 `;
 
+const descriptionStyle = {
+  width: '100%',
+  outline: 'none',
+  border: 'none',
+  background: 'transparent',
+  fontSize: '18px',
+  fontFamily: 'inherit',
+  fontWeight: 'normal',
+};
+
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, addTodoItem, moveTodosInTask,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, moveTodosInTask, completedPercentage,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -53,7 +64,20 @@ const TaskModal = ({
             title={title}
             changeTitle={changeTitle}
           />
-          <p>{description}</p>
+          {description
+            ? (
+              <EditableTitle
+                title={description}
+                changeTitle={changeDescription}
+                style={descriptionStyle}
+                normalStyle={descriptionStyle}
+              />
+            )
+            : (
+              <Button onClick={() => changeDescription('New description')}>
+                Add a description
+              </Button>
+            )}
           <DragDropContext
             onDragEnd={onDragEnd}
           >
@@ -61,6 +85,7 @@ const TaskModal = ({
               todo={todo}
               taskId={taskId}
               addTodoItem={addTodoItem}
+              completedPercentage={completedPercentage}
             />
           </DragDropContext>
         </Paper>
