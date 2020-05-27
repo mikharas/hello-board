@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import {
@@ -8,9 +8,9 @@ import {
   ListItemText,
   ListItemIcon,
   IconButton,
+  Button,
 } from '@material-ui/core';
 import EditableTitle from '../subcomponents/editableTitle';
-import { incrementCompleted } from '../actions/taskActions';
 
 const ItemStyled = styled(ListItem)`
   background: ${({ isHovered }) => isHovered && '#EBECF0'};
@@ -29,9 +29,11 @@ const titleStyle = {
 };
 
 const TodoItem = ({
-  key, index, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted,
+  key, index, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem
 }) => {
   console.log('rendering todoitem ', todoItemId);
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const changeTodoItemTitle = useCallback((newTitle) => {
     changeTitle(todoItemId, newTitle);
@@ -48,6 +50,9 @@ const TodoItem = ({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          isHovered={isHovered}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <Checkbox
             checked={isCompleted}
@@ -66,6 +71,11 @@ const TodoItem = ({
             style={titleStyle}
             normalStyle={titleStyle}
           />
+          <Button
+            onClick={() => delTodoItem(taskId, todoItemId)}
+          >
+            Del
+          </Button>
         </ItemStyled>
       )}
     </Draggable>

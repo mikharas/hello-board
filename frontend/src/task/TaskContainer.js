@@ -6,13 +6,15 @@ import {
 } from '../actions/taskActions';
 
 
-const mapStateToProps = (state, props) => ({
-  title: state.tasks[props.taskId].title,
-  description: state.tasks[props.taskId].description,
-  completedCount: state.tasks[props.taskId].completedCount,
-  todo: state.tasks[props.taskId].todo,
-  completedPercentage: (state.tasks[props.taskId].completedCount / state.tasks[props.taskId].todo.length) * 100,
-});
+const mapStateToProps = (state, props) => {
+  console.log(state, props)
+  return {
+    title: state.tasks[props.taskId].title,
+    description: state.tasks[props.taskId].description,
+    completedCount: state.tasks[props.taskId].completedCount,
+    todo: state.tasks[props.taskId].todo,
+    completedPercentage: (state.tasks[props.taskId].completedCount / state.tasks[props.taskId].todo.length) * 100,
+  } };
 
 
 const mapDispatchToProps = {

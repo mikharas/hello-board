@@ -7,6 +7,7 @@ import {
   LinearProgress,
 } from '@material-ui/core';
 import TodoItem from '../todoitem/TodoItemContainer';
+import NewTodoItem from '../todoitem/NewTodoItem';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -27,7 +28,7 @@ const Title = styled.h1`
 `;
 
 const TodoList = ({
-  todo, taskId, addTodoItem, completedPercentage
+  todo, taskId, addTodoItem, completedPercentage,
 }) => {
   const progressBar = (
     <>
@@ -68,6 +69,10 @@ const TodoList = ({
           </ListWrapper>
         )}
       </Droppable>
+      <NewTodoItem
+        taskId={taskId}
+        addTodoItem={addTodoItem}
+      />
     </Wrapper>
   );
 };

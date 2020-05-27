@@ -27,6 +27,12 @@ const TaskModalStyled = styled(Modal)`
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const descriptionStyle = {
   width: '100%',
   outline: 'none',
@@ -38,7 +44,7 @@ const descriptionStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, moveTodosInTask, completedPercentage,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -60,10 +66,20 @@ const TaskModal = ({
     >
       <Fade in={openModal}>
         <Paper className="card">
-          <EditableTitle
-            title={title}
-            changeTitle={changeTitle}
-          />
+          <Header>
+            <EditableTitle
+              title={title}
+              changeTitle={changeTitle}
+            />
+            <Button
+              onClick={() => {
+                delTask(columnId, taskId);
+                toggleModal();
+              }}
+            >
+              Delete task
+            </Button>
+          </Header>
           {description
             ? (
               <EditableTitle

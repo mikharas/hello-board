@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import TodoItem from './TodoItem';
 import { changeTitle, toggleIsCompleted } from '../actions/todoItemActions';
 import {
-  addTodoItem, delTodoItem, incrementCompleted, decrementCompleted,
+  delTodoItem, incrementCompleted, decrementCompleted,
 } from '../actions/taskActions';
 
 const mapStateToProps = (state, props) => ({
@@ -14,7 +14,6 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   changeTitle,
   toggleIsCompleted,
-  addTodoItem,
   delTodoItem,
   incrementCompleted,
   decrementCompleted,

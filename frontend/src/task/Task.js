@@ -102,6 +102,7 @@ const Task = ({
                 completedPercentage={completedPercentage}
                 moveTodosInTask={moveTodosInTask}
                 addTodoItem={addTodoItem}
+                delTask={delTask}
               />
               <TaskCard>
                 {todo.length !== 0 && (

@@ -23,10 +23,10 @@ const TaskCard = styled(Card)`
   }
 `;
 
-const NewTask = ({ columnId, addTask }) => {
+const NewTodoItem = ({ taskId, addTodoItem }) => {
   const [value, setValue] = useState('');
   const [isButton, setIsButton] = useState(true);
-  console.log('rendering new task of ', columnId);
+  console.log('rendering new todo item of ', taskId);
 
   const toggleIsButton = useCallback(() => {
     setIsButton(!isButton);
@@ -38,7 +38,7 @@ const NewTask = ({ columnId, addTask }) => {
         className="button"
         onClick={toggleIsButton}
       >
-        + Add Task
+        + Add Todo Item
       </Button>
     );
   }
@@ -46,7 +46,7 @@ const NewTask = ({ columnId, addTask }) => {
   return (
     <ClickAwayListener onClickAway={() => {
       if (value) {
-        addTask(columnId, uuidv4(), value);
+        addTodoItem(taskId, uuidv4(), value);
         setValue('');
       }
       toggleIsButton();
@@ -64,7 +64,7 @@ const NewTask = ({ columnId, addTask }) => {
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
               if (value) {
-                addTask(columnId, uuidv4(), value);
+                addTodoItem(taskId, uuidv4(), value);
                 setValue('');
               }
               toggleIsButton();
@@ -76,4 +76,4 @@ const NewTask = ({ columnId, addTask }) => {
   );
 };
 
-export default React.memo(NewTask);
+export default React.memo(NewTodoItem);
