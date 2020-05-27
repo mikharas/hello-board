@@ -10,6 +10,7 @@ import {
   IconButton,
   Button,
 } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const ItemStyled = styled(ListItem)`
@@ -29,7 +30,7 @@ const titleStyle = {
 };
 
 const TodoItem = ({
-  key, index, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem
+  key, index, columnId, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem, addTask,
 }) => {
   console.log('rendering todoitem ', todoItemId);
 
@@ -72,9 +73,22 @@ const TodoItem = ({
             normalStyle={titleStyle}
           />
           <Button
-            onClick={() => delTodoItem(taskId, todoItemId)}
+            onClick={() => {
+              delTodoItem(taskId, todoItemId);
+              if (isCompleted) {
+                decrementCompleted(taskId);
+              }
+            }}
           >
             Del
+          </Button>
+          <Button
+            onClick={() => {
+              addTask(columnId, uuidv4(), title);
+              delTodoItem(taskId, todoItemId);
+            }}
+          >
+            Change
           </Button>
         </ItemStyled>
       )}

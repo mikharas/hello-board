@@ -100,6 +100,7 @@ const TaskModal = ({
             <TodoList
               todo={todo}
               taskId={taskId}
+              columnId={columnId}
               addTodoItem={addTodoItem}
               completedPercentage={completedPercentage}
             />

@@ -7,7 +7,6 @@ import {
 
 
 const mapStateToProps = (state, props) => {
-  console.log(state, props)
   return {
     title: state.tasks[props.taskId].title,
     description: state.tasks[props.taskId].description,

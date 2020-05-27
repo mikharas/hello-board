@@ -4,6 +4,7 @@ import { changeTitle, toggleIsCompleted } from '../actions/todoItemActions';
 import {
   delTodoItem, incrementCompleted, decrementCompleted,
 } from '../actions/taskActions';
+import { addTask } from '../actions/columnActions';
 
 const mapStateToProps = (state, props) => ({
   title: state.todoItems[props.todoItemId].title,
@@ -17,6 +18,7 @@ const mapDispatchToProps = {
   delTodoItem,
   incrementCompleted,
   decrementCompleted,
+  addTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoItem);
