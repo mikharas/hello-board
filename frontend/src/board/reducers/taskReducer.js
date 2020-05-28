@@ -25,6 +25,11 @@ const initialTasksData = {
 const taskReducer = (state = initialTasksData, { type, payload }) => {
   let newState;
   switch (type) {
+    case 'SET_BOARD_DATA':
+      return {
+        ...payload.tasks,
+      };
+
     case 'CHANGE_TASK_TITLE':
       newState = {
         ...state,

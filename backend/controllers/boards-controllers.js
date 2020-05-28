@@ -50,11 +50,12 @@ const createBoard = async (req, res, next) => {
 	const newBoard = new Board({
 		title,
 		creator: req.userData.userId,
+		selectedColumn: null,
 		columns: {
 			'column-1': {
 				id: 'column-1',
 				title: 'Your first column!',
-				taskIds: []
+				taskOrder: []
 			}
 		},
 		columnOrder: ['column-1']
@@ -88,7 +89,7 @@ const updateBoard = async(req, res, next) => {
 		return next(new HttpError(`${errors[0].msg}`, 422));
 	}
 
-	const { title, tasks, columns, columnOrder } = req.body;
+	const { title, tasks, columns, todoItems, columnOrder } = req.body;
 	const boardId = req.params.bid;
 
 	let board;
@@ -104,6 +105,7 @@ const updateBoard = async(req, res, next) => {
 
 	board.title = title;
 	board.tasks = tasks;
+	board.todoItems = todoItems;
 	board.columns = columns;
 	board.columnOrder = columnOrder;
 

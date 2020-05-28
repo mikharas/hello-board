@@ -19,6 +19,11 @@ const initialTodoItemData = {
 const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
   let newState;
   switch (type) {
+    case 'SET_BOARD_DATA':
+      return {
+        ...payload.todoItems,
+      };
+
     case 'CHANGE_TODO_ITEM_TITLE':
       newState = {
         ...state,

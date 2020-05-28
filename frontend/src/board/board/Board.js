@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react';
+import React, {
+  useCallback, useEffect, useContext,
+} from 'react';
 import styled from 'styled-components';
 import { StylesProvider } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
@@ -6,6 +8,8 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import FlipMove from 'react-flip-move';
 import { useMediaQuery } from 'react-responsive';
 import { v4 as uuidv4 } from 'uuid';
+import AuthContext from '../../shared/context/authContext';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 import ColumnContainer from '../column/ColumnContainer';
 import EditableTitle from '../subcomponents/editableTitle';
 
@@ -43,9 +47,28 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, setBoardData, boardId,
 }) => {
   console.log('rendering board');
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest } = useHttpClient();
+
+  useEffect(() => {
+    const fetchBoard = async () => {
+      try {
+        const boardData = await sendRequest(
+          `http://localhost:3000/api/boards/${boardId}`,
+          'GET',
+          null,
+          {
+            Authorization: `Bearer: ${auth.token}`,
+          },
+        );
+        setBoardData(boardData.board);
+      } catch (err) {}
+    };
+    fetchBoard();
+  }, []);
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
@@ -78,6 +101,9 @@ const Board = ({
 
     moveTaskBetweenColumn(source.droppableId, destination.droppableId, source.index, destination.index, draggableId);
   };
+  if (isLoading) {
+    return <h1>Is Loading..</h1>;
+  }
 
   return (
     <StylesProvider injectFirst>

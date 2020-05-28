@@ -18,6 +18,11 @@ const initialColumnsData = {
 
 const columnReducer = (state = initialColumnsData, { type, payload }) => {
   switch (type) {
+    case 'SET_BOARD_DATA':
+      return {
+        ...payload.columns,
+      };
+
     case 'ADD_COLUMN':
       return {
         ...state,

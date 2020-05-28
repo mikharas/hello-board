@@ -1,3 +1,8 @@
+export const setBoardData = data => ({
+  type: 'SET_BOARD_DATA',
+  payload: data,
+});
+
 export const changeTitle = title => ({
   type: 'CHANGE_TITLE',
   payload: title,

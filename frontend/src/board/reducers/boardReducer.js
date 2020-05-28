@@ -7,11 +7,19 @@ const initialBoardData = {
 const boardReducer = (state = initialBoardData, { type, payload }) => {
   const newColumnOrder = [...state.columnOrder];
   switch (type) {
+    case 'SET_BOARD_DATA':
+      return {
+        title: payload.title,
+        columnOrder: payload.columnOrder,
+        selectedColumn: payload.selectedColumn,
+      }
+
     case 'CHANGE_TITLE':
       return {
         ...state,
         title: payload,
       };
+
     case 'ADD_COLUMN':
       if (!payload.columnId) {
         newColumnOrder.push(payload.insertAfter);
