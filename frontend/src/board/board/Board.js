@@ -47,41 +47,23 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, setBoardData, boardId,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, setBoardData, boardId, saveData, getData,
 }) => {
-  console.log('rendering board');
-  const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest } = useHttpClient();
+  console.log('rendering board ', boardId);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const boardData = await sendRequest(
-          `http://localhost:3000/api/boards/${boardId}`,
-          'GET',
-          null,
-          {
-            Authorization: `Bearer: ${auth.token}`,
-          },
-        );
-        setBoardData(boardData.board);
-      } catch (err) {}
-    };
-    fetchBoard();
+    getData(boardId, token);
   }, []);
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
   const flagColumnHandler = useCallback((columnId) => {
-    console.log('flagging column', columnId);
     if (!selectedColumn) {
-      console.log('setting column');
       setSelectedColumn(columnId);
     } else if (selectedColumn === columnId) {
-      console.log('undoing column');
       setSelectedColumn(null);
     } else {
-      console.log('switching columns ', selectedColumn, ' and ', columnId);
       swapColumns(selectedColumn, columnId);
       setSelectedColumn(null);
     }
@@ -101,7 +83,7 @@ const Board = ({
 
     moveTaskBetweenColumn(source.droppableId, destination.droppableId, source.index, destination.index, draggableId);
   };
-  if (isLoading) {
+  if (!title) {
     return <h1>Is Loading..</h1>;
   }
 
@@ -140,6 +122,7 @@ const Board = ({
             + Add column
           </Button>
         )}
+        <Button onClick={() => saveData(boardId, token)}>Save Board</Button>
       </BoardStyled>
     </StylesProvider>
   );

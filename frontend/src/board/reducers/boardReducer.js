@@ -1,7 +1,7 @@
 const initialBoardData = {
   selectedColumn: null,
-  title: 'sarah',
-  columnOrder: ['column-1', 'column-2', 'column-3'],
+  title: '',
+  columnOrder: [],
 };
 
 const boardReducer = (state = initialBoardData, { type, payload }) => {
@@ -27,7 +27,6 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
         const index = newColumnOrder.indexOf(payload.columnId) + 1;
         newColumnOrder.splice(index, 0, payload.insertAfter);
       }
-      console.log(newColumnOrder)
       return {
         ...state,
         columnOrder: newColumnOrder,
@@ -51,7 +50,6 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
       };
 
     case 'SET_SELECTED_COLUMN':
-      console.log('sldkfjsldkfjlsdkj');
       return {
         ...state,
         selectedColumn: payload,

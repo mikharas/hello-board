@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
 		}
 		// verify token. the key must be equal
 		const decodedToken = jwt.verify(token, 'secret_key');
+		console.log(decodedToken);
 		req.userData = {
 			userId: decodedToken.userId,
 			account_name: decodedToken.account_name

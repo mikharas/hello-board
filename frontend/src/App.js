@@ -17,6 +17,7 @@ const App = () => {
   const {
     token, login, logout, resetTimeout, userId,
   } = useAuth();
+  const auth = AuthContext;
 
   if (token && userId) {
     routes = (

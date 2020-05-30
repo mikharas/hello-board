@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 export const setBoardData = data => ({
   type: 'SET_BOARD_DATA',
   payload: data,
@@ -27,3 +29,44 @@ export const setSelectedColumn = columnId => ({
   type: 'SET_SELECTED_COLUMN',
   payload: columnId,
 });
+
+export const getData = (boardId, token) => (dispatch) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer: ${token}`,
+  };
+
+  axios.get(
+    `http://localhost:3000/api/boards/${boardId}`,
+    { headers },
+  ).then((response) => {
+    dispatch(setBoardData(response.data.board));
+  });
+};
+
+export const saveData = (boardId, token) => (dispatch, getState) => {
+  const boardStructure = {
+    ...getState().board,
+    columns: {
+      ...getState().columns,
+    },
+    tasks: {
+      ...getState().tasks,
+    },
+    todoItems: {
+      ...getState().todoItems,
+    },
+  };
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer: ${token}`,
+  };
+
+  axios.patch(
+    `http://localhost:3000/api/boards/${boardId}`,
+    boardStructure,
+    { headers },
+  ).then(value => console.log(value));
+};
+
