@@ -14,7 +14,8 @@ import { v4 as uuidv4 } from 'uuid';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const ItemStyled = styled(ListItem)`
-  background: ${({ isHovered }) => isHovered && '#EBECF0'};
+  background: ${({ isHovered, isDragging }) => (isHovered || isDragging ? '#EBECF0' : '#fff')};
+  border-radius: 15px;
   text-decoration: ${({ isChecked }) => isChecked && 'line-through'};
   color: ${({ isChecked }) => isChecked && 'red'};
   height: 50px;
@@ -22,6 +23,17 @@ const ItemStyled = styled(ListItem)`
 
 const titleStyle = {
   width: '100%',
+  outline: 'none',
+  border: 'none',
+  fontWeight: 'normal',
+  fontSize: '15px',
+  fontFamily: 'inherit',
+};
+
+const titleStyleGrayed = {
+  width: '100%',
+  color: 'red',
+  textDecoration: 'line-through',
   outline: 'none',
   border: 'none',
   fontWeight: 'normal',
@@ -46,12 +58,13 @@ const TodoItem = ({
       draggableId={todoItemId}
       index={index}
     >
-      {provided => (
+      {(provided, snapshot) => (
         <ItemStyled
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           isHovered={isHovered}
+          isDragging={snapshot.isDragging}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -70,7 +83,7 @@ const TodoItem = ({
             title={title}
             changeTitle={changeTodoItemTitle}
             style={titleStyle}
-            normalStyle={titleStyle}
+            normalStyle={isCompleted ? titleStyleGrayed : titleStyle}
           />
           <Button
             onClick={() => {

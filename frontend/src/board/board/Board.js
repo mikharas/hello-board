@@ -2,14 +2,13 @@ import React, {
   useCallback, useEffect, useContext,
 } from 'react';
 import styled from 'styled-components';
-import { StylesProvider } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
 import FlipMove from 'react-flip-move';
 import { useMediaQuery } from 'react-responsive';
 import { v4 as uuidv4 } from 'uuid';
+import TimeoutContext from '../../shared/context/timeoutContext';
 import AuthContext from '../../shared/context/authContext';
-import { useHttpClient } from '../../shared/hooks/http-hook';
 import ColumnContainer from '../column/ColumnContainer';
 import EditableTitle from '../subcomponents/editableTitle';
 
@@ -51,10 +50,17 @@ const Board = ({
 }) => {
   console.log('rendering board ', boardId);
   const { token } = useContext(AuthContext);
+  const { resetTimeout } = useContext(TimeoutContext);
 
   useEffect(() => {
+    resetTimeout();
     getData(boardId, token);
   }, []);
+
+  const saveDataHandler = () => {
+    resetTimeout();
+    saveData(boardId, token);
+  }
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
@@ -88,43 +94,41 @@ const Board = ({
   }
 
   return (
-    <StylesProvider injectFirst>
-      <BoardStyled>
-        <EditableTitle
-          title={title}
-          changeTitle={changeTitle}
-          style={titleInputStyle}
-        />
-        <Columns>
-          <DragDropContext
-            onDragEnd={onDragEnd}
-          >
-            <FlipMove typeName={null}>
-              {columnOrder.map(columnId => (
-                <ColumnWrapper
-                  key={`${columnId}`}
+    <BoardStyled>
+      <EditableTitle
+        title={title}
+        changeTitle={changeTitle}
+        style={titleInputStyle}
+      />
+      <Columns>
+        <DragDropContext
+          onDragEnd={onDragEnd}
+        >
+          <FlipMove typeName={null}>
+            {columnOrder.map(columnId => (
+              <ColumnWrapper
+                key={`${columnId}`}
+                isLargeScreen={isLargeScreen}
+              >
+                <ColumnContainer
+                  key={columnId}
                   isLargeScreen={isLargeScreen}
-                >
-                  <ColumnContainer
-                    key={columnId}
-                    isLargeScreen={isLargeScreen}
-                    columnId={columnId}
-                    delColumn={delColumn}
-                    flagColumnHandler={flagColumnHandler}
-                  />
-                </ColumnWrapper>
-              ))}
-            </FlipMove>
-          </DragDropContext>
-        </Columns>
-        {columnOrder.length === 0 && (
-          <Button onClick={() => addColumn(0, uuidv4())}>
-            + Add column
-          </Button>
-        )}
-        <Button onClick={() => saveData(boardId, token)}>Save Board</Button>
-      </BoardStyled>
-    </StylesProvider>
+                  columnId={columnId}
+                  delColumn={delColumn}
+                  flagColumnHandler={flagColumnHandler}
+                />
+              </ColumnWrapper>
+            ))}
+          </FlipMove>
+        </DragDropContext>
+      </Columns>
+      {columnOrder.length === 0 && (
+        <Button onClick={() => addColumn(0, uuidv4())}>
+          + Add column
+        </Button>
+      )}
+      <Button onClick={saveDataHandler}>Save Board</Button>
+    </BoardStyled>
   );
 };
 

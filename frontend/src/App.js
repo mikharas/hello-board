@@ -4,12 +4,12 @@ import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
 
-import BoardContainer from './board/board/BoardContainer';
+import Board from './board/board/BoardContainer';
 import Auth from './user/pages/Auth';
-import UserBoards from './board/userBoard/UserBoards';
+import UserBoards from './board/userBoard/UserBoardsContainer';
 
 import AuthContext from './shared/context/authContext';
-import { TimeoutContext } from './shared/context/timeoutContext';
+import TimeoutContext from './shared/context/timeoutContext';
 import { useAuth } from './shared/hooks/auth-hook';
 
 const App = () => {
@@ -17,7 +17,6 @@ const App = () => {
   const {
     token, login, logout, resetTimeout, userId,
   } = useAuth();
-  const auth = AuthContext;
 
   if (token && userId) {
     routes = (
@@ -33,7 +32,7 @@ const App = () => {
             exact
             path="/boards/:boardId"
             render={({ match }) => (
-              <BoardContainer boardId={match.params.boardId} />
+              <Board boardId={match.params.boardId} />
             )}
           />
           <Redirect to={`/${userId}/boards`} />

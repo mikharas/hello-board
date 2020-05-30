@@ -1,5 +1,7 @@
 import { createContext } from 'react';
 
-export const TimeoutContext = createContext({
+const TimeoutContext = createContext({
   resetTimeout: () => {},
 });
+
+export default TimeoutContext;

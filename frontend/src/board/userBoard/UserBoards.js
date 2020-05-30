@@ -4,9 +4,8 @@ import React, {
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
-import { useHttpClient } from '../../shared/hooks/http-hook';
 import AuthContext from '../../shared/context/authContext';
-import { TimeoutContext } from '../../shared/context/timeoutContext';
+import TimeoutContext from '../../shared/context/timeoutContext';
 import BoardCard from './BoardCard';
 import WarningDialog from '../../shared/components/WarningDialog';
 
@@ -38,84 +37,33 @@ const LogoutButton = styled(Button)`
 `;
 
 const NewBoard = styled(Button)`
-
 `;
 
-const UserBoards = () => {
-  const {
-    isLoading, error, sendRequest, clearError,
-  } = useHttpClient();
+const UserBoards = ({
+  boardsList, getUserBoardsData, postUserBoard, delUserBoard,
+}) => {
   const { userId } = useParams();
-  const [fetchedBoards, setFetchedBoards] = useState();
   const [openDialog, setOpenDialog] = useState(false);
-  const auth = useContext(AuthContext);
+  const { token, logout } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
 
-  const fetchUserBoards = async () => {
-    try {
-      const responseData = await sendRequest(
-        `http://localhost:3000/api/boards/user/${userId}`,
-        'GET',
-        null,
-        {
-          Authorization: `Bearer: ${auth.token}`,
-        },
-      );
-      setFetchedBoards(responseData.boards);
-    } catch (err) {}
-  };
+  const createBoardHandler = () => {
+    postUserBoard(userId, token);
+    resetTimeout();
+  }
 
-  const createBoardHandler = async () => {
-    try {
-      const responseData = await sendRequest(
-        'http://localhost:3000/api/boards/',
-        'POST',
-        JSON.stringify({
-          creator: userId,
-          title: 'New Board',
-        }),
-        {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer: ${auth.token}`,
-        },
-      );
-      fetchUserBoards();
-    } catch (err) {}
-  };
-
-  const deleteBoardHandler = useCallback(async (boardId) => {
-    try {
-      const responseData = await sendRequest(
-        `http://localhost:3000/api/boards/${boardId}`,
-        'DELETE',
-        null,
-        {
-          Authorization: `Bearer: ${auth.token}`,
-        },
-      );
-      fetchUserBoards();
-    } catch (err) {}
-  }, []);
-
-  useEffect(() => {
-    fetchUserBoards();
-  }, [sendRequest, userId]);
+  const deleteBoardHandler = (boardId) => {
+    delUserBoard(boardId, token)
+  }
 
   useEffect(() => {
     resetTimeout();
-  }, [fetchedBoards]);
+    getUserBoardsData(userId, token);
+  }, []);
 
-  if (isLoading) {
-    return <h1>loading data...</h1>;
-  }
-
-  if (!fetchedBoards && !error) {
-    return <h1>No boards were found</h1>;
-  }
-
-  if (error) {
-    return <h1>{error}</h1>;
+  if (!boardsList) {
+    return <h1>Is loading boards...</h1>
   }
 
   return (
@@ -129,14 +77,14 @@ const UserBoards = () => {
         onClose={() => setOpenDialog(false)}
         msg="Are you sure you want to delete this board?"
       />
-      <LogoutButton onClick={() => { auth.logout(); }}>
+      <LogoutButton onClick={() => { logout(); }}>
         Logout
       </LogoutButton>
       <Title>
         My boards
       </Title>
       <BoardList>
-        {fetchedBoards.map(b => (
+        {boardsList.map(b => (
           <BoardCard
             title={b.title}
             id={b.id}

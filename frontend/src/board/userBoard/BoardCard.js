@@ -47,9 +47,10 @@ const BoardCardBack = styled(Card)`
 `;
 
 const BoardCard = ({
-  title, id, setOpenDialog, setWillBeDeleted
+  title, id, setOpenDialog, setWillBeDeleted,
 }) => {
   const [selected, setSelected] = useState(false);
+  console.log('rendering board card, ', id);
   if (!selected) {
     return (
       <BoardCardFront
@@ -76,4 +77,4 @@ const BoardCard = ({
   );
 };
 
-export default BoardCard;
+export default React.memo(BoardCard);

@@ -6,28 +6,33 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const WarningDialogue = ({ open, onClose, onContinue, msg }) => (
-  <Dialog
-    open={open}
-    onClose={onClose}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-  >
-    <DialogTitle id="alert-dialog-title">Warning!</DialogTitle>
-    <DialogContent>
-      <DialogContentText id="alert-dialog-description">
-        {msg}
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onContinue} color="primary">
-        Yes
-      </Button>
-      <Button onClick={onClose} color="primary" autoFocus>
-        No
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+const WarningDialogue = ({
+  open, onClose, onContinue, msg,
+}) => {
+  console.log('rendering warning dialogue');
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Warning!</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {msg}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onContinue} color="primary">
+          Yes
+        </Button>
+        <Button onClick={onClose} color="primary" autoFocus>
+          No
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-export default WarningDialogue;
+export default React.memo(WarningDialogue);
