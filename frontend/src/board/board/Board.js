@@ -2,6 +2,7 @@ import React, {
   useCallback, useEffect, useContext,
 } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
 import FlipMove from 'react-flip-move';
@@ -29,6 +30,19 @@ const BoardStyled = styled.div`
   justify-content: center;
 `;
 
+const ButtonStyled = styled(Button)`
+  font-size: 20px;
+  color: red;
+`;
+
+const BackButton = styled(ButtonStyled)`
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 20px;
+  color: red;
+`;
+
 const ColumnWrapper = styled.div`
   width: ${({ isLargeScreen }) => (isLargeScreen ? '350px' : '100%')};
 `;
@@ -46,7 +60,7 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, setBoardData, boardId, saveData, getData,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, getData, resetBoardData,
 }) => {
   console.log('rendering board ', boardId);
   const { token } = useContext(AuthContext);
@@ -60,7 +74,7 @@ const Board = ({
   const saveDataHandler = () => {
     resetTimeout();
     saveData(boardId, token);
-  }
+  };
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
@@ -95,6 +109,16 @@ const Board = ({
 
   return (
     <BoardStyled>
+      <BackButton
+        component={Link}
+        to="/"
+        onClick={() => {
+          saveDataHandler();
+          resetBoardData();
+        }}
+      >
+        BACK
+      </BackButton>
       <EditableTitle
         title={title}
         changeTitle={changeTitle}
@@ -127,7 +151,7 @@ const Board = ({
           + Add column
         </Button>
       )}
-      <Button onClick={saveDataHandler}>Save Board</Button>
+      <ButtonStyled onClick={saveDataHandler}>Save Board</ButtonStyled>
     </BoardStyled>
   );
 };

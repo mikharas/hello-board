@@ -56,6 +56,7 @@ const Task = ({
   console.log('rendering ', taskId);
 
   const [openModal, setOpenModal] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const changeTaskTitle = useCallback((newTitle) => {
     changeTitle(taskId, newTitle);
@@ -104,7 +105,11 @@ const Task = ({
                 addTodoItem={addTodoItem}
                 delTask={delTask}
               />
-              <TaskCard>
+              <TaskCard
+                elevation={snapshot.isDragging ? 16 : 2}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+              >
                 {todo.length !== 0 && (
                   <ProgressBar
                     variant="determinate"
@@ -118,7 +123,9 @@ const Task = ({
                   style={titleEditStyle}
                   normalStyle={titleStyle}
                 />
-                <Button onClick={toggleModal}>open</Button>
+                {hovered && (
+                  <Button onClick={toggleModal}>open</Button>
+                )}
 
               </TaskCard>
             </div>

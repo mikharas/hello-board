@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-  changeTitle, addColumn, delColumn, swapColumns, setSelectedColumn, saveData, getData,
+  changeTitle, addColumn, delColumn, swapColumns, setSelectedColumn, saveData, getData, resetBoardData,
 } from '../actions/boardActions';
 import {
   addTask, delTask, moveTasksInColumn, moveTaskBetweenColumn,
@@ -25,6 +25,7 @@ const mapDispatchToProps = {
   delTask,
   saveData,
   getData,
+  resetBoardData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

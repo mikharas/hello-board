@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import FlipMove from 'react-flip-move';
 import { Button } from '@material-ui/core';
 import AuthContext from '../../shared/context/authContext';
 import TimeoutContext from '../../shared/context/timeoutContext';
@@ -51,11 +52,11 @@ const UserBoards = ({
   const createBoardHandler = () => {
     postUserBoard(userId, token);
     resetTimeout();
-  }
+  };
 
   const deleteBoardHandler = (boardId) => {
-    delUserBoard(boardId, token)
-  }
+    delUserBoard(boardId, token);
+  };
 
   useEffect(() => {
     resetTimeout();
@@ -63,7 +64,7 @@ const UserBoards = ({
   }, []);
 
   if (!boardsList) {
-    return <h1>Is loading boards...</h1>
+    return <h1>Is loading boards...</h1>;
   }
 
   return (
@@ -84,14 +85,18 @@ const UserBoards = ({
         My boards
       </Title>
       <BoardList>
-        {boardsList.map(b => (
-          <BoardCard
-            title={b.title}
-            id={b.id}
-            setOpenDialog={setOpenDialog}
-            setWillBeDeleted={setWillBeDeleted}
-          />
-        ))}
+        <FlipMove typeName={null}>
+          {boardsList.map(({ id, title }) => (
+            <div key={id}>
+              <BoardCard
+                title={title}
+                id={id}
+                setOpenDialog={setOpenDialog}
+                setWillBeDeleted={setWillBeDeleted}
+              />
+            </div>
+          ))}
+        </FlipMove>
         <NewBoard onClick={createBoardHandler}>
           Create New Board
         </NewBoard>

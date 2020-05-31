@@ -5,6 +5,15 @@ export const setBoardData = data => ({
   payload: data,
 });
 
+export const resetBoardData = () => ({
+  type: 'SET_BOARD_DATA',
+  payload: {
+    selectedColumn: null,
+    title: '',
+    columnOrder: [],
+  },
+});
+
 export const changeTitle = title => ({
   type: 'CHANGE_TITLE',
   payload: title,
@@ -69,4 +78,3 @@ export const saveData = (boardId, token) => (dispatch, getState) => {
     { headers },
   ).then(value => console.log(value));
 };
-

@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 const getBoardById = async (req, res, next) => {
 	const boardId = req.params.bid;
-  console.log('error is here')
+	console.log('error is here');
 	let board;
 
 	try {
