@@ -7,6 +7,7 @@ import {
 import Board from './board/board/BoardContainer';
 import Auth from './user/pages/Auth';
 import UserBoards from './board/userBoard/UserBoardsContainer';
+import Calendar from './calendar/calendar/CalendarContainer';
 
 import AuthContext from './shared/context/authContext';
 import TimeoutContext from './shared/context/timeoutContext';
@@ -62,11 +63,7 @@ const App = () => {
           resetTimeout,
         }}
         >
-          <Router>
-            <Switch>
-              {routes}
-            </Switch>
-          </Router>
+          <Calendar />
         </TimeoutContext.Provider>
       </AuthContext.Provider>
     </StylesProvider>
