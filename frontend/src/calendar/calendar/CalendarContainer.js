@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  changeMonth
+  changeMonth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

@@ -3,10 +3,7 @@ import monthsData from './monthsData';
 const today = new Date();
 
 const initialData = {
-  displayDate: new Date(today.getFullYear(),
-    today.getMonth(), 1),
   monthName: monthsData[today.getMonth()].monthName,
-  dueDates: {},
   dates: [[], [], [], [], [], []],
 };
 
@@ -19,8 +16,7 @@ const calendarReducer = (state = initialData, { type, payload }) => {
     case 'CHANGE_MONTH':
       return {
         ...state,
-        displayDate: payload,
-        monthName: monthsData[payload.getMonth()].monthName,
+        monthName: monthsData[payload.newDate.getMonth()].monthName,
       };
 
     default:

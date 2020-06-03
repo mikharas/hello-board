@@ -12,11 +12,11 @@ const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
 
 for (let i = 0, len = 42; i < len; i += 1) {
   initialData[`date-${i}`] = {
-    dateId: `date-${i}`,
+    id: `date-${i}`,
     date: getNewDate(new Date(), i % 7, Math.floor(i / 7)),
     weekIndex: Math.floor(i / 7),
     dateIndex: i % 7,
-    dueItem: null,
+    eventIds: [],
   };
 }
 
@@ -32,9 +32,8 @@ const dateReducer = (state = initialData, { type, payload }) => {
       for (let i = 0; i < 42; i += 1) {
         newState[`date-${i}`] = {
           ...state[`date-${i}`],
-          dueItem: null,
-          date: getNewDate(payload, state[`date-${i}`].dateIndex,
-            state[`date-${i}`].weekIndex),
+          eventIds: payload.dateIdToEventIds[`date-${i}`],
+          date: payload.dateIdToNewDate[`date-${i}`][0],
         };
       }
       return newState;
@@ -45,7 +44,7 @@ const dateReducer = (state = initialData, { type, payload }) => {
         [payload.dateId]: {
           ...state[payload.dateId],
           dateNumber: payload.dateNumber,
-          dueItem: payload.dueItem,
+          eventIds: payload.eventIds,
         },
       };
 
@@ -54,7 +53,7 @@ const dateReducer = (state = initialData, { type, payload }) => {
         ...state,
         [payload.dateId]: {
           ...state[payload.dateId],
-          dueItem: payload.dueItemId
+          eventIds: payload.eventIds,
         }
       }
 

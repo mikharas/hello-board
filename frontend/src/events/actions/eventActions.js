@@ -1,9 +1,11 @@
-export const addEvent = (eventId, taskId, date) => ({
+export const addEvent = (eventId, taskId, date, type) => ({
   type: 'ADD_EVENT',
-  payload: { eventId, taskId, date },
+  payload: {
+    eventId, taskId, date, type,
+  },
 });
 
-export const delEvent = (eventId) => ({
+export const delEvent = eventId => ({
   type: 'DEL_EVENT',
   payload: eventId,
-})
+});

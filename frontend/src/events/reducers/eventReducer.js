@@ -1,14 +1,16 @@
 const initialData = {
   'event-1': {
     id: 'event-1',
-    date: new Date(2020, 6, 23),
-    taskId: 'a10e55de-91a2-4845-b027-97023efc4d56',
+    date: new Date(2021, 1, 3),
+    taskId: 'hello',
+    type: 'todo',
   },
   'event-2': {
     id: 'event-2',
-    date: new Date(2020, 7, 4),
-    taskId: '3898bf9c-f982-4e66-9581-aa93c7243dce',
-  },
+    date: new Date(2021, 1, 21),
+    taskId: 'hello',
+    type: 'todo',
+  }
 };
 
 const eventReducer = (state = initialData, { type, payload }) => {
@@ -21,6 +23,7 @@ const eventReducer = (state = initialData, { type, payload }) => {
           id: payload.eventId,
           date: payload.date,
           taskId: payload.taskId,
+          type: payload.type,
         },
       };
 
