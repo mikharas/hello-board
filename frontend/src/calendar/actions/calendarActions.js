@@ -36,9 +36,6 @@ export const changeMonth = newDate => (dispatch, getState) => {
     events,
   );
 
-
-  console.log(dateIdToNewDate);
-
   const dateIdToEventIds = R.reduceBy(
     (acc, dateId) => {
       if (dateIdToNewDate[dateId][0]) {
@@ -54,9 +51,6 @@ export const changeMonth = newDate => (dispatch, getState) => {
     dateIds,
   );
 
-  console.log(dateIdToEventIds);
-
-
   dispatch({
     type: 'CHANGE_MONTH',
     payload: {
@@ -65,4 +59,4 @@ export const changeMonth = newDate => (dispatch, getState) => {
   });
 };
 
-export const deletThis = () => {};
+export const something = () => {};

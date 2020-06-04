@@ -3,10 +3,9 @@ import { addEvent, delEvent } from '../actions/eventActions';
 import Event from './Event';
 
 const mapStateToProps = (state, props) => ({
-  id: state.events[props.eventId].id,
-  date: state.events[props.eventId].date,
-  taskTitle: state.tasks[state.events[props.eventId].taskId].title,
-  taskDescription: state.tasks[state.events[props.eventId].taskId].description,
+  date: state.events[props.id].date,
+  // taskTitle: state.tasks[state.events[props.id].taskId].title,
+  // taskDescription: state.tasks[state.events[props.id].taskId].description,
 });
 
 const mapDispatchToProps = {

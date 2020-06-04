@@ -20,13 +20,8 @@ for (let i = 0, len = 42; i < len; i += 1) {
   };
 }
 
-// const getNewDateNumber = (prevDateNumber, prevDateIndex, totalDays) => {
-// const newIndex = (totalDays % 7) + prevDateIndex;
-// return prevDateNumber - (newIndex - prevDateIndex);
-// };
-
 const dateReducer = (state = initialData, { type, payload }) => {
-  const newState = {};
+  let newState = {};
   switch (type) {
     case 'CHANGE_MONTH':
       for (let i = 0; i < 42; i += 1) {
@@ -38,24 +33,52 @@ const dateReducer = (state = initialData, { type, payload }) => {
       }
       return newState;
 
-    case 'SET_DATE_DATA':
+    case 'ADD_EVENT':
       return {
         ...state,
         [payload.dateId]: {
           ...state[payload.dateId],
-          dateNumber: payload.dateNumber,
-          eventIds: payload.eventIds,
+          eventIds: [
+            ...state[payload.dateId].eventIds,
+            payload.eventId,
+          ],
         },
       };
 
-    case 'SET_DUE_ITEM':
+    case 'DEL_EVENT':
       return {
         ...state,
         [payload.dateId]: {
           ...state[payload.dateId],
-          eventIds: payload.eventIds,
-        }
-      }
+          eventIds: state[payload.dateId].filter(eventId => eventId !== payload.eventId),
+        },
+      };
+
+
+    case 'MOVE_EVENT_BETWEEN_DATE':
+      const newEventIds1 = [...state[payload.dateId1].eventIds];
+      const newEventIds2 = [...state[payload.dateId2].eventIds];
+
+      console.log(newEventIds1);
+      console.log(newEventIds2);
+      newEventIds1.splice(payload.index1, 1);
+      newEventIds2.splice(payload.index2, 0, payload.eventId);
+      console.log(newEventIds1);
+      console.log(newEventIds2);
+
+      newState = {
+        ...state,
+        [payload.dateId1]: {
+          ...state[payload.dateId1],
+          eventIds: newEventIds1,
+        },
+        [payload.dateId2]: {
+          ...state[payload.dateId2],
+          eventIds: newEventIds2,
+        },
+      };
+      console.log(newState);
+      return newState;
 
     default:
       return state;

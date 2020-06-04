@@ -3,19 +3,28 @@ const initialData = {
     id: 'event-1',
     date: new Date(2021, 1, 3),
     taskId: 'hello',
-    type: 'todo',
+    type: 'A',
   },
   'event-2': {
     id: 'event-2',
     date: new Date(2021, 1, 21),
     taskId: 'hello',
-    type: 'todo',
-  }
+    type: 'R',
+  },
 };
 
 const eventReducer = (state = initialData, { type, payload }) => {
   const newState = { ...state };
   switch (type) {
+    case 'CHANGE_DATE':
+      return {
+        ...state,
+        [payload.eventId]: {
+          ...state[payload.eventId],
+          date: payload.newDate,
+        },
+      };
+
     case 'ADD_EVENT':
       return {
         ...state,
@@ -28,7 +37,7 @@ const eventReducer = (state = initialData, { type, payload }) => {
       };
 
     case 'DEL_EVENT':
-      delete newState[payload];
+      delete newState[payload.eventId];
       return newState;
 
     default:

@@ -17,6 +17,7 @@ const calendarReducer = (state = initialData, { type, payload }) => {
       return {
         ...state,
         monthName: monthsData[payload.newDate.getMonth()].monthName,
+        yearName: payload.newDate.getFullYear(),
       };
 
     default:
