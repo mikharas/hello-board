@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import styled from 'styled-components';
-import { DragDropContext } from 'react-beautiful-dnd';
 import DateSquare from '../date/DateSquareContainer';
 
 const Wrapper = styled.div`
@@ -12,16 +11,6 @@ const Calendar = ({
   addEvent, delEvent,
 }) => {
   console.log('rendering calendar');
-
-  const onDragEnd = ({ destination, source, draggableId }) => {
-    if (!destination) return;
-    if (destination.droppableId === source.droppableId) return;
-    console.log(draggableId);
-    return (
-      moveEventBetweenDates(source.droppableId, destination.droppableId,
-        source.index, destination.index, draggableId)
-    );
-  };
 
   const Header = styled.div`
     width: 100%;
@@ -55,7 +44,7 @@ const Calendar = ({
     display: flex;
     margin: 0 auto;
     width: 80%;
-    height: 100px;
+    height: 180px;
     justify-content: space-evenly;
     padding: 10px 0;
   `;
@@ -93,15 +82,13 @@ const Calendar = ({
             <p>{day}</p>
           ))}
         </DayLabel>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {dates.map(week => (
-            <WeekContainer>
-              {week.map(day => (
-                <DateSquare id={day} />
-              ))}
-            </WeekContainer>
-          ))}
-        </DragDropContext>
+        {dates.map(week => (
+          <WeekContainer>
+            {week.map(day => (
+              <DateSquare id={day} />
+            ))}
+          </WeekContainer>
+        ))}
       </Body>
       <Button onClick={() => changeMonth(new Date(2021, 1, 1))}>
         click me

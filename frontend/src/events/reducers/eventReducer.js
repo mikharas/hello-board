@@ -11,6 +11,12 @@ const initialData = {
     taskId: 'hello',
     type: 'R',
   },
+  'event-3': {
+    id: 'event-3',
+    date: new Date(2021, 1, 21),
+    taskId: 'hello',
+    type: 'R',
+  },
 };
 
 const eventReducer = (state = initialData, { type, payload }) => {

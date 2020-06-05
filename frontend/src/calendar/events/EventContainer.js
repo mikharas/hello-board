@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addEvent, delEvent } from '../actions/eventActions';
+import { addEvent, delEvent } from '../../events/actions/eventActions';
 import Event from './Event';
 
 const mapStateToProps = (state, props) => ({
