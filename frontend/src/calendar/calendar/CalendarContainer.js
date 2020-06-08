@@ -7,6 +7,7 @@ const mapStateToProps = state => ({
   monthName: state.calendar.monthName,
   yearName: state.calendar.yearName,
   dates: state.calendar.dates,
+  boardIds: Object.keys(state.userBoards)
 });
 
 const mapDispatchToProps = {

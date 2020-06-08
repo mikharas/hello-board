@@ -1,14 +1,15 @@
-const axios = require('axios');
+import * as R from 'ramda';
 
+const axios = require('axios');
 
 export const setUserBoardsData = data => ({
   type: 'SET_USER_BOARDS_DATA',
   payload: data,
 });
 
-export const addBoard = (title, id) => ({
+export const addBoard = boardData => ({
   type: 'ADD_BOARD',
-  payload: { title, id },
+  payload: boardData,
 });
 
 export const delBoard = id => ({
@@ -26,7 +27,15 @@ export const getUserBoardsData = (userId, token) => (dispatch) => {
     `http://localhost:3000/api/boards/user/${userId}`,
     { headers },
   ).then((response) => {
-    dispatch(setUserBoardsData(response.data.boards));
+    const idToBoard = R.groupBy(
+      boardData => boardData.id,
+      response.data.boards,
+    );
+    Object.keys(idToBoard).forEach((id) => {
+      idToBoard[id] = idToBoard[id][0];
+    });
+    console.log(idToBoard);
+    dispatch(setUserBoardsData(idToBoard));
   });
 };
 
@@ -44,7 +53,8 @@ export const postUserBoard = (userId, token) => (dispatch) => {
     }),
     { headers },
   ).then((response) => {
-    dispatch(addBoard(response.data.board.title, response.data.board.id));
+    console.log(response.data.board);
+    dispatch(addBoard(response.data.board));
   });
 };
 

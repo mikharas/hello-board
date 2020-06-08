@@ -1,16 +1,20 @@
-const userBoardsReducer = (state = [], { type, payload }) => {
+const userBoardsReducer = (state = {}, { type, payload }) => {
+  const newState = { ...state };
   switch (type) {
     case 'SET_USER_BOARDS_DATA':
       return payload;
 
     case 'ADD_BOARD':
-      return [...state, {
-        id: payload.id,
-        title: payload.title,
-      }];
+      return {
+        ...state,
+        [payload.id]: {
+          ...payload
+        },
+      };
 
     case 'DEL_BOARD':
-      return state.filter(board => board.id !== payload.id);
+      delete newState[payload.id];
+      return newState;
 
     default:
       return state;

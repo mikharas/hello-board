@@ -1,7 +1,7 @@
 import React, {
   useEffect, useState, useContext, useCallback,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import FlipMove from 'react-flip-move';
 import { Button } from '@material-ui/core';
@@ -9,6 +9,7 @@ import AuthContext from '../../shared/context/authContext';
 import TimeoutContext from '../../shared/context/timeoutContext';
 import BoardCard from './BoardCard';
 import WarningDialog from '../../shared/components/WarningDialog';
+
 
 const Title = styled.h1`
 `;
@@ -84,6 +85,7 @@ const UserBoards = ({
       <Title>
         My boards
       </Title>
+      <Button><NavLink className="link" to="/calendar">CALENDAR</NavLink></Button>
       <BoardList>
         <FlipMove typeName={null}>
           {boardsList.map(({ id, title }) => (

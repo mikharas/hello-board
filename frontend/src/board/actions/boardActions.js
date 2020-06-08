@@ -39,18 +39,8 @@ export const setSelectedColumn = columnId => ({
   payload: columnId,
 });
 
-export const getData = (boardId, token) => (dispatch) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer: ${token}`,
-  };
-
-  axios.get(
-    `http://localhost:3000/api/boards/${boardId}`,
-    { headers },
-  ).then((response) => {
-    dispatch(setBoardData(response.data.board));
-  });
+export const getData = boardId => (dispatch, getState) => {
+  dispatch(setBoardData(getState().userBoards[boardId]))
 };
 
 export const saveData = (boardId, token) => (dispatch, getState) => {

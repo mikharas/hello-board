@@ -10,11 +10,17 @@ const Wrapper = styled.div`
   margin: 0 5px;
 
   p {
-    font-size: 16px;
+    font-size: 20px;
     padding-left: 10px;
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
 
-  .circle {
+  .events {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 
   }
 `;
@@ -24,9 +30,11 @@ const DateSquare = ({ id, date, eventIds }) => {
   return (
     <Wrapper>
       <div className="circle"><p>{date && date.getDate()}</p></div>
-      {eventIds.map((eventId) => (
-        <Event id={eventId} />
-      ))}
+      <div className="events">
+        {eventIds.map(eventId => (
+          <Event id={eventId} />
+        ))}
+      </div>
     </Wrapper>
   );
 };

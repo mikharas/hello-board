@@ -8,6 +8,7 @@ const boardReducer = (state = initialBoardData, { type, payload }) => {
   const newColumnOrder = [...state.columnOrder];
   switch (type) {
     case 'SET_BOARD_DATA':
+      console.log(payload)
       return {
         title: payload.title,
         columnOrder: payload.columnOrder,

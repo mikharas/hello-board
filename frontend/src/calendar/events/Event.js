@@ -1,33 +1,36 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import EventModal from './EventModal';
 
-const Wrapper = styled.div`
-  background: red;
-  height: 30px;
-  border-radius: 10px;
+const Dot = styled.div`
+  background: ${props => props.colour};
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
   margin: 5px;
-
-  h3 {
-    text-align: center;
-    font-size: 20px;
-    font-weight: normal;
-    color: #fff;
-  }
 `;
 
 const Event = ({
-  id, date, taskTitle, taskDescription,
+  id, date, task, type,
 }) => {
   console.log('rendering event ', id);
+  let dot;
+  if (type === 'T') {
+    dot = <Dot colour="red" />;
+  } if (type === 'A') {
+    dot = <Dot colour="blue" />;
+  }
   return (
-    <Wrapper>
-      <h3>Event here</h3>
-    </Wrapper>
-  );
+    <>
+      {dot}
+      <EventModal
+        task={task}
+      />
+    </>
+  )
 };
 
 export default Event;

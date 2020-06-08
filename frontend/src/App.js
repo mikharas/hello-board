@@ -36,6 +36,12 @@ const App = () => {
               <Board boardId={match.params.boardId} />
             )}
           />
+          <Route
+            exact
+            path="/calendar"
+          >
+            <Calendar />
+          </Route>
           <Redirect to={`/${userId}/boards`} />
         </Switch>
       </>
@@ -63,7 +69,11 @@ const App = () => {
           resetTimeout,
         }}
         >
-          <Calendar />
+          <Router>
+            <Switch>
+              {routes}
+            </Switch>
+          </Router>
         </TimeoutContext.Provider>
       </AuthContext.Provider>
     </StylesProvider>

@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useContext,
+  useCallback, useEffect, useContext, useState,
 } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import TimeoutContext from '../../shared/context/timeoutContext';
 import AuthContext from '../../shared/context/authContext';
 import ColumnContainer from '../column/ColumnContainer';
 import EditableTitle from '../subcomponents/editableTitle';
+import Calendar from '../../calendar/calendar/CalendarContainer';
 
 const Columns = styled.div`
   width: 100%;
@@ -60,15 +61,18 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, getData, resetBoardData,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData,
 }) => {
   console.log('rendering board ', boardId);
+  console.log(title)
   const { token } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
 
+  const [calendarMode, setCalendarMode] = useState(false);
+
   useEffect(() => {
     resetTimeout();
-    getData(boardId, token);
+    getData(boardId);
   }, []);
 
   const saveDataHandler = () => {
@@ -106,6 +110,7 @@ const Board = ({
   if (!title) {
     return <h1>Is Loading..</h1>;
   }
+  if (calendarMode) return <Calendar />;
 
   return (
     <BoardStyled>
