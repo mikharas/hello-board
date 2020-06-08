@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import DateSquare from '../date/DateSquareContainer';
+import FilterBoardSelector from './FilterBoardSelectorContainer';
 
 const Wrapper = styled.div`
 `;
@@ -74,6 +75,11 @@ const Calendar = ({
 
   return (
     <Wrapper>
+      <FilterBoardSelector
+        boardIds={boardIds}
+        showBoard={showBoard}
+        setShowBoard={setShowBoard}
+      />
       <Header>
         <h1>{monthName}</h1>
         <h2>{yearName}</h2>
