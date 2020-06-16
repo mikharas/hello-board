@@ -67,7 +67,7 @@ const Header = React.memo(({ title, changeColumnTitle }) => {
 });
 
 const Column = forwardRef(({
-  skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
+  boardId, skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn,
 }, ref) => {
 
   const changeColumnTitle = useCallback((newTitle) => {
@@ -95,6 +95,7 @@ const Column = forwardRef(({
             {taskOrder.map((taskId, index) => (
               <TaskContainer
                 columnId={columnId}
+                boardId={boardId}
                 taskId={taskId}
                 index={index}
               />
@@ -104,6 +105,7 @@ const Column = forwardRef(({
         )}
       </Droppable>
       <NewTask
+        boardId={boardId}
         columnId={columnId}
         addTask={addTask}
       />

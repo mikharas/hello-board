@@ -143,6 +143,7 @@ const Board = ({
                   key={columnId}
                   isLargeScreen={isLargeScreen}
                   columnId={columnId}
+                  boardId={boardId}
                   delColumn={delColumn}
                   flagColumnHandler={flagColumnHandler}
                 />

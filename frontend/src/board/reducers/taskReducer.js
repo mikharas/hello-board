@@ -1,6 +1,7 @@
 const initialTasksData = {
   'task-1': {
     id: 'task-1',
+    eventId: null,
     title: 'first task',
     description: 'Do this and do that',
     todo: ['todo-1', 'todo-2', 'todo-3'],
@@ -8,6 +9,7 @@ const initialTasksData = {
   },
   'task-2': {
     id: 'task-2',
+    eventId: null,
     title: 'second task',
     description: 'Do this and do that',
     todo: [],
@@ -15,6 +17,7 @@ const initialTasksData = {
   },
   'task-3': {
     id: 'task-3',
+    eventId: null,
     title: 'third task',
     description: 'Do this and do that',
     todo: [],
@@ -59,6 +62,11 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
         },
       };
 
+    case 'ADD_EVENT':
+      return {
+
+      }
+
     case 'DECREMENT_COMPLETED_COUNT':
       return {
         ...state,
@@ -73,6 +81,7 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
         ...state,
         [payload.taskId]: {
           id: payload.taskId,
+          boardId: payload.boardId,
           title: payload.content || 'New Task',
           description: '',
           todo: [],

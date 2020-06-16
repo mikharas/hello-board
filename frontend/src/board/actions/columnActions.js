@@ -15,9 +15,11 @@ export const moveTaskBetweenColumn = (columnId1, columnId2, index1, index2, task
   },
 });
 
-export const addTask = (columnId, taskId, content = null) => ({
+export const addTask = (boardId, columnId, taskId, content = null) => ({
   type: 'ADD_TASK',
-  payload: { columnId, taskId, content },
+  payload: {
+    boardId, columnId, taskId, content,
+  },
 });
 
 export const delTask = (columnId, taskId) => ({

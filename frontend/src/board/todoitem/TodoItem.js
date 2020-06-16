@@ -42,7 +42,7 @@ const titleStyleGrayed = {
 };
 
 const TodoItem = ({
-  key, index, columnId, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem, addTask,
+  key, index, columnId, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem, addTask, boardId,
 }) => {
   console.log('rendering todoitem ', todoItemId);
 
@@ -97,7 +97,7 @@ const TodoItem = ({
           </Button>
           <Button
             onClick={() => {
-              addTask(columnId, uuidv4(), title);
+              addTask(boardId, columnId, uuidv4(), title);
               delTodoItem(taskId, todoItemId);
             }}
           >

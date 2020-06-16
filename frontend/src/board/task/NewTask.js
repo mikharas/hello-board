@@ -23,7 +23,7 @@ const TaskCard = styled(Card)`
   }
 `;
 
-const NewTask = ({ columnId, addTask }) => {
+const NewTask = ({ boardId, columnId, addTask }) => {
   const [value, setValue] = useState('');
   const [isButton, setIsButton] = useState(true);
   console.log('rendering new task of ', columnId);
@@ -46,7 +46,7 @@ const NewTask = ({ columnId, addTask }) => {
   return (
     <ClickAwayListener onClickAway={() => {
       if (value) {
-        addTask(columnId, uuidv4(), value);
+        addTask(boardId, columnId, uuidv4(), value);
         setValue('');
       }
       toggleIsButton();
@@ -64,7 +64,7 @@ const NewTask = ({ columnId, addTask }) => {
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
               if (value) {
-                addTask(columnId, uuidv4(), value);
+                addTask(boardId, columnId, uuidv4(), value);
                 setValue('');
               }
               toggleIsButton();

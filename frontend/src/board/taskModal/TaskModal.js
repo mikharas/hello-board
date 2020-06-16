@@ -44,7 +44,7 @@ const descriptionStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage,
+  boardId, title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -101,6 +101,7 @@ const TaskModal = ({
               todo={todo}
               taskId={taskId}
               columnId={columnId}
+              boardId={boardId}
               addTodoItem={addTodoItem}
               completedPercentage={completedPercentage}
             />

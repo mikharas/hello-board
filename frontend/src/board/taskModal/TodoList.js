@@ -28,7 +28,7 @@ const Title = styled.h1`
 `;
 
 const TodoList = ({
-  todo, taskId, addTodoItem, completedPercentage, columnId,
+  todo, taskId, addTodoItem, completedPercentage, columnId, boardId,
 }) => {
   const progressBar = (
     <>
@@ -59,6 +59,7 @@ const TodoList = ({
             <List>
               {todo.map((todoItemId, index) => (
                 <TodoItem
+                  boardId={boardId}
                   index={index}
                   taskId={taskId}
                   columnId={columnId}
