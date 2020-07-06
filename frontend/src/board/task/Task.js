@@ -50,7 +50,7 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, makeEvent, eventId,
   moveTodosInTask, addTodoItem, completedPercentage, boardId,
 }) => {
   console.log('rendering ', taskId);
@@ -96,6 +96,7 @@ const Task = ({
                 boardId={boardId}
                 columnId={columnId}
                 taskId={taskId}
+                eventId={eventId}
                 openModal={openModal}
                 toggleModal={toggleModal}
                 todo={todo}
@@ -103,6 +104,7 @@ const Task = ({
                 changeDescription={changeTaskDescription}
                 completedPercentage={completedPercentage}
                 moveTodosInTask={moveTodosInTask}
+                makeEvent={makeEvent}
                 addTodoItem={addTodoItem}
                 delTask={delTask}
               />

@@ -9,6 +9,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import EditableTitle from '../subcomponents/editableTitle';
 import TodoList from './TodoList';
 
@@ -44,7 +45,7 @@ const descriptionStyle = {
 };
 
 const TaskModal = ({
-  boardId, title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage,
+  boardId, title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, makeEvent, eventId,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -79,6 +80,18 @@ const TaskModal = ({
             >
               Delete task
             </Button>
+            {console.log('I am an event yes', eventId)}
+            {!eventId
+
+            && (
+            <Button
+              onClick={() => makeEvent(boardId, uuidv4(), taskId, new Date(2021, 1, 15))}
+            >
+              Make Event
+            </Button>
+            )}
+
+            <h3>{eventId && 'Is an event.'}</h3>
           </Header>
           {description
             ? (

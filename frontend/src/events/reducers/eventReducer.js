@@ -2,8 +2,8 @@ const initialData = {
   'event-1': {
     id: 'event-1',
     date: new Date(2021, 1, 3),
-    taskId: "a10e55de-91a2-4845-b027-97023efc4d56",
-    boardId: "5ed23971f9552b7c029e3885",
+    taskId: "56052716-b894-4a7f-a6f7-dce70df9b816",
+    boardId: "5ee79be06eaef607d2d92fca",
     type: 'T',
   },
   'event-2': {
@@ -16,15 +16,8 @@ const initialData = {
   'event-3': {
     id: 'event-3',
     date: new Date(2021, 1, 21),
-    taskId: "3898bf9c-f982-4e66-9581-aa93c7243dce",
-    boardId: "5ed23971f9552b7c029e3885",
-    type: 'T',
-  },
-  'event-4': {
-    id: 'event-4',
-    date: new Date(2021, 1, 22),
-    taskId: "cebfb2fe-60ff-46bc-a751-f41c7a81568a",
-    boardId: "5ed23f9f96270bf35856a83e",
+    taskId: "9ddeb7b8-d11f-4b75-96bd-51117e23b0ad",
+    boardId: "5ee31dd4726e3c461dee78ac",
     type: 'T',
   },
 };

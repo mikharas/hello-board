@@ -32,3 +32,11 @@ export const moveTodosInTask = (taskId, index1, index2) => ({
   type: 'MOVE_TODOS_IN_TASK',
   payload: { taskId, index1, index2 },
 });
+
+export const makeEvent = (boardId, eventId, taskId, date) => ({
+  type: 'ADD_EVENT',
+  payload: {
+    boardId, eventId, taskId, date, type: 'T',
+  },
+});
+

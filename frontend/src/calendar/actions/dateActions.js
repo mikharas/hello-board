@@ -1,7 +1,7 @@
-export const addEvent = (dateId, eventId, taskId, date, type) => ({
+export const addEvent = (boardId, eventId, taskId, date, type) => ({
   type: 'ADD_EVENT',
   payload: {
-    eventId, taskId, date, type,
+    boardId, eventId, taskId, date, type,
   },
 });
 

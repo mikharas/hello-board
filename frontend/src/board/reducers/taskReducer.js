@@ -64,8 +64,12 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
 
     case 'ADD_EVENT':
       return {
-
-      }
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          eventId: payload.eventId,
+        },
+      };
 
     case 'DECREMENT_COMPLETED_COUNT':
       return {

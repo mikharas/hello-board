@@ -29,6 +29,7 @@ const DateSquare = ({ id, date, eventIds }) => {
   console.log('rendering datesquare', date);
   return (
     <Wrapper>
+      { console.log(eventIds) }
       <div className="circle"><p>{date && date.getDate()}</p></div>
       <div className="events">
         {eventIds.map(eventId => (

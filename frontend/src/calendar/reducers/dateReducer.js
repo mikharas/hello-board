@@ -33,18 +33,18 @@ const dateReducer = (state = initialData, { type, payload }) => {
       }
       return newState;
 
-    case 'ADD_EVENT':
-      return {
-        ...state,
-        [payload.dateId]: {
-          ...state[payload.dateId],
-          eventIds: [
-            ...state[payload.dateId].eventIds,
-            payload.eventId,
-          ],
-        },
-      };
-
+    // case 'ADD_EVENT':
+      // return {
+        // ...state,
+        // [payload.dateId]: {
+          // ...state[payload.dateId],
+          // eventIds: [
+            // ...state[payload.dateId].eventIds,
+            // payload.eventId,
+          // ],
+        // },
+      // };
+//
     case 'DEL_EVENT':
       return {
         ...state,
