@@ -7,7 +7,6 @@ const User = require('../models/user');
 
 const getBoardById = async (req, res, next) => {
 	const boardId = req.params.bid;
-	console.log('error is here');
 	let board;
 
 	try {
@@ -103,7 +102,6 @@ const updateBoard = async(req, res, next) => {
 		return next(new HttpError('You are not authorized to make changes', 401));
 	}
 
-	console.log('updateboard here');
 	board.title = title;
 	board.tasks = tasks;
 	board.todoItems = todoItems;

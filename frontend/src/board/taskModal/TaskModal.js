@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Calendar from 'react-date-picker';
 import {
   Button,
   Paper,
@@ -44,7 +45,7 @@ const descriptionStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -79,6 +80,25 @@ const TaskModal = ({
             >
               Delete task
             </Button>
+            {date
+              ? (
+                <Calendar
+                  onChange={(val) => {
+                    addDate(taskId, val.toISOString());
+                  }}
+                  value={new Date(date)}
+                />
+              )
+              : (
+                <Button
+                  onClick={() => {
+                    const today = new Date();
+                    addDate(taskId, today.toISOString());
+                  }}
+                >
+                  Add Due Date
+                </Button>
+              )}
           </Header>
           {description
             ? (

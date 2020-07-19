@@ -27,6 +27,7 @@ const Wrapper = styled.div`
 
 const DateSquare = ({ id, date, eventIds }) => {
   console.log('rendering datesquare', date);
+  // console.log(eventIds);
   return (
     <Wrapper>
       <div className="circle"><p>{date && date.getDate()}</p></div>

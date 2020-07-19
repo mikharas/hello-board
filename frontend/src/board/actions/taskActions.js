@@ -18,6 +18,11 @@ export const decrementCompleted = taskId => ({
   payload: { taskId },
 });
 
+export const addDate = (taskId, date) => ({
+  type: 'ADD_TASK_DATE',
+  payload: { taskId, date },
+});
+
 export const addTodoItem = (taskId, todoItemId, title = null) => ({
   type: 'ADD_TODO_ITEM',
   payload: { taskId, todoItemId, title },

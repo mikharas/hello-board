@@ -1,16 +1,17 @@
 import React from 'react';
 
-const EventModal = ({ task }) => {
+const EventModal = ({ title, description, todo }) => {
   console.log('rendering event modal');
 
-  if (!task) {
+  if (!title) {
     return 'no task';
   }
+
   return (
     <>
-      <p>{task.title}</p>
-      <p>{task.description}</p>
-      <p>{task.todo}</p>
+      <p>{title}</p>
+      <p>{description}</p>
+      <p>{todo}</p>
     </>
   );
 };

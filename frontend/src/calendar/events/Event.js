@@ -14,23 +14,19 @@ const Dot = styled.div`
 `;
 
 const Event = ({
-  id, date, task, type,
+  id, date, title, description, todo,
 }) => {
   console.log('rendering event ', id);
-  let dot;
-  if (type === 'T') {
-    dot = <Dot colour="red" />;
-  } if (type === 'A') {
-    dot = <Dot colour="blue" />;
-  }
   return (
     <>
-      {dot}
+      <Dot colour="red" />
       <EventModal
-        task={task}
+        title={title}
+        description={description}
+        todo={todo}
       />
     </>
-  )
+  );
 };
 
 export default Event;

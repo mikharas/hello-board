@@ -68,8 +68,6 @@ const Board = ({
   const { token } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
 
-  const [calendarMode, setCalendarMode] = useState(false);
-
   useEffect(() => {
     resetTimeout();
     getData(boardId);
@@ -110,7 +108,6 @@ const Board = ({
   if (!title) {
     return <h1>Is Loading..</h1>;
   }
-  if (calendarMode) return <Calendar />;
 
   return (
     <BoardStyled>

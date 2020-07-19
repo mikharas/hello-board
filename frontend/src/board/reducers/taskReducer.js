@@ -1,28 +1,4 @@
-const initialTasksData = {
-  'task-1': {
-    id: 'task-1',
-    title: 'first task',
-    description: 'Do this and do that',
-    todo: ['todo-1', 'todo-2', 'todo-3'],
-    completedCount: 0,
-  },
-  'task-2': {
-    id: 'task-2',
-    title: 'second task',
-    description: 'Do this and do that',
-    todo: [],
-    completedCount: 0,
-  },
-  'task-3': {
-    id: 'task-3',
-    title: 'third task',
-    description: 'Do this and do that',
-    todo: [],
-    completedCount: 0,
-  },
-};
-
-const taskReducer = (state = initialTasksData, { type, payload }) => {
+const taskReducer = (state = {}, { type, payload }) => {
   let newState;
   switch (type) {
     case 'SET_BOARD_DATA':
@@ -68,12 +44,22 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
         },
       };
 
+    case 'ADD_TASK_DATE':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          date: payload.date,
+        },
+      };
+
     case 'ADD_TASK':
       return {
         ...state,
         [payload.taskId]: {
           id: payload.taskId,
           title: payload.content || 'New Task',
+          date: null,
           description: '',
           todo: [],
           completedCount: 0,
@@ -87,7 +73,6 @@ const taskReducer = (state = initialTasksData, { type, payload }) => {
 
     case 'MOVE_TODOS_IN_TASK':
       const newTodo = [...state[payload.taskId].todo];
-
       const save = newTodo[payload.index1];
       newTodo.splice(payload.index1, 1);
       newTodo.splice(payload.index2, 0, save);

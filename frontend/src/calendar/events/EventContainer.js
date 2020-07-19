@@ -2,17 +2,7 @@ import { connect } from 'react-redux';
 import { addEvent, delEvent } from '../../events/actions/eventActions';
 import Event from './Event';
 
-const mapStateToProps = (state, props) => {
-  const {
-    date, taskId, boardId, type,
-  } = state.events[props.id];
-
-  return {
-    date,
-    task: taskId && state.userBoards[boardId].tasks[taskId],
-    type,
-  };
-};
+const mapStateToProps = (state, props) => ({ ...state.events[props.id] });
 
 const mapDispatchToProps = {
   delEvent,

@@ -9,6 +9,23 @@ const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
   } return new Date(newDate.getFullYear(), newDate.getMonth(), newDateNumber);
 };
 
+export const getEvents = () => (dispatch, getState) => {
+  const boards = getState().userBoards;
+  const events = {};
+
+  R.forEachObjIndexed(({ tasks }, boardId) => {
+    Object.values(tasks).forEach((task) => {
+      if (task.date != null) {
+        events[task.id] = { ...task, boardId };
+      }
+    });
+  }, boards);
+
+  dispatch({
+    type: 'SET_EVENTS_DATA',
+    payload: { events },
+  });
+};
 
 export const changeMonth = newDate => (dispatch, getState) => {
   const dateIds = Object.keys(getState().dates);
@@ -32,7 +49,7 @@ export const changeMonth = newDate => (dispatch, getState) => {
   const dateToEventIds = R.reduceBy(
     (acc, { id }) => acc.concat(id), // value fn
     [],
-    ({ date }) => date.toISOString(), // key fn
+    ({ date }) => date, // key fn
     events,
   );
 
@@ -41,7 +58,6 @@ export const changeMonth = newDate => (dispatch, getState) => {
       if (dateIdToNewDate[dateId][0]) {
         const dateISOString = dateIdToNewDate[dateId][0].toISOString();
         if (dateToEventIds[dateISOString]) {
-          // console.log(dateISOString, dateToEventIds[dateISOString]);
           return acc.concat(dateToEventIds[dateISOString]);
         } return acc;
       } return acc;
@@ -58,5 +74,3 @@ export const changeMonth = newDate => (dispatch, getState) => {
     },
   });
 };
-
-export const something = () => {};

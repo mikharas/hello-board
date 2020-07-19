@@ -5,8 +5,6 @@ import FilterBoardSelector from './FilterBoardSelector';
 const mapStateToProps = (state, props) => {
   const idToTitle = R.reduceBy(
     (acc, boardId) => {
-      console.log(boardId)
-      console.log(state.userboards)
       return acc.concat(state.userBoards[boardId].title)
     } ,
     [],

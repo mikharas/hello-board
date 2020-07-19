@@ -2,18 +2,20 @@ import { connect } from 'react-redux';
 import Task from './Task';
 import { delTask } from '../actions/columnActions';
 import {
-  changeTitle, changeDescription, moveTodosInTask, addTodoItem,
+  changeTitle, changeDescription, moveTodosInTask, addTodoItem, addDate,
 } from '../actions/taskActions';
 
-
-const mapStateToProps = (state, props) => ({
-  title: state.tasks[props.taskId].title,
-  description: state.tasks[props.taskId].description,
-  completedCount: state.tasks[props.taskId].completedCount,
-  todo: state.tasks[props.taskId].todo,
-  completedPercentage: (state.tasks[props.taskId].completedCount / state.tasks[props.taskId].todo.length) * 100,
-});
-
+const mapStateToProps = (state, props) => {
+  const task = state.tasks[props.taskId];
+  return {
+    title: task.title,
+    description: task.description,
+    date: task.date,
+    completedCount: task.completedCount,
+    todo: task.todo,
+    completedPercentage: (task.completedCount / task.todo.length) * 100,
+  };
+};
 
 const mapDispatchToProps = {
   changeTitle,
@@ -21,6 +23,7 @@ const mapDispatchToProps = {
   moveTodosInTask,
   addTodoItem,
   delTask,
+  addDate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);
