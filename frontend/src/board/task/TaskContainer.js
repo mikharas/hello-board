@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Task from './Task';
 import { delTask } from '../actions/columnActions';
 import {
-  changeTitle, changeDescription, moveTodosInTask, addTodoItem, addDate,
+  changeTitle, changeDescription, moveTodosInTask, addTodoItem, addDate, delDate
 } from '../actions/taskActions';
 import {
   getUserBoardsData,
@@ -30,6 +30,7 @@ const mapDispatchToProps = {
   addTodoItem,
   delTask,
   addDate,
+  delDate,
   getUserBoardsData,
   saveData,
   setSelectedTask,

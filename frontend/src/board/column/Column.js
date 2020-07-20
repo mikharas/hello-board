@@ -1,75 +1,98 @@
 import React, { forwardRef, useCallback } from 'react';
 import styled from 'styled-components';
-import { Button, Paper } from '@material-ui/core';
+import { Paper, IconButton } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import TaskContainer from '../task/TaskContainer';
 import NewTask from '../task/NewTask';
 import EditableTitle from '../subcomponents/editableTitle';
 
+const titleStyleNormal = {
+  outline: 'none',
+  marginTop: '13px',
+  marginBottom: '15px',
+  fontFamily: 'inherit',
+  fontWeight: 'bold',
+  fontSize: '20px',
+  padding: '15px',
+};
+
+const titleStyle = {
+  outline: 'none',
+  background: 'white',
+  marginTop: '13px',
+  marginBottom: '15px',
+  fontFamily: 'inherit',
+  fontWeight: 'bold',
+  fontSize: '20px',
+  padding: '15px',
+  width: '90%',
+  borderRadius: '15px',
+  border: '0',
+};
+
 const ColumnStyled = styled(Paper)`
+  position: relative;
   background: #EBECF0;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   padding: 6px;
+  padding-bottom: 15px;
   margin: 10px;
   flex-grow: 1;
 `;
-
 
 const TaskList = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const HeaderStyled = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const Icons = styled.div`
+  position: absolute;
+  left: 15px;
+  top: 15px;
 
-  h1 {
-    margin-left: 8px;
+  .MuiIconButton-root {
+    font-size: 15px;
   }
 
-  .MuiButtonBase-root {
-    max-width: 30px;
-    max-height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-  }
-  .button-swap, .button-del {
-    border-radius: 30px;
-    color: black;
-    max-width: 20px;
-  }
-
-  .button-del {
+  .del {
     color: red;
   }
 
-  .icon {
-    width: 17px;
-    height: 17px;
+  .ins {
+    color: green;
+  }
+
+  .swp {
+    color: yellow;
   }
 `;
 
-const Header = React.memo(({ title, changeColumnTitle }) => {
-  console.log('TITLE');
-  return (
-    <HeaderStyled>
-      <EditableTitle
-        title={title}
-        changeTitle={changeColumnTitle}
-      />
-    </HeaderStyled>
-  );
-});
+const HeaderStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7px;
+`;
+
+const Header = React.memo(({ title, changeColumnTitle }) => (
+  <HeaderStyled>
+    <EditableTitle
+      title={title}
+      changeTitle={changeColumnTitle}
+      style={titleStyle}
+      normalStyle={titleStyleNormal}
+    />
+  </HeaderStyled>
+));
 
 const Column = forwardRef(({
   skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn, focusTaskId, boardId,
 }, ref) => {
-
   const changeColumnTitle = useCallback((newTitle) => {
     changeTitle(columnId, newTitle);
   }, [columnId]);
@@ -84,6 +107,26 @@ const Column = forwardRef(({
       isLargeScreen={isLargeScreen}
       elevation={boardSelectedColumn === columnId ? 24 : 0}
     >
+      <Icons>
+        <IconButton size="small" className="del">
+          <FontAwesomeIcon
+            icon={faCircle}
+            onClick={() => delColumn(columnId)}
+          />
+        </IconButton>
+        <IconButton size="small" className="swp">
+          <FontAwesomeIcon
+            icon={faCircle}
+            onClick={() => flagColumnHandler(columnId)}
+          />
+        </IconButton>
+        <IconButton size="small" className="ins">
+          <FontAwesomeIcon
+            icon={faCircle}
+            onClick={() => addColumn(columnId, uuidv4())}
+          />
+        </IconButton>
+      </Icons>
       <Header title={title} changeColumnTitle={changeColumnTitle} />
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
@@ -109,9 +152,6 @@ const Column = forwardRef(({
         columnId={columnId}
         addTask={addTask}
       />
-      <Button onClick={() => delColumn(columnId)}>Delete column</Button>
-      <Button onClick={() => addColumn(columnId, uuidv4())}>Insert Column</Button>
-      <Button onClick={() => flagColumnHandler(columnId)}>Swap column</Button>
     </ColumnStyled>
   );
 });

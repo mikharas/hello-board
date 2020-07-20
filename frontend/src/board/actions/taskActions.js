@@ -23,6 +23,11 @@ export const addDate = (taskId, date) => ({
   payload: { taskId, date },
 });
 
+export const delDate = taskId => ({
+  type: 'DEL_TASK_DATE',
+  payload: { taskId },
+});
+
 export const addTodoItem = (taskId, todoItemId, title = null) => ({
   type: 'ADD_TODO_ITEM',
   payload: { taskId, todoItemId, title },

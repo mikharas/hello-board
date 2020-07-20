@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
-import { Button, Card, LinearProgress } from '@material-ui/core';
+import { IconButton, Card, LinearProgress } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
@@ -50,7 +52,7 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate,
 }) => {
   console.log('rendering ', taskId);
 
@@ -91,6 +93,7 @@ const Task = ({
               style={style}
             >
               <TaskModal
+                delDate={delDate}
                 addDate={addDate}
                 date={date}
                 title={title}
@@ -130,7 +133,9 @@ const Task = ({
                   normalStyle={titleStyle}
                 />
                 {hovered && (
-                  <Button onClick={toggleModal}>open</Button>
+                  <IconButton onClick={toggleModal}>
+                    <FontAwesomeIcon size="sm" icon={faEllipsisH} />
+                  </IconButton>
                 )}
 
               </TaskCard>

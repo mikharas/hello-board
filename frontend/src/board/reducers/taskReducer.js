@@ -55,6 +55,15 @@ const taskReducer = (state = {}, { type, payload }) => {
         },
       };
 
+    case 'DEL_TASK_DATE':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          date: null,
+        },
+      };
+
     case 'ADD_TASK':
       return {
         ...state,
