@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Button, Card, LinearProgress } from '@material-ui/core';
@@ -50,11 +50,11 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, focusTaskId,
 }) => {
   console.log('rendering ', taskId);
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(focusTaskId === taskId);
   const [hovered, setHovered] = useState(false);
 
   const changeTaskTitle = useCallback((newTitle) => {

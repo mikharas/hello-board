@@ -10,6 +10,8 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
 import EditableTitle from '../subcomponents/editableTitle';
 import TodoList from './TodoList';
 
@@ -82,12 +84,21 @@ const TaskModal = ({
             </Button>
             {date
               ? (
-                <DatePicker
-                  onChange={(val) => {
-                    addDate(taskId, val.toISOString());
-                  }}
-                  value={new Date(date)}
-                />
+                <>
+                  <Button>
+                    <NavLink
+                      to={`/calendar/${moment(date).format('YYYY-MM')}`}
+                    >
+                      Go to calendar
+                    </NavLink>
+                  </Button>
+                  <DatePicker
+                    onChange={(val) => {
+                      addDate(taskId, val.toISOString());
+                    }}
+                    value={new Date(date)}
+                  />
+                </>
               )
               : (
                 <Button

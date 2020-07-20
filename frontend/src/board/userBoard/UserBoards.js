@@ -1,15 +1,15 @@
 import React, {
-  useEffect, useState, useContext, useCallback,
+  useEffect, useState, useContext,
 } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import FlipMove from 'react-flip-move';
 import { Button } from '@material-ui/core';
+import moment from 'moment';
 import AuthContext from '../../shared/context/authContext';
 import TimeoutContext from '../../shared/context/timeoutContext';
 import BoardCard from './BoardCard';
 import WarningDialog from '../../shared/components/WarningDialog';
-
 
 const Title = styled.h1`
 `;
@@ -85,7 +85,7 @@ const UserBoards = ({
       <Title>
         My boards
       </Title>
-      <Button><NavLink className="link" to="/calendar">CALENDAR</NavLink></Button>
+      <Button><NavLink className="link" to={`/calendar/${moment(new Date()).format('YYYY-MM')}`}>CALENDAR</NavLink></Button>
       <BoardList>
         <FlipMove typeName={null}>
           {boardsList.map(({ id, title }) => (

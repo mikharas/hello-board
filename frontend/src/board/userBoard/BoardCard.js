@@ -63,7 +63,7 @@ const BoardCard = ({
     <BoardCardBack
       onMouseLeave={() => setSelected(false)}
     >
-      <Button className="button"><NavLink className="link" to={`/boards/${id}`}>OPEN</NavLink></Button>
+      <Button className="button"><NavLink className="link" to={`/boards/${id}/none`}>OPEN</NavLink></Button>
       <Button
         className="button"
         onClick={() => {

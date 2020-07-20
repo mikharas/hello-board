@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useContext, useState,
+  useCallback, useEffect, useContext,
 } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,6 @@ import TimeoutContext from '../../shared/context/timeoutContext';
 import AuthContext from '../../shared/context/authContext';
 import ColumnContainer from '../column/ColumnContainer';
 import EditableTitle from '../subcomponents/editableTitle';
-import Calendar from '../../calendar/calendar/CalendarContainer';
 
 const Columns = styled.div`
   width: 100%;
@@ -61,7 +60,7 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, focusTaskId,
 }) => {
   console.log('rendering board ', boardId);
   console.log(title)
@@ -138,6 +137,7 @@ const Board = ({
               >
                 <ColumnContainer
                   key={columnId}
+                  focusTaskId={focusTaskId}
                   isLargeScreen={isLargeScreen}
                   columnId={columnId}
                   delColumn={delColumn}

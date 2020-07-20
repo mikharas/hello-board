@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import EventModal from './EventModal';
 
 const Dot = styled.div`
@@ -14,12 +15,16 @@ const Dot = styled.div`
 `;
 
 const Event = ({
-  id, date, title, description, todo,
+  id, date, title, description, todo, boardId,
 }) => {
   console.log('rendering event ', id);
   return (
     <>
-      <Dot colour="red" />
+      <NavLink
+        to={`/boards/${boardId}/${id}`}
+      >
+        <Dot colour="red" />
+      </NavLink>
       <EventModal
         title={title}
         description={description}

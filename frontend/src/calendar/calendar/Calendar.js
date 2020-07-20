@@ -42,20 +42,30 @@ const DayLabel = styled.div`
 
 const Calendar = ({
   monthName, yearName, dates, changeMonth, moveEventBetweenDates,
-  addEvent, delEvent, boardIds, getEvents,
+  addEvent, delEvent, boardIds, getEvents, yearMonth,
 }) => {
   console.log('rendering calendar');
+
   const [showBoard, setShowBoard] = useState(boardIds);
 
   const goToday = () => {
     const todayDate = new Date();
     changeMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
   };
+  const goToDate = (date) => {
+    // const todayDate = new Date();
+    changeMonth(new Date(date));
+  };
 
   useEffect(() => {
+    goToDate(yearMonth);
     getEvents();
-    goToday();
   }, []);
+
+  useEffect(() => {
+    goToDate(yearMonth);
+    getEvents();
+  }, [yearMonth]);
 
   return (
     <Wrapper>
@@ -98,4 +108,4 @@ const Calendar = ({
   );
 };
 
-export default React.memo(Calendar);
+export default Calendar;

@@ -30,18 +30,18 @@ const App = () => {
             <UserBoards />
           </Route>
           <Route
-            exact
-            path="/boards/:boardId"
+            path="/boards/:boardId/:taskId"
             render={({ match }) => (
-              <Board boardId={match.params.boardId} />
+              <Board boardId={match.params.boardId} focusTaskId={match.params.taskId}/>
             )}
           />
           <Route
             exact
-            path="/calendar"
-          >
-            <Calendar />
-          </Route>
+            path="/calendar/:yearMonth"
+            render={({ match }) => (
+              <Calendar yearMonth={match.params.yearMonth} />
+            )}
+          />
           <Redirect to={`/${userId}/boards`} />
         </Switch>
       </>
