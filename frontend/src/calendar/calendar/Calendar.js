@@ -42,7 +42,7 @@ const DayLabel = styled.div`
 
 const Calendar = ({
   monthName, yearName, dates, changeMonth, moveEventBetweenDates,
-  addEvent, delEvent, boardIds, getEvents, yearMonth,
+  addEvent, delEvent, boardIds, getEvents, yearMonth, userBoards,
 }) => {
   console.log('rendering calendar');
 
@@ -53,19 +53,13 @@ const Calendar = ({
     changeMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
   };
   const goToDate = (date) => {
-    // const todayDate = new Date();
     changeMonth(new Date(date));
   };
 
   useEffect(() => {
-    goToDate(yearMonth);
     getEvents();
-  }, []);
-
-  useEffect(() => {
     goToDate(yearMonth);
-    getEvents();
-  }, [yearMonth]);
+  }, [userBoards]);
 
   return (
     <Wrapper>

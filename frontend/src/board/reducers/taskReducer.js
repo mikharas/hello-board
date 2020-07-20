@@ -1,3 +1,5 @@
+import * as R from 'ramda';
+
 const taskReducer = (state = {}, { type, payload }) => {
   let newState;
   switch (type) {
@@ -57,6 +59,7 @@ const taskReducer = (state = {}, { type, payload }) => {
       return {
         ...state,
         [payload.taskId]: {
+          columnId: payload.columnId,
           id: payload.taskId,
           title: payload.content || 'New Task',
           date: null,
@@ -107,6 +110,15 @@ const taskReducer = (state = {}, { type, payload }) => {
           )),
         },
       };
+
+    case 'DEL_COLUMN':
+      newState = {};
+      R.forEachObjIndexed((value, id) => {
+        if (value.columnId !== payload) {
+          newState[id] = value;
+        }
+      }, state);
+      return newState;
 
     default:
       return state;

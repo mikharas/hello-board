@@ -60,11 +60,10 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, focusTaskId,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, focusTaskId, getUserBoardsData,
 }) => {
   console.log('rendering board ', boardId);
-  console.log(title)
-  const { token } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
 
   useEffect(() => {
@@ -75,6 +74,7 @@ const Board = ({
   const saveDataHandler = () => {
     resetTimeout();
     saveData(boardId, token);
+    getUserBoardsData(userId, token);
   };
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
@@ -136,6 +136,7 @@ const Board = ({
                 isLargeScreen={isLargeScreen}
               >
                 <ColumnContainer
+                  boardId={boardId}
                   key={columnId}
                   focusTaskId={focusTaskId}
                   isLargeScreen={isLargeScreen}

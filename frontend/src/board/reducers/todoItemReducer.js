@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 const initialTodoItemData = {
   'todo-1': {
     id: 'todo-1',
@@ -51,6 +52,7 @@ const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
         ...state,
         [payload.todoItemId]: {
           id: payload.todoItemId,
+          taskId: payload.taskId,
           title: payload.title || 'New todo item',
           isCompleted: false,
         },
@@ -59,6 +61,15 @@ const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
     case 'DEL_TODO_ITEM':
       newState = { ...state };
       delete newState[payload.todoItemId];
+      return newState;
+
+    case 'DEL_TASK':
+      newState = {};
+      R.forEachObjIndexed((value, id) => {
+        if (value.taskId !== payload.taskId) {
+          newState[id] = value;
+        }
+      }, state);
       return newState;
 
     default:

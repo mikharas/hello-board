@@ -7,6 +7,7 @@ import userBoardsReducer from './board/reducers/userBoardsReducer';
 import calendarReducer from './calendar/reducers/calendarReducer';
 import dateReducer from './calendar/reducers/dateReducer';
 import eventReducer from './events/reducers/eventReducer';
+import globalReducer from './globalReducer';
 
 
 export default combineReducers({
@@ -18,4 +19,5 @@ export default combineReducers({
   calendar: calendarReducer,
   dates: dateReducer,
   events: eventReducer,
+  gb: globalReducer,
 });

@@ -2,6 +2,7 @@ const eventReducer = (state = [], { type, payload }) => {
   const newState = { ...state };
   switch (type) {
     case 'SET_EVENTS_DATA':
+      console.log('setting events data', payload.events)
       return {
         ...payload.events,
       };

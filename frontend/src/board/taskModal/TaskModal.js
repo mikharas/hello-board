@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
 import {
@@ -14,6 +14,7 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import EditableTitle from '../subcomponents/editableTitle';
 import TodoList from './TodoList';
+import AuthContext from '../../shared/context/authContext';
 
 const TaskModalStyled = styled(Modal)`
   z-index: 10;
@@ -47,9 +48,11 @@ const descriptionStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId,
 }) => {
   console.log('rendering taskModal of ', taskId);
+
+  const { userId, token } = useContext(AuthContext);
 
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
@@ -59,6 +62,11 @@ const TaskModal = ({
     ) return;
 
     moveTodosInTask(source.droppableId, source.index, destination.index);
+  };
+
+  const saveHandler = () => {
+    saveData(boardId, token);
+    getUserBoardsData(userId, token);
   };
 
   return (
@@ -85,7 +93,7 @@ const TaskModal = ({
             {date
               ? (
                 <>
-                  <Button>
+                  <Button onClick={saveHandler}>
                     <NavLink
                       to={`/calendar/${moment(date).format('YYYY-MM')}`}
                     >

@@ -30,9 +30,10 @@ const App = () => {
             <UserBoards />
           </Route>
           <Route
-            path="/boards/:boardId/:taskId"
+            exact
+            path="/boards/:boardId"
             render={({ match }) => (
-              <Board boardId={match.params.boardId} focusTaskId={match.params.taskId}/>
+              <Board boardId={match.params.boardId}/>
             )}
           />
           <Route

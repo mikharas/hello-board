@@ -4,6 +4,11 @@ import { delTask } from '../actions/columnActions';
 import {
   changeTitle, changeDescription, moveTodosInTask, addTodoItem, addDate,
 } from '../actions/taskActions';
+import {
+  getUserBoardsData,
+} from '../actions/userBoardsActions';
+import { saveData } from '../actions/boardActions';
+import { setSelectedTask } from '../../globalActions';
 
 const mapStateToProps = (state, props) => {
   const task = state.tasks[props.taskId];
@@ -14,6 +19,7 @@ const mapStateToProps = (state, props) => {
     completedCount: task.completedCount,
     todo: task.todo,
     completedPercentage: (task.completedCount / task.todo.length) * 100,
+    selectedTask: state.gb.selectedTask,
   };
 };
 
@@ -24,6 +30,9 @@ const mapDispatchToProps = {
   addTodoItem,
   delTask,
   addDate,
+  getUserBoardsData,
+  saveData,
+  setSelectedTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 import EventModal from './EventModal';
 
 const Dot = styled.div`
@@ -15,16 +16,21 @@ const Dot = styled.div`
 `;
 
 const Event = ({
-  id, date, title, description, todo, boardId,
+  id, date, title, description, todo, boardId, setSelectedTask,
 }) => {
   console.log('rendering event ', id);
   return (
     <>
-      <NavLink
-        to={`/boards/${boardId}/${id}`}
+      <Button onClick={() => {
+        setSelectedTask(id);
+      }}
       >
-        <Dot colour="red" />
-      </NavLink>
+        <NavLink
+          to={`/boards/${boardId}`}
+        >
+          <Dot colour="red" />
+        </NavLink>
+      </Button>
       <EventModal
         title={title}
         description={description}

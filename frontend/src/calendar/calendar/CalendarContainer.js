@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
   yearName: state.calendar.yearName,
   dates: state.calendar.dates,
   boardIds: Object.keys(state.userBoards),
+  userBoards: state.userBoards,
 });
 
 const mapDispatchToProps = {

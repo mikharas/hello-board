@@ -5,6 +5,8 @@ import {
 import {
   addTask, delTask, moveTasksInColumn, moveTaskBetweenColumn,
 } from '../actions/columnActions';
+import { getUserBoardsData } from '../actions/userBoardsActions';
+
 import Board from './Board';
 
 const mapStateToProps = state => ({
@@ -26,6 +28,7 @@ const mapDispatchToProps = {
   saveData,
   getData,
   resetBoardData,
+  getUserBoardsData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

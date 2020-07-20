@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Button, Card, LinearProgress } from '@material-ui/core';
@@ -50,11 +50,12 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, focusTaskId,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask,
 }) => {
   console.log('rendering ', taskId);
 
-  const [openModal, setOpenModal] = useState(focusTaskId === taskId);
+  console.log(selectedTask);
+  const [openModal, setOpenModal] = useState(selectedTask === taskId);
   const [hovered, setHovered] = useState(false);
 
   const changeTaskTitle = useCallback((newTitle) => {
@@ -66,6 +67,7 @@ const Task = ({
   }, [taskId]);
 
   const toggleModal = useCallback(() => {
+    setSelectedTask(null);
     setOpenModal(!openModal);
   }, [openModal]);
 
@@ -105,6 +107,9 @@ const Task = ({
                 moveTodosInTask={moveTodosInTask}
                 addTodoItem={addTodoItem}
                 delTask={delTask}
+                getUserBoardsData={getUserBoardsData}
+                saveData={saveData}
+                boardId={boardId}
               />
               <TaskCard
                 elevation={snapshot.isDragging ? 16 : 2}
