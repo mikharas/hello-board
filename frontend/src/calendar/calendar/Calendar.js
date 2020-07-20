@@ -3,29 +3,9 @@ import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import DateSquare from '../date/DateSquareContainer';
 import FilterBoardSelector from './FilterBoardSelectorContainer';
+import Header from './Header';
 
 const Wrapper = styled.div`
-`;
-
-const Header = styled.div`
-  width: 100%;
-  height 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  h1 {
-    font-size: 40px;
-    color: red;
-    margin: 0;
-    margin-bottom: 15px;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 20px;
-  }
 `;
 
 const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
@@ -67,10 +47,14 @@ const Calendar = ({
   console.log('rendering calendar');
   const [showBoard, setShowBoard] = useState(boardIds);
 
-  useEffect(() => {
-    getEvents();
+  const goToday = () => {
     const todayDate = new Date();
     changeMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
+  };
+
+  useEffect(() => {
+    getEvents();
+    goToday();
   }, []);
 
   return (
@@ -80,10 +64,16 @@ const Calendar = ({
         showBoard={showBoard}
         setShowBoard={setShowBoard}
       />
-      <Header>
-        <h1>{monthName}</h1>
-        <h2>{yearName}</h2>
-      </Header>
+      <Button
+        onClick={goToday}
+      >
+        Today
+      </Button>
+      <Header
+        changeMonth={changeMonth}
+        monthName={monthName}
+        yearName={yearName}
+      />
       <Body>
         <DayLabel>
           {weekdays.map(day => (

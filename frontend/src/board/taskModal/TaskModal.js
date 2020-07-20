@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Calendar from 'react-date-picker';
+import DatePicker from 'react-date-picker';
 import {
   Button,
   Paper,
@@ -82,7 +82,7 @@ const TaskModal = ({
             </Button>
             {date
               ? (
-                <Calendar
+                <DatePicker
                   onChange={(val) => {
                     addDate(taskId, val.toISOString());
                   }}
