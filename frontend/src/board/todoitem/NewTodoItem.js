@@ -14,12 +14,12 @@ const TextArea = styled(TextareaAutosize)`
   font-family: inherit;
 `;
 
-const TaskCard = styled(Card)`
+const TaskCard = styled.div`
   .input {
     width: 100%;
     height: 35px;
     outline: none;
-    border: none;
+    border: 1px solid teal;
   }
 `;
 

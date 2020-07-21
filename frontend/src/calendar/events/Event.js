@@ -22,11 +22,14 @@ const Wrapper = styled(Button)`
     text-transform: none;
     text-align: left;
     height: 100%;
+    width: 55%;
     position: absolute;
     top: 0;
     left: 43px;
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
 `;
@@ -62,7 +65,7 @@ const Event = ({
       <NavLink
         to={`/boards/${boardId}`}
       >
-        <Dot colour="red" />
+        <Dot colour="teal" />
         <div className="text">{title}</div>
       </NavLink>
     </Wrapper>

@@ -8,8 +8,8 @@ import {
 const FilterBoardSelector = ({boardIds, idToTitle, showBoard, setShowBoard}) => {
   const [text, setText] = useState('Show all')
   return (
-    <FormControl variant="filled">
-      <InputLabel htmlFor="filled-age-native-simple">Select Boards</InputLabel>
+    <FormControl variant="outlined">
+      <InputLabel>Select Boards</InputLabel>
       <Select
         native
         value={text}
@@ -17,6 +17,7 @@ const FilterBoardSelector = ({boardIds, idToTitle, showBoard, setShowBoard}) => 
           setText(e.target.value)
           setShowBoard(e.target.value)
         }}
+        label="Select board"
         inputProps={{
           name: 'age',
           id: 'filled-age-native-simple',

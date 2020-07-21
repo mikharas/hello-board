@@ -18,10 +18,10 @@ const ItemStyled = styled(ListItem)`
   border-radius: 15px;
   text-decoration: ${({ isChecked }) => isChecked && 'line-through'};
   color: ${({ isChecked }) => isChecked && 'red'};
-  height: 50px;
+  // height: 50px;
 `;
 
-const titleStyle = {
+const normalTitleStyle = {
   width: '100%',
   outline: 'none',
   border: 'none',
@@ -30,7 +30,16 @@ const titleStyle = {
   fontFamily: 'inherit',
 };
 
-const titleStyleGrayed = {
+const editTitleStyle = {
+  width: '100%',
+  outline: 'none',
+  border: 'none',
+  fontWeight: 'normal',
+  fontSize: '15px',
+  fontFamily: 'inherit',
+};
+
+const normalTitleStyleGrayed = {
   width: '100%',
   color: 'red',
   textDecoration: 'line-through',
@@ -82,8 +91,9 @@ const TodoItem = ({
           <EditableTitle
             title={title}
             changeTitle={changeTodoItemTitle}
-            style={titleStyle}
-            normalStyle={isCompleted ? titleStyleGrayed : titleStyle}
+            style={editTitleStyle}
+            normalStyle={isCompleted ? normalTitleStyleGrayed : normalTitleStyle}
+            rows={1}
           />
           <Button
             onClick={() => {

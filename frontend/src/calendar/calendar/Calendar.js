@@ -1,11 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import DateSquare from '../date/DateSquareContainer';
 import FilterBoardSelector from './FilterBoardSelectorContainer';
 import Header from './Header';
 
+const BackButton = styled(Button)`
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 20px;
+  color: red;
+`;
+
 const Wrapper = styled.div`
+  position: relative;
+
+  .MuiButton-root.button {
+    color: red;
+    font-size: 20px;
+  }
+
+  .topRight {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+  }
+
+  .topLeft {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+  }
+
 `;
 
 const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
@@ -63,16 +95,27 @@ const Calendar = ({
 
   return (
     <Wrapper>
-      <FilterBoardSelector
-        boardIds={boardIds}
-        showBoard={showBoard}
-        setShowBoard={setShowBoard}
-      />
-      <Button
-        onClick={goToday}
-      >
-        Today
-      </Button>
+      <div className="topLeft">
+        <BackButton
+          component={Link}
+          to="/"
+        >
+          BACK
+        </BackButton>
+      </div>
+      <div className="topRight">
+        <Button
+          onClick={goToday}
+          style={{ marginRight: '20px' }}
+        >
+          Today
+        </Button>
+        <FilterBoardSelector
+          boardIds={boardIds}
+          showBoard={showBoard}
+          setShowBoard={setShowBoard}
+        />
+      </div>
       <Header
         changeMonth={changeMonth}
         monthName={monthName}

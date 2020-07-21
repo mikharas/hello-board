@@ -36,7 +36,7 @@ const getCircleColor = (date) => {
   if (!date) return 'initial';
   let todayDate = new Date();
   todayDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
-  if (todayDate.toISOString() === date.toISOString()) return 'red';
+  if (todayDate.toISOString() === date.toISOString()) return 'teal';
   return 'initial';
 };
 

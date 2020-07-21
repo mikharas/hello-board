@@ -22,6 +22,8 @@ const EditableTitle = ({
   changeTitle,
   style,
   normalStyle,
+  allowEmpty,
+  rows,
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
@@ -61,10 +63,11 @@ const EditableTitle = ({
         autoFocus
         onFocus={e => e.target.select()}
         value={value}
+        rows={rows || 3}
         onInput={event => changeValue(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-            if (!value) {
+            if (!value && !allowEmpty) {
               changeValue(title);
               toggleEditMode();
             } else {

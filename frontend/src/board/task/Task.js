@@ -41,9 +41,9 @@ const titleStyle = {
   outline: 'none',
   border: 'none',
   background: 'transparent',
-  fontSize: '18px',
+  fontSize: '14px',
   fontFamily: 'inherit',
-  fontWeight: 'normal',
+  fontWeight: 'bold',
 };
 
 const titleEditStyle = {
@@ -51,9 +51,9 @@ const titleEditStyle = {
   outline: 'none',
   border: 'none',
   background: 'transparent',
-  fontSize: '18px',
+  fontSize: '14px',
   fontFamily: 'inherit',
-  fontWeight: 'normal',
+  fontWeight: 'bold',
 };
 
 const Task = ({

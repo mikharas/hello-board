@@ -23,10 +23,6 @@ const ListWrapper = styled(Paper)`
   overflow: auto;
 `;
 
-const Title = styled.h1`
-  font-size: 20px;
-`;
-
 const TodoList = ({
   todo, taskId, addTodoItem, completedPercentage, columnId,
 }) => {
@@ -45,9 +41,10 @@ const TodoList = ({
   );
 
   console.log('rendering todolist ', taskId);
+  if (todo.length == 0) return <></>;
+
   return (
     <Wrapper>
-      <Title>Check List</Title>
       {todo.length !== 0 && progressBar}
       <Droppable droppableId={taskId}>
         {provided => (

@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useContext,
+  useCallback, useEffect, useContext, useState,
 } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import TimeoutContext from '../../shared/context/timeoutContext';
 import AuthContext from '../../shared/context/authContext';
 import ColumnContainer from '../column/ColumnContainer';
 import EditableTitle from '../subcomponents/editableTitle';
+import WarningDialog from '../../shared/components/WarningDialog';
 
 const Columns = styled.div`
   width: 100%;
@@ -65,6 +66,8 @@ const Board = ({
   console.log('rendering board ', boardId);
   const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [willBeDeleted, setWillBeDeleted] = useState(null);
 
   useEffect(() => {
     resetTimeout();
@@ -110,6 +113,15 @@ const Board = ({
 
   return (
     <BoardStyled>
+      <WarningDialog
+        open={openDialog}
+        onContinue={() => {
+          delColumn(willBeDeleted);
+          setOpenDialog(false);
+        }}
+        onClose={() => setOpenDialog(false)}
+        msg="Are you sure you want to delete this column?"
+      />
       <BackButton
         component={Link}
         to="/"
@@ -142,6 +154,8 @@ const Board = ({
                   columnId={columnId}
                   delColumn={delColumn}
                   flagColumnHandler={flagColumnHandler}
+                  setOpenDialog={setOpenDialog}
+                  setWillBeDeleted={setWillBeDeleted}
                 />
               </ColumnWrapper>
             ))}

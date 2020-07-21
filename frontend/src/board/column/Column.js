@@ -15,7 +15,7 @@ const titleStyleNormal = {
   marginBottom: '15px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
-  fontSize: '20px',
+  fontSize: '22px',
   padding: '15px',
 };
 
@@ -26,7 +26,7 @@ const titleStyle = {
   marginBottom: '15px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
-  fontSize: '20px',
+  fontSize: '22px',
   padding: '15px',
   width: '90%',
   borderRadius: '15px',
@@ -91,7 +91,7 @@ const Header = React.memo(({ title, changeColumnTitle }) => (
 ));
 
 const Column = forwardRef(({
-  skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn, boardId,
+  skipRender, title, changeTitle, columnId, addTask, addColumn, delColumn, flagColumnHandler, taskOrder, isLargeScreen, boardSelectedColumn, boardId, setOpenDialog, setWillBeDeleted,
 }, ref) => {
   const changeColumnTitle = useCallback((newTitle) => {
     changeTitle(columnId, newTitle);
@@ -111,7 +111,10 @@ const Column = forwardRef(({
         <IconButton size="small" className="del">
           <FontAwesomeIcon
             icon={faCircle}
-            onClick={() => delColumn(columnId)}
+            onClick={() => {
+              setWillBeDeleted(columnId);
+              setOpenDialog(true);
+            }}
           />
         </IconButton>
         <IconButton size="small" className="swp">
