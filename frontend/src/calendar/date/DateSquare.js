@@ -42,7 +42,6 @@ const getCircleColor = (date) => {
 
 const DateSquare = ({ id, date, eventIds }) => {
   console.log('rendering datesquare', date);
-  // console.log(eventIds);
   return (
     <Wrapper
       circleColor={getCircleColor(date)}
