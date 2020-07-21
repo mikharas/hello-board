@@ -38,6 +38,11 @@ export const delTodoItem = (taskId, todoItemId) => ({
   payload: { taskId, todoItemId },
 });
 
+export const delAllTodoItem = taskId => ({
+  type: 'DEL_ALL_TODO_ITEM',
+  payload: { taskId },
+});
+
 export const moveTodosInTask = (taskId, index1, index2) => ({
   type: 'MOVE_TODOS_IN_TASK',
   payload: { taskId, index1, index2 },

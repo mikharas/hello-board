@@ -55,6 +55,7 @@ const titleInputStyle = {
   background: 'white',
   marginTop: '13px',
   marginBottom: '15px',
+  width: '50%',
   fontSize: '30px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
@@ -137,6 +138,7 @@ const Board = ({
         changeTitle={changeTitle}
         style={titleInputStyle}
         rows={1}
+        allowEnter
       />
       <Columns>
         <DragDropContext

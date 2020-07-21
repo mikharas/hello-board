@@ -32,6 +32,8 @@ const TaskModalStyled = styled(Modal)`
     width: 550px;
     height: 80%;
     padding: 50px 25px;
+    overflow: scroll;
+    position: relative;
   }
 
   .row {
@@ -39,6 +41,16 @@ const TaskModalStyled = styled(Modal)`
     align-items: center;
     margin-bottom: 20px;
     width: 100%;
+    position: relative;
+  }
+
+  .description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
   }
 
   .icon {
@@ -46,6 +58,10 @@ const TaskModalStyled = styled(Modal)`
     height: 20px;
     width: 20px;
     margin-right: 20px;
+  }
+
+  .iconButton {
+    margin-right: 0;
   }
 
   h1 {
@@ -57,22 +73,17 @@ const TaskModalStyled = styled(Modal)`
     color: black;
   }
 
-`;
-
-const Header = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .icons {
+  .stickyRight {
     position: absolute;
     right: 0;
+    top: 0;
   }
 
-  .item {
-    margin-left: 0px;
-    padding: 10px;
+  .iconDelete {
+    top: 40px;
+    right: 20px;
+    z-index: 10;
+    color: red;
   }
 `;
 
@@ -83,6 +94,7 @@ const normalDescriptionStyle = {
   fontSize: '15px',
   fontFamily: 'inherit',
   fontWeight: 'normal',
+  whiteSpace: 'pre-line',
 };
 
 const editDescriptionStyle = {
@@ -92,6 +104,7 @@ const editDescriptionStyle = {
   fontSize: '15px',
   fontFamily: 'inherit',
   fontWeight: 'normal',
+  whiteSpace: 'pre-line',
 };
 
 const normalTitleStyle = {
@@ -117,7 +130,7 @@ const editTitleStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem,
 }) => {
   console.log('rendering taskModal of ', taskId);
 
@@ -146,19 +159,15 @@ const TaskModal = ({
     >
       <Fade in={openModal}>
         <Paper className="card">
-          <Header>
-            <div className="icons">
-              <IconButton
-                className="item"
-                onClick={() => {
-                  delTask(columnId, taskId);
-                  toggleModal();
-                }}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </IconButton>
-            </div>
-          </Header>
+          <IconButton
+            className="stickyRight iconDelete"
+            onClick={() => {
+              delTask(columnId, taskId);
+              toggleModal();
+            }}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </IconButton>
           <div className="row">
             <FontAwesomeIcon className="icon" icon={faAlignJustify} />
             <EditableTitle
@@ -166,6 +175,7 @@ const TaskModal = ({
               changeTitle={changeTitle}
               normalStyle={normalTitleStyle}
               style={editTitleStyle}
+              allowEnter
             />
           </div>
           <div className="row">
@@ -178,6 +188,7 @@ const TaskModal = ({
                   style={editDescriptionStyle}
                   normalStyle={normalDescriptionStyle}
                   allowEmpty
+                  showButtons
                 />
               )
               : (
@@ -225,7 +236,15 @@ const TaskModal = ({
             <FontAwesomeIcon className="icon" icon={faCheckSquare} />
             {todo.length > 0
               ? (
-                <h1>Todo list</h1>
+                <>
+                  <h1>Todo list</h1>
+                  <IconButton
+                    className="stickyRight"
+                    onClick={() => delAllTodoItem(taskId)}
+                  >
+                    <FontAwesomeIcon className="icon iconButton" icon={faTrash} />
+                  </IconButton>
+                </>
               )
               : (
                 <Button onClick={() => addTodoItem(taskId, uuidv4(), 'New item')}>

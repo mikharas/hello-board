@@ -87,6 +87,7 @@ const Header = React.memo(({ title, changeColumnTitle }) => (
       changeTitle={changeColumnTitle}
       style={titleStyle}
       normalStyle={titleStyleNormal}
+      allowEnter
     />
   </HeaderStyled>
 ));

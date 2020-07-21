@@ -1,7 +1,14 @@
 import React, { useState, useCallback } from 'react';
-// import styled from 'styled-components';
-import { ClickAwayListener } from '@material-ui/core';
+import styled from 'styled-components';
+import { ClickAwayListener, Button } from '@material-ui/core';
 import TextareaAutosize from 'react-autosize-textarea';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+`;
 
 const defaultTitleStyle = {
   outline: 'none',
@@ -23,7 +30,9 @@ const EditableTitle = ({
   style,
   normalStyle,
   allowEmpty,
+  allowEnter,
   rows,
+  showButtons,
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
@@ -33,6 +42,16 @@ const EditableTitle = ({
   }, [isEditmode]);
 
   const changeValue = newValue => setValue(newValue);
+
+  const handleChange = () => {
+    if (!value && !allowEmpty) {
+      changeValue(title);
+      toggleEditMode();
+    } else {
+      changeTitle(value);
+      toggleEditMode();
+    }
+  };
   console.log('render editable title');
 
   if (!isEditmode) {
@@ -48,36 +67,37 @@ const EditableTitle = ({
 
   return (
     <ClickAwayListener
-      onClickAway={() => {
-        if (!value) {
-          changeValue(title);
-          toggleEditMode();
-        } else {
-          changeTitle(value);
-          toggleEditMode();
-        }
-      }}
+      onClickAway={handleChange}
     >
-      <TextareaAutosize
-        style={style || defaultTitleStyle}
-        autoFocus
-        onFocus={e => e.target.select()}
-        value={value}
-        rows={rows || 3}
-        onInput={event => changeValue(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            if (!value && !allowEmpty) {
-              changeValue(title);
-              toggleEditMode();
-            } else {
-              changeTitle(value);
-              toggleEditMode();
+      <Wrapper>
+        <TextareaAutosize
+          style={style || defaultTitleStyle}
+          autoFocus
+          onFocus={e => e.target.select()}
+          value={value}
+          rows={rows || 3}
+          onInput={event => changeValue(event.target.value)}
+          onKeyDown={(event) => {
+            if (allowEnter && event.key === 'Enter') {
+              handleChange();
             }
-          }
-        }}
-        type="text"
-      />
+          }}
+          type="text"
+        />
+        {showButtons && (
+          <div>
+            <Button onClick={handleChange}>Save</Button>
+            <Button onClick={() => {
+              setValue('');
+              changeTitle('');
+              toggleEditMode();
+            }}
+            >
+              Delete
+            </Button>
+          </div>
+        )}
+      </Wrapper>
     </ClickAwayListener>
   );
 };

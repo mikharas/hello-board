@@ -4,12 +4,12 @@ import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { IconButton, Card, LinearProgress } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faClock, faComment } from '@fortawesome/free-solid-svg-icons';
 import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const TaskCard = styled(Card)`
-  padding: 8px;
+  padding: 10px;
   position: relative;
   margin-bottom: 8px;
   background: ${({ isDragDisabled }) => {
@@ -23,7 +23,7 @@ const TaskCard = styled(Card)`
   min-height: 40px;
   .icon {
     font-size: 20px;
-    padding-right: 5px;
+    padding-right: 8px;
     color: red;
   }
 `;
@@ -57,11 +57,11 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate, delAllTodoItem,
 }) => {
   console.log('rendering ', taskId);
 
-  console.log(selectedTask);
+  console.log(description);
   const [openModal, setOpenModal] = useState(selectedTask === taskId);
   const [hovered, setHovered] = useState(false);
 
@@ -118,6 +118,7 @@ const Task = ({
                 getUserBoardsData={getUserBoardsData}
                 saveData={saveData}
                 boardId={boardId}
+                delAllTodoItem={delAllTodoItem}
               />
               <TaskCard
                 elevation={snapshot.isDragging ? 16 : 2}
@@ -136,7 +137,9 @@ const Task = ({
                   changeTitle={changeTaskTitle}
                   style={titleEditStyle}
                   normalStyle={titleStyle}
+                  allowEnter
                 />
+                {description && <FontAwesomeIcon className="icon" icon={faComment} />}
                 {date && <FontAwesomeIcon className="icon" icon={faClock} />}
                 {hovered && (
                   <IconButton onClick={toggleModal}>

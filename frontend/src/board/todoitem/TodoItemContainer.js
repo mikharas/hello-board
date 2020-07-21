@@ -6,11 +6,13 @@ import {
 } from '../actions/taskActions';
 import { addTask } from '../actions/columnActions';
 
-const mapStateToProps = (state, props) => ({
-  title: state.todoItems[props.todoItemId].title,
-  isCompleted: state.todoItems[props.todoItemId].isCompleted,
-});
-
+const mapStateToProps = (state, props) => {
+  const target = state.todoItems[props.todoItemId];
+  return {
+    title: target && target.title,
+    isCompleted: target && target.isCompleted,
+  };
+};
 
 const mapDispatchToProps = {
   changeTitle,

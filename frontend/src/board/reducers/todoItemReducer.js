@@ -63,6 +63,15 @@ const todoItemReducer = (state = initialTodoItemData, { type, payload }) => {
       delete newState[payload.todoItemId];
       return newState;
 
+    case 'DEL_ALL_TODO_ITEM':
+      newState = {};
+      R.forEachObjIndexed((value, id) => {
+        if (value.taskId !== payload.taskId) {
+          newState[id] = value;
+        }
+      }, state);
+      return newState;
+
     case 'DEL_TASK':
       newState = {};
       R.forEachObjIndexed((value, id) => {

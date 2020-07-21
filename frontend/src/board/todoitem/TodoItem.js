@@ -94,6 +94,7 @@ const TodoItem = ({
             style={editTitleStyle}
             normalStyle={isCompleted ? normalTitleStyleGrayed : normalTitleStyle}
             rows={1}
+            allowEnter
           />
           <Button
             onClick={() => {

@@ -64,6 +64,16 @@ const taskReducer = (state = {}, { type, payload }) => {
         },
       };
 
+    case 'DEL_ALL_TODO_ITEM':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          todo: [],
+          completedCount: 0,
+        },
+      }
+
     case 'ADD_TASK':
       return {
         ...state,
