@@ -4,7 +4,7 @@ import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { IconButton, Card, LinearProgress } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faClock } from '@fortawesome/free-solid-svg-icons';
 import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
@@ -21,6 +21,11 @@ const TaskCard = styled(Card)`
   justify-content: space-between;
   flex-direction: row;
   min-height: 40px;
+  .icon {
+    font-size: 20px;
+    padding-right: 5px;
+    color: red;
+  }
 `;
 
 const ProgressBar = styled(LinearProgress)`
@@ -132,6 +137,7 @@ const Task = ({
                   style={titleEditStyle}
                   normalStyle={titleStyle}
                 />
+                {date && <FontAwesomeIcon className="icon" icon={faClock} />}
                 {hovered && (
                   <IconButton onClick={toggleModal}>
                     <FontAwesomeIcon size="sm" icon={faEllipsisH} />
