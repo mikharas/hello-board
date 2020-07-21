@@ -36,7 +36,7 @@ const titleStyle = {
 const ColumnStyled = styled(Paper)`
   position: relative;
   background: #EBECF0;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 6px;
@@ -82,6 +82,7 @@ const HeaderStyled = styled.div`
 const Header = React.memo(({ title, changeColumnTitle }) => (
   <HeaderStyled>
     <EditableTitle
+      rows={1}
       title={title}
       changeTitle={changeColumnTitle}
       style={titleStyle}

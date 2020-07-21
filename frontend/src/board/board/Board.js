@@ -136,6 +136,7 @@ const Board = ({
         title={title}
         changeTitle={changeTitle}
         style={titleInputStyle}
+        rows={1}
       />
       <Columns>
         <DragDropContext

@@ -7,7 +7,7 @@ const BoardCardFront = styled(Card)`
   width: 300px;
   height: 100px;
   margin-bottom: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   text-align: center;

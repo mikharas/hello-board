@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { Button } from '@material-ui/core';
-import EventModal from './EventModal';
+import { Popper } from '@material-ui/core';
 
-const Wrapper = styled(Button)`
+const PopperWrapper = styled.div`
+  background: teal;
+  color: white;
+  padding: 3px;
+  max-width: 200px;
+  border-radius: 5px;
+
+  h1 {
+    font-size: 15px;
+  }
+`;
+
+const Wrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -12,9 +23,7 @@ const Wrapper = styled(Button)`
   position: relative;
   overflow: hidden;
 
-
   .text {
-    margin: 0;
     padding: 0;
     font-size: 15px;
     font-family: inherit;
@@ -36,8 +45,8 @@ const Wrapper = styled(Button)`
 
 const Dot = styled.div`
   background: ${props => props.colour};
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   border-radius: 20px;
   display: flex;
   justify-content: center;
@@ -45,7 +54,7 @@ const Dot = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  margin-top: 5px;
+  margin-top: 8px;
   margin-left: 15px;
 
   .MuiIconButton-root .MuiButton-label{
@@ -60,15 +69,47 @@ const Event = ({
   id, date, title, description, todo, boardId, setSelectedTask,
 }) => {
   console.log('rendering event ', id);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
   return (
-    <Wrapper onClick={() => setSelectedTask(id)}>
-      <NavLink
-        to={`/boards/${boardId}`}
+    <>
+      <Wrapper
+        onClick={() => setSelectedTask(id)}
       >
-        <Dot colour="teal" />
-        <div className="text">{title}</div>
-      </NavLink>
-    </Wrapper>
+        <NavLink
+          to={`/boards/${boardId}`}
+        >
+          <Dot colour="teal" />
+          <div
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+            className="text"
+          >
+            {title}
+          </div>
+        </NavLink>
+      </Wrapper>
+      <Popper
+        open={open}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <PopperWrapper>
+          <h1>{title}</h1>
+        </PopperWrapper>
+      </Popper>
+    </>
   );
 };
 

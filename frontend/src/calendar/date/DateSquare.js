@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   border-radius: 10px;
 
   .circle {
-    background: ${(props) => props.circleColor};
+    background: ${({ isToday }) => (isToday ? 'teal' : 'initial')};
     border-radius: 25px;
     width: 35px;
     height 35px;
@@ -22,6 +22,7 @@ const Wrapper = styled.div`
     width: 100%;
     text-align: center;
     padding-top: 5px;
+    color: ${({ isToday }) => (isToday ? 'white' : 'initial')};
   }
 
   .events {
@@ -32,19 +33,19 @@ const Wrapper = styled.div`
   }
 `;
 
-const getCircleColor = (date) => {
-  if (!date) return 'initial';
+const getIsToday = (date) => {
+  if (!date) return false;
   let todayDate = new Date();
   todayDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
-  if (todayDate.toISOString() === date.toISOString()) return 'teal';
-  return 'initial';
+  if (todayDate.toISOString() === date.toISOString()) return true;
+  return false;
 };
 
 const DateSquare = ({ id, date, eventIds }) => {
   console.log('rendering datesquare', date);
   return (
     <Wrapper
-      circleColor={getCircleColor(date)}
+      isToday={getIsToday(date)}
     >
       <div className="circle">
         <p>{date && date.getDate()}</p>
