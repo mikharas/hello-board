@@ -4,8 +4,10 @@ import React, {
 import { useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import FlipMove from 'react-flip-move';
-import { Button } from '@material-ui/core';
+import { IconButton, Button } from '@material-ui/core';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import AuthContext from '../../shared/context/authContext';
 import TimeoutContext from '../../shared/context/timeoutContext';
 import BoardCard from './BoardCard';
@@ -19,6 +21,21 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+
+  .link {
+    color: inherit;
+  }
+
+  .MuiIconButton-root.icon {
+    font-size: 30px;
+  }
+
+  .icon {
+    position: absolute;
+    right: 15px;
+    top: 0;
+  }
 `;
 
 const BoardList = styled.div`
@@ -33,6 +50,7 @@ const BoardList = styled.div`
 
 const LogoutButton = styled(Button)`
   position: absolute;
+  font-size: 17px;
   left: 15px;
   top: 15px;
   color: red;
@@ -83,9 +101,13 @@ const UserBoards = ({
         Logout
       </LogoutButton>
       <Title>
-        My boards
+        My Boards
       </Title>
-      <Button><NavLink className="link" to={`/calendar/${moment(new Date()).format('YYYY-MM')}`}>CALENDAR</NavLink></Button>
+      <IconButton className="icon" size="large">
+        <NavLink className="link" to={`/calendar/${moment(new Date()).format('YYYY-MM')}`}>
+          <FontAwesomeIcon icon={faCalendar} />
+        </NavLink>
+      </IconButton>
       <BoardList>
         <FlipMove typeName={null}>
           {boardsList.map(({ id, title }) => (
