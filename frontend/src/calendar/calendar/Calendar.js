@@ -137,12 +137,6 @@ const Calendar = ({
           </WeekContainer>
         ))}
       </Body>
-      <Button onClick={() => changeMonth(new Date(2021, 1, 1))}>
-        click me
-      </Button>
-      <Button onClick={() => changeMonth(new Date(2021, 1, 1))}>
-        + Add New Event
-      </Button>
     </Wrapper>
   );
 };

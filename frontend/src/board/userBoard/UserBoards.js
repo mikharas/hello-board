@@ -21,7 +21,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 
   .link {
     color: inherit;
@@ -33,8 +32,8 @@ const Wrapper = styled.div`
 
   .icon {
     position: absolute;
-    right: 15px;
-    top: 0;
+    right: 20px;
+    top: 20px;
   }
 `;
 
@@ -51,8 +50,8 @@ const BoardList = styled.div`
 const LogoutButton = styled(Button)`
   position: absolute;
   font-size: 17px;
-  left: 15px;
-  top: 15px;
+  left: 30px;
+  top: 30px;
   color: red;
 `;
 
