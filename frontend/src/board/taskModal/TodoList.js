@@ -40,7 +40,6 @@ const TodoList = ({
     </>
   );
 
-  console.log('rendering todolist ', taskId);
   if (todo.length == 0) return <></>;
 
   return (

@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import DateSquare from './DateSquare';
 
 const mapStateToProps = (state, props) => {
-  console.log(state.dates[props.id]);
-  console.log(state.events);
   return {
     date: state.dates[props.id].date,
     eventIds: state.dates[props.id].eventIds.filter(

@@ -68,7 +68,6 @@ const Dot = styled.div`
 const Event = ({
   id, date, title, description, todo, boardId, setSelectedTask,
 }) => {
-  console.log('rendering event ', id);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {

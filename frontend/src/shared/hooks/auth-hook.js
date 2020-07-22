@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import { connect } from 'react-redux';
 
 let logoutTimer;
 const IDLETIMEOUT = 1000 * 60 * 60;

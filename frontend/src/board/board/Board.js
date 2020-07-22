@@ -64,7 +64,6 @@ const titleInputStyle = {
 const Board = ({
   title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData,
 }) => {
-  console.log('rendering board ', boardId);
   const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
   const [openDialog, setOpenDialog] = useState(false);

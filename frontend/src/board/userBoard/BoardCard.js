@@ -50,7 +50,6 @@ const BoardCard = ({
   title, id, setOpenDialog, setWillBeDeleted,
 }) => {
   const [selected, setSelected] = useState(false);
-  console.log('rendering board card, ', id);
   if (!selected) {
     return (
       <BoardCardFront

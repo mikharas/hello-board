@@ -38,12 +38,8 @@ const dateReducer = (state = initialData, { type, payload }) => {
       const newEventIds1 = [...state[payload.dateId1].eventIds];
       const newEventIds2 = [...state[payload.dateId2].eventIds];
 
-      console.log(newEventIds1);
-      console.log(newEventIds2);
       newEventIds1.splice(payload.index1, 1);
       newEventIds2.splice(payload.index2, 0, payload.eventId);
-      console.log(newEventIds1);
-      console.log(newEventIds2);
 
       newState = {
         ...state,
@@ -56,7 +52,6 @@ const dateReducer = (state = initialData, { type, payload }) => {
           eventIds: newEventIds2,
         },
       };
-      console.log(newState);
       return newState;
 
     default:

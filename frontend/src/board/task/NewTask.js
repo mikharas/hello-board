@@ -26,7 +26,6 @@ const TaskCard = styled(Card)`
 const NewTask = ({ columnId, addTask }) => {
   const [value, setValue] = useState('');
   const [isButton, setIsButton] = useState(true);
-  console.log('rendering new task of ', columnId);
 
   const toggleIsButton = useCallback(() => {
     setIsButton(!isButton);

@@ -34,7 +34,6 @@ export const getUserBoardsData = (userId, token) => (dispatch) => {
     Object.keys(idToBoard).forEach((id) => {
       idToBoard[id] = idToBoard[id][0];
     });
-    console.log(idToBoard);
     dispatch(setUserBoardsData(idToBoard));
   });
 };
@@ -53,7 +52,6 @@ export const postUserBoard = (userId, token) => (dispatch) => {
     }),
     { headers },
   ).then((response) => {
-    console.log(response.data.board);
     dispatch(addBoard(response.data.board));
   });
 };

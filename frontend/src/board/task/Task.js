@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { IconButton, Card, LinearProgress } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH, faClock, faComment } from '@fortawesome/free-solid-svg-icons';
+import TimeoutContext from '../../shared/context/timeoutContext';
 import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
@@ -59,11 +60,10 @@ const titleEditStyle = {
 const Task = ({
   changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate, delAllTodoItem,
 }) => {
-  console.log('rendering ', taskId);
-
-  console.log(description);
   const [openModal, setOpenModal] = useState(selectedTask === taskId);
   const [hovered, setHovered] = useState(false);
+
+  const { resetTimeout } = useContext(TimeoutContext);
 
   const changeTaskTitle = useCallback((newTitle) => {
     changeTitle(taskId, newTitle);
@@ -76,6 +76,7 @@ const Task = ({
   const toggleModal = useCallback(() => {
     setSelectedTask(null);
     setOpenModal(!openModal);
+    resetTimeout();
   }, [openModal]);
 
   return (

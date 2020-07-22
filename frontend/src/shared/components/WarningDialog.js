@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const WarningDialogue = ({
   open, onClose, onContinue, msg,
 }) => {
-  console.log('rendering warning dialogue');
   return (
     <Dialog
       open={open}

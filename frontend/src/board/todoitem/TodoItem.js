@@ -53,8 +53,6 @@ const normalTitleStyleGrayed = {
 const TodoItem = ({
   key, index, columnId, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem, addTask,
 }) => {
-  console.log('rendering todoitem ', todoItemId);
-
   const [isHovered, setIsHovered] = useState(false);
 
   const changeTodoItemTitle = useCallback((newTitle) => {

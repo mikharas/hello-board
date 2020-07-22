@@ -7,7 +7,6 @@ import {
 import UserBoards from './UserBoards';
 
 const mapStateToProps = (state) => {
-  console.log(state.userBoards);
   return {
     boardsList: Object.keys(state.userBoards).map(id => ({
       id,

@@ -26,7 +26,6 @@ const TaskCard = styled.div`
 const NewTodoItem = ({ taskId, addTodoItem }) => {
   const [value, setValue] = useState('');
   const [isButton, setIsButton] = useState(true);
-  console.log('rendering new todo item of ', taskId);
 
   const toggleIsButton = useCallback(() => {
     setIsButton(!isButton);

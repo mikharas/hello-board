@@ -132,8 +132,6 @@ const editTitleStyle = {
 const TaskModal = ({
   title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem,
 }) => {
-  console.log('rendering taskModal of ', taskId);
-
   const { userId, token } = useContext(AuthContext);
 
   const onDragEnd = ({ destination, source }) => {

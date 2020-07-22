@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import TimeoutContext from '../../shared/context/timeoutContext';
 import DateSquare from '../date/DateSquareContainer';
 import FilterBoardSelector from './FilterBoardSelectorContainer';
 import Header from './Header';
@@ -76,9 +77,9 @@ const Calendar = ({
   monthName, yearName, dates, changeMonth, moveEventBetweenDates,
   addEvent, delEvent, boardIds, getEvents, yearMonth, userBoards,
 }) => {
-  console.log('rendering calendar');
-
   const [showBoard, setShowBoard] = useState(boardIds);
+
+  const { resetTimeout } = useContext(TimeoutContext);
 
   const goToday = () => {
     const todayDate = new Date();
@@ -89,6 +90,7 @@ const Calendar = ({
   };
 
   useEffect(() => {
+    resetTimeout();
     getEvents();
     goToDate(yearMonth);
   }, [userBoards]);

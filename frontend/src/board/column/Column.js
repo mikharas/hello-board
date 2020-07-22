@@ -99,7 +99,6 @@ const Column = forwardRef(({
     changeTitle(columnId, newTitle);
   }, [columnId]);
 
-  console.log('rendering ', columnId);
   if (skipRender) {
     return null;
   }

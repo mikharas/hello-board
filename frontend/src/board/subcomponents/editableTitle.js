@@ -52,7 +52,6 @@ const EditableTitle = ({
       toggleEditMode();
     }
   };
-  console.log('render editable title');
 
   if (!isEditmode) {
     return (

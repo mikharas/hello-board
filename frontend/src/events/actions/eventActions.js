@@ -24,7 +24,6 @@
     // Object.keys(idToEvent).forEach((id) => {
       // idToEvent[id] = idToEvent[id][0];
     // });
-    // console.log(idToEvent);
     // dispatch(setUserEventsData(idToEvent));
   // });
 // };

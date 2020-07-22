@@ -42,7 +42,6 @@ const getIsToday = (date) => {
 };
 
 const DateSquare = ({ id, date, eventIds }) => {
-  console.log('rendering datesquare', date);
   return (
     <Wrapper
       isToday={getIsToday(date)}
