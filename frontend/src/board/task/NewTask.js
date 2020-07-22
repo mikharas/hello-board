@@ -12,6 +12,7 @@ const TextArea = styled(TextareaAutosize)`
   background: transparent;
   font-size: inherit;
   font-family: inherit;
+  padding: 10px;
 `;
 
 const TaskCard = styled(Card)`
@@ -22,6 +23,16 @@ const TaskCard = styled(Card)`
     border: none;
   }
 `;
+
+const style = {
+  width: '100%',
+  outline: 'none',
+  border: 'none',
+  background: 'transparent',
+  fontSize: '15px',
+  fontFamily: 'inherit',
+  fontWeight: 'bold',
+};
 
 const NewTask = ({ columnId, addTask }) => {
   const [value, setValue] = useState('');
@@ -55,6 +66,7 @@ const NewTask = ({ columnId, addTask }) => {
         <TextArea
           autoFocus
           placeholder="Enter text here..."
+          style={style}
           className="input"
           type="text"
           elevation={3}

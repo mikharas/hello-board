@@ -23,9 +23,31 @@ const TaskCard = styled(Card)`
   flex-direction: row;
   min-height: 40px;
   .icon {
-    font-size: 20px;
-    padding-right: 8px;
+    font-size: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
     color: red;
+  }
+
+  .clock {
+    top: 50%;
+    padding: 0;
+  }
+
+  .date-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  h2 {
+    font-size: 14px;
+    color: red;
+    padding: 0;
+    margin: 0;
   }
 `;
 
@@ -42,7 +64,7 @@ const titleStyle = {
   outline: 'none',
   border: 'none',
   background: 'transparent',
-  fontSize: '14px',
+  fontSize: '15px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
 };
@@ -52,7 +74,7 @@ const titleEditStyle = {
   outline: 'none',
   border: 'none',
   background: 'transparent',
-  fontSize: '14px',
+  fontSize: '15px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
 };
@@ -64,6 +86,12 @@ const Task = ({
   const [hovered, setHovered] = useState(false);
 
   const { resetTimeout } = useContext(TimeoutContext);
+
+  const getDaysLeft = useCallback(() => {
+    const today = new Date();
+    const differenceMS = new Date(date) - today;
+    return Math.floor(differenceMS / 86400000) + 1;
+  }, [date]);
 
   const changeTaskTitle = useCallback((newTitle) => {
     changeTitle(taskId, newTitle);
@@ -141,7 +169,16 @@ const Task = ({
                   allowEnter
                 />
                 {description && <FontAwesomeIcon className="icon" icon={faComment} />}
-                {date && <FontAwesomeIcon className="icon" icon={faClock} />}
+                {date
+                  && (
+                  <div className="date-icons">
+                    <h2>
+                      {getDaysLeft()}
+                      d
+                    </h2>
+                    <FontAwesomeIcon className="icon clock" icon={faClock} />
+                  </div>
+                  )}
                 {hovered && (
                   <IconButton onClick={toggleModal}>
                     <FontAwesomeIcon size="sm" icon={faEllipsisH} />
