@@ -90,7 +90,9 @@ const Task = ({
   const getDaysLeft = useCallback(() => {
     const today = new Date();
     const differenceMS = new Date(date) - today;
-    return Math.floor(differenceMS / 86400000) + 1;
+    const daysRemaining = Math.floor(differenceMS / 86400000) + 1;
+    if (daysRemaining === 0) return 'today';
+    return `${daysRemaining}d`;
   }, [date]);
 
   const changeTaskTitle = useCallback((newTitle) => {
@@ -174,7 +176,6 @@ const Task = ({
                   <div className="date-icons">
                     <h2>
                       {getDaysLeft()}
-                      d
                     </h2>
                     <FontAwesomeIcon className="icon clock" icon={faClock} />
                   </div>
