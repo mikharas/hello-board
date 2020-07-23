@@ -1,7 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { ClickAwayListener, Button } from '@material-ui/core';
 import TextareaAutosize from 'react-autosize-textarea';
+import showdown from 'showdown';
+import showdownHighlight from 'showdown-highlight';
+import 'highlight.js/styles/github.css';
+import MarkdownContainer from './MarkdownContainer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +28,12 @@ const defaultTitleStyle = {
   border: '0',
 };
 
+const converter = new showdown.Converter({
+  extensions: [showdownHighlight],
+  ghCodeBlocks: true,
+});
+converter.setFlavor('github');
+
 const EditableTitle = ({
   title,
   changeTitle,
@@ -33,10 +43,12 @@ const EditableTitle = ({
   allowEnter,
   rows,
   showButtons,
+  showMarkdown,
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
 
+  let textArea = useRef();
   const toggleEditMode = useCallback(() => {
     setIsEditMode(!isEditmode);
   }, [isEditmode]);
@@ -53,6 +65,14 @@ const EditableTitle = ({
     }
   };
 
+  if (!isEditmode && showMarkdown) {
+    return (
+      <MarkdownContainer
+        onClick={() => toggleEditMode()}
+        dangerouslySetInnerHTML={{ __html: converter.makeHtml(value) }}
+      />
+    );
+  }
   if (!isEditmode) {
     return (
       <h1
@@ -71,6 +91,7 @@ const EditableTitle = ({
       <Wrapper>
         <TextareaAutosize
           style={style || defaultTitleStyle}
+          ref={(tag) => { textArea = tag; }}
           autoFocus
           onFocus={e => e.target.select()}
           value={value}
@@ -79,6 +100,18 @@ const EditableTitle = ({
           onKeyDown={(event) => {
             if (allowEnter && event.key === 'Enter') {
               handleChange();
+            }
+            if (event.keyCode === 9) { // tab was pressed
+              event.preventDefault();
+              const start = event.target.selectionStart;
+              const end = event.target.selectionEnd;
+              const newValue = `${value.substring(0, start)}  ${value.substring(end)}`;
+              setValue(newValue);
+
+              setTimeout(() => {
+                textArea.selectionStart = start + 2;
+                textArea.selectionEnd = start + 2;
+              });
             }
           }}
           type="text"

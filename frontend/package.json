@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "eslint-config-airbnb": "^18.1.0",
+    "highlight.js": "^10.1.1",
     "moment": "^2.27.0",
     "natural-drag-animation-rbdnd": "^2.0.2",
     "ramda": "^0.27.0",
@@ -31,6 +32,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "showdown": "^1.9.1",
+    "showdown-highlight": "^2.1.4",
     "styled-components": "^5.1.0",
     "uuid": "^8.0.0",
     "why-did-you-update": "^1.0.8"

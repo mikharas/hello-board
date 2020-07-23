@@ -64,7 +64,7 @@ const TaskModalStyled = styled(Modal)`
     margin-right: 0;
   }
 
-  h1 {
+  .modalH1 {
     font-size: 18px;
     font-family: inherit;
     font-weight: bold;
@@ -187,6 +187,7 @@ const TaskModal = ({
                   normalStyle={normalDescriptionStyle}
                   allowEmpty
                   showButtons
+                  showMarkdown
                 />
               )
               : (
@@ -215,7 +216,7 @@ const TaskModal = ({
                     to={`/calendar/${moment(date).format('YYYY-MM')}`}
                     onClick={saveHandler}
                   >
-                    <h1>go to calendar</h1>
+                    <h1 className="modalH1">go to calendar</h1>
                   </NavLink>
                 </>
               )
@@ -235,7 +236,7 @@ const TaskModal = ({
             {todo.length > 0
               ? (
                 <>
-                  <h1>Todo list</h1>
+                  <h1 className="modalH1">Todo list</h1>
                   <IconButton
                     className="stickyRight"
                     onClick={() => delAllTodoItem(taskId)}
