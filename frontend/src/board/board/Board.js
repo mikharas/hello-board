@@ -82,12 +82,12 @@ const Board = ({
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
-  const flagColumnHandler = useCallback((columnId) => {
-    if (!selectedColumn) {
+  const flagColumnHandler = useCallback((columnId, ignore) => {
+    if (!selectedColumn && !ignore) {
       setSelectedColumn(columnId);
     } else if (selectedColumn === columnId) {
       setSelectedColumn(null);
-    } else {
+    } else if (!ignore) {
       swapColumns(selectedColumn, columnId);
       setSelectedColumn(null);
     }

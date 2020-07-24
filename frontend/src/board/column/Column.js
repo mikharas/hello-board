@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback } from 'react';
 import styled from 'styled-components';
-import { Paper, IconButton } from '@material-ui/core';
+import { Paper, IconButton, ClickAwayListener } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -118,12 +118,18 @@ const Column = forwardRef(({
             }}
           />
         </IconButton>
-        <IconButton size="small" className="swp">
-          <FontAwesomeIcon
-            icon={faCircle}
-            onClick={() => flagColumnHandler(columnId)}
-          />
-        </IconButton>
+        <ClickAwayListener
+          onClickAway={() => {
+            flagColumnHandler(columnId, true);
+          }}
+        >
+          <IconButton size="small" className="swp">
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => flagColumnHandler(columnId, false)}
+            />
+          </IconButton>
+        </ClickAwayListener>
         <IconButton size="small" className="ins">
           <FontAwesomeIcon
             icon={faCircle}
