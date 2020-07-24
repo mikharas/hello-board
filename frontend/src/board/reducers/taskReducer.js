@@ -72,7 +72,7 @@ const taskReducer = (state = {}, { type, payload }) => {
           todo: [],
           completedCount: 0,
         },
-      }
+      };
 
     case 'ADD_TASK':
       return {
@@ -104,6 +104,15 @@ const taskReducer = (state = {}, { type, payload }) => {
         [payload.taskId]: {
           ...state[payload.taskId],
           todo: newTodo,
+        },
+      };
+
+    case 'MOVE_TASK_BETWEEN_COLUMN':
+      return {
+        ...state,
+        [payload.taskId]: {
+          ...state[payload.taskId],
+          columnId: payload.columnId2,
         },
       };
 
