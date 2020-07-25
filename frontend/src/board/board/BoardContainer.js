@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
   title: state.board.title,
   columnOrder: state.board.columnOrder,
   selectedColumn: state.board.selectedColumn,
+  isLoading: state.gb.isLoading,
 });
 
 const mapDispatchToProps = {

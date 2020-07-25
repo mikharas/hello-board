@@ -19,23 +19,12 @@ const mapStateToProps = (state, props) => {
     completedCount: task.completedCount,
     todo: task.todo,
     completedPercentage: (task.completedCount / task.todo.length) * 100,
-    selectedTask: state.gb.selectedTask,
-    isLoading: state.gb.isLoading,
   };
 };
 
 const mapDispatchToProps = {
   changeTitle,
-  changeDescription,
-  moveTodosInTask,
-  addTodoItem,
-  delTask,
-  addDate,
-  delDate,
-  getUserBoardsData,
-  saveData,
   setSelectedTask,
-  delAllTodoItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);

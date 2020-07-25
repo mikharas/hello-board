@@ -1,12 +1,10 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { IconButton, Card, LinearProgress } from '@material-ui/core';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH, faClock, faComment } from '@fortawesome/free-solid-svg-icons';
-import TimeoutContext from '../../shared/context/timeoutContext';
-import TaskModal from '../taskModal/TaskModal';
 import EditableTitle from '../subcomponents/editableTitle';
 
 const TaskCard = styled(Card)`
@@ -80,12 +78,9 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate, delAllTodoItem, isLoading,
+  changeTitle, title, description, taskId, index, todo, date, completedPercentage, setSelectedTask,
 }) => {
-  const [openModal, setOpenModal] = useState(selectedTask === taskId);
   const [hovered, setHovered] = useState(false);
-
-  const { resetTimeout } = useContext(TimeoutContext);
 
   const getDaysLeft = useCallback(() => {
     const today = new Date();
@@ -94,20 +89,6 @@ const Task = ({
     if (daysRemaining === 0) return 'today';
     return `${daysRemaining}d`;
   }, [date]);
-
-  const changeTaskTitle = useCallback((newTitle) => {
-    changeTitle(taskId, newTitle);
-  }, [taskId]);
-
-  const changeTaskDescription = useCallback((newDescription) => {
-    changeDescription(taskId, newDescription);
-  }, [taskId]);
-
-  const toggleModal = useCallback(() => {
-    setSelectedTask(null);
-    setOpenModal(!openModal);
-    resetTimeout();
-  }, [openModal]);
 
   return (
     <Draggable
@@ -128,30 +109,6 @@ const Task = ({
               ref={provided.innerRef}
               style={style}
             >
-              <TaskModal
-                isLoading={isLoading}
-                delDate={delDate}
-                addDate={addDate}
-                date={date}
-                title={title}
-                description={description}
-                completed={completed}
-                columnId={columnId}
-                taskId={taskId}
-                openModal={openModal}
-                toggleModal={toggleModal}
-                todo={todo}
-                changeTitle={changeTaskTitle}
-                changeDescription={changeTaskDescription}
-                completedPercentage={completedPercentage}
-                moveTodosInTask={moveTodosInTask}
-                addTodoItem={addTodoItem}
-                delTask={delTask}
-                getUserBoardsData={getUserBoardsData}
-                saveData={saveData}
-                boardId={boardId}
-                delAllTodoItem={delAllTodoItem}
-              />
               <TaskCard
                 elevation={snapshot.isDragging ? 16 : 2}
                 onMouseEnter={() => setHovered(true)}
@@ -166,7 +123,7 @@ const Task = ({
                 )}
                 <EditableTitle
                   title={title}
-                  changeTitle={changeTaskTitle}
+                  changeTitle={val => changeTitle(taskId, val)}
                   style={titleEditStyle}
                   normalStyle={titleStyle}
                   allowEnter
@@ -182,7 +139,7 @@ const Task = ({
                   </div>
                   )}
                 {hovered && (
-                  <IconButton onClick={toggleModal}>
+                  <IconButton onClick={() => setSelectedTask(taskId)}>
                     <FontAwesomeIcon size="sm" icon={faEllipsisH} />
                   </IconButton>
                 )}

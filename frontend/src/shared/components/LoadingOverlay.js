@@ -1,10 +1,9 @@
 import React from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { CircularProgress, Backdrop } from '@material-ui/core';
 import styled from 'styled-components';
 
-const Background = styled.div`
-  color: #fff;
-  z-index: -10;
+const Background = styled(Backdrop)`
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +11,7 @@ const Background = styled.div`
 `;
 
 const LoadingOverlay = () => (
-  <Background>
+  <Background open>
     <CircularProgress
       color="secondary"
       size="50px"

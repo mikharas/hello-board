@@ -17,13 +17,13 @@ export const delBoard = id => ({
   payload: { id },
 });
 
-export const getUserBoardsData = (userId, token) => (dispatch) => {
+export const getUserBoardsData = (userId, token) => async (dispatch) => {
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer: ${token}`,
   };
 
-  axios.get(
+  await axios.get(
     `http://localhost:3000/api/boards/user/${userId}`,
     { headers },
   ).then((response) => {

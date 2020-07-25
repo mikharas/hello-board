@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
 import {
@@ -10,7 +10,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -130,10 +130,15 @@ const editTitleStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem, isLoading,
+  title, columnId, description, taskId, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem, isLoading, setSelectedTask,
 }) => {
+  const [open, setOpen] = useState(false);
   const { userId, token } = useContext(AuthContext);
-  const [toCalendar, setToCalendar] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    setOpen(Boolean(taskId));
+  }, [taskId]);
 
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
@@ -147,30 +152,31 @@ const TaskModal = ({
 
   const saveHandler = async () => {
     saveData(boardId, token).then(() => {
-      getUserBoardsData(userId, token);
-      setToCalendar(true);
+      getUserBoardsData(userId, token).then(() => {
+        setOpen(false);
+        setSelectedTask(null);
+        history.push(`/calendar/${moment(date).format('YYYY-MM')}`);
+      });
     });
   };
-
-  if (!isLoading && toCalendar) {
-    return <Redirect to={`/calendar/${moment(date).format('YYYY-MM')}`} />;
-  }
-
-  if (isLoading) return <h1>Is Loading...</h1>;
 
   return (
     <TaskModalStyled
       BackdropComponent={Backdrop}
-      open={openModal}
-      onClose={toggleModal}
+      open={open}
+      onClose={() => {
+        setOpen(false);
+        setSelectedTask(null);
+      }}
     >
-      <Fade in={openModal}>
+      <Fade in={open}>
         <Paper className="card">
           <IconButton
             className="stickyRight iconDelete"
             onClick={() => {
               delTask(columnId, taskId);
-              toggleModal();
+              setOpen(false);
+              setSelectedTask(null);
             }}
           >
             <FontAwesomeIcon icon={faTrash} />
@@ -179,7 +185,7 @@ const TaskModal = ({
             <FontAwesomeIcon className="icon" icon={faAlignJustify} />
             <EditableTitle
               title={title}
-              changeTitle={changeTitle}
+              changeTitle={newTitle => changeTitle(taskId, newTitle)}
               normalStyle={normalTitleStyle}
               style={editTitleStyle}
               allowEnter
@@ -191,7 +197,7 @@ const TaskModal = ({
               ? (
                 <EditableTitle
                   title={description}
-                  changeTitle={changeDescription}
+                  changeTitle={newVal => changeDescription(taskId, newVal)}
                   style={editDescriptionStyle}
                   normalStyle={normalDescriptionStyle}
                   allowEmpty
@@ -200,7 +206,7 @@ const TaskModal = ({
                 />
               )
               : (
-                <Button onClick={() => changeDescription('New description')}>
+                <Button onClick={() => changeDescription(taskId, 'New description')}>
                   Add a description
                 </Button>
               )}
@@ -242,7 +248,7 @@ const TaskModal = ({
           </div>
           <div className="row">
             <FontAwesomeIcon className="icon" icon={faCheckSquare} />
-            {todo.length > 0
+            {todo && todo.length > 0
               ? (
                 <>
                   <h1 className="modalH1">Todo list</h1>
@@ -263,6 +269,7 @@ const TaskModal = ({
           <DragDropContext
             onDragEnd={onDragEnd}
           >
+            {todo && (
             <TodoList
               todo={todo}
               taskId={taskId}
@@ -270,6 +277,8 @@ const TaskModal = ({
               addTodoItem={addTodoItem}
               completedPercentage={completedPercentage}
             />
+
+            )}
           </DragDropContext>
         </Paper>
       </Fade>

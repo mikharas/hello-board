@@ -11,8 +11,10 @@ import { v4 as uuidv4 } from 'uuid';
 import TimeoutContext from '../../shared/context/timeoutContext';
 import AuthContext from '../../shared/context/authContext';
 import ColumnContainer from '../column/ColumnContainer';
+import TaskModal from '../taskModal/TaskModalContainer';
 import EditableTitle from '../subcomponents/editableTitle';
 import WarningDialog from '../../shared/components/WarningDialog';
+import LoadingOverlay from '../../shared/components/LoadingOverlay';
 
 const Columns = styled.div`
   width: 100%;
@@ -62,7 +64,7 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData, isLoading,
 }) => {
   const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
@@ -107,12 +109,15 @@ const Board = ({
 
     moveTaskBetweenColumn(source.droppableId, destination.droppableId, source.index, destination.index, draggableId);
   };
+
   if (!title) {
-    return <h1>Is Loading..</h1>;
+    return <LoadingOverlay />
   }
 
   return (
     <BoardStyled>
+      {isLoading && <LoadingOverlay />}
+      <TaskModal boardId={boardId} />
       <WarningDialog
         open={openDialog}
         onContinue={() => {

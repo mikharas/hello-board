@@ -33,7 +33,7 @@ const App = () => {
             exact
             path="/boards/:boardId"
             render={({ match }) => (
-              <Board boardId={match.params.boardId}/>
+              <Board boardId={match.params.boardId} />
             )}
           />
           <Route
