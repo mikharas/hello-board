@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
 import {
@@ -10,7 +10,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -130,9 +130,10 @@ const editTitleStyle = {
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem,
+  title, columnId, description, taskId, openModal, toggleModal, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem, isLoading,
 }) => {
   const { userId, token } = useContext(AuthContext);
+  const [toCalendar, setToCalendar] = useState(false);
 
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
@@ -144,10 +145,18 @@ const TaskModal = ({
     moveTodosInTask(source.droppableId, source.index, destination.index);
   };
 
-  const saveHandler = () => {
-    saveData(boardId, token);
-    getUserBoardsData(userId, token);
+  const saveHandler = async () => {
+    saveData(boardId, token).then(() => {
+      getUserBoardsData(userId, token);
+      setToCalendar(true);
+    });
   };
+
+  if (!isLoading && toCalendar) {
+    return <Redirect to={`/calendar/${moment(date).format('YYYY-MM')}`} />;
+  }
+
+  if (isLoading) return <h1>Is Loading...</h1>;
 
   return (
     <TaskModalStyled
@@ -212,12 +221,12 @@ const TaskModal = ({
                     }}
                     value={new Date(date)}
                   />
-                  <NavLink
-                    to={`/calendar/${moment(date).format('YYYY-MM')}`}
+                  <Button
+                    className="modalH1"
                     onClick={saveHandler}
                   >
-                    <h1 className="modalH1">go to calendar</h1>
-                  </NavLink>
+                    go to calendar
+                  </Button>
                 </>
               )
               : (

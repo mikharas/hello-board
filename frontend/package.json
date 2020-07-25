@@ -30,6 +30,7 @@
     "react-scripts": "3.4.1",
     "react-shuffle": "^2.1.0",
     "redux": "^4.0.5",
+    "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "showdown": "^1.9.1",

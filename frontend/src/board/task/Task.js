@@ -80,7 +80,7 @@ const titleEditStyle = {
 };
 
 const Task = ({
-  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate, delAllTodoItem,
+  changeTitle, changeDescription, title, description, completed, columnId, taskId, index, delTask, todo, date, addDate, moveTodosInTask, addTodoItem, completedPercentage, selectedTask, getUserBoardsData, saveData, boardId, setSelectedTask, delDate, delAllTodoItem, isLoading,
 }) => {
   const [openModal, setOpenModal] = useState(selectedTask === taskId);
   const [hovered, setHovered] = useState(false);
@@ -129,6 +129,7 @@ const Task = ({
               style={style}
             >
               <TaskModal
+                isLoading={isLoading}
                 delDate={delDate}
                 addDate={addDate}
                 date={date}

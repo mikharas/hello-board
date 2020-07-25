@@ -6,6 +6,12 @@ const globalReducer = (state = {}, { type, payload }) => {
         selectedTask: payload,
       };
 
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: payload,
+      };
+
     default:
       return state;
   }

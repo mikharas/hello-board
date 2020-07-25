@@ -35,6 +35,10 @@ export const getUserBoardsData = (userId, token) => (dispatch) => {
       idToBoard[id] = idToBoard[id][0];
     });
     dispatch(setUserBoardsData(idToBoard));
+    dispatch({
+      type: 'SET_LOADING',
+      payload: false,
+    });
   });
 };
 

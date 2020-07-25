@@ -40,10 +40,14 @@ export const setSelectedColumn = columnId => ({
 });
 
 export const getData = boardId => (dispatch, getState) => {
-  dispatch(setBoardData(getState().userBoards[boardId]))
+  dispatch(setBoardData(getState().userBoards[boardId]));
 };
 
-export const saveData = (boardId, token) => (dispatch, getState) => {
+export const saveData = (boardId, token) => async (dispatch, getState) => {
+  dispatch({
+    type: 'SET_LOADING',
+    payload: true,
+  });
   const boardStructure = {
     ...getState().board,
     columns: {
@@ -62,7 +66,7 @@ export const saveData = (boardId, token) => (dispatch, getState) => {
     Authorization: `Bearer: ${token}`,
   };
 
-  axios.patch(
+  await axios.patch(
     `http://localhost:3000/api/boards/${boardId}`,
     boardStructure,
     { headers },

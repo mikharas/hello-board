@@ -28,6 +28,6 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-	.connect('mongodb://127.0.0.1:27017')
+	.connect('mongodb+srv://mikharas:Lllala12008050@hello.rclvm.mongodb.net/hello?retryWrites=true&w=majority')
 	.then(() => app.listen(3000))
 	.catch(err => console.log(err));

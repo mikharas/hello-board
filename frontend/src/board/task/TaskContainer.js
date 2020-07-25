@@ -20,6 +20,7 @@ const mapStateToProps = (state, props) => {
     todo: task.todo,
     completedPercentage: (task.completedCount / task.todo.length) * 100,
     selectedTask: state.gb.selectedTask,
+    isLoading: state.gb.isLoading,
   };
 };
 
