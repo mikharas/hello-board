@@ -107,7 +107,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          'http://localhost:3000/api/users/login',
+          `${process.env.REACT_APP_BACKEND_URL}/users/login`,
           'POST',
           JSON.stringify({
             account_name: formState.inputs.account_name.val,
@@ -121,7 +121,7 @@ const Auth = () => {
       } catch (err) {}
     } else {
       try {
-        const responseData = await sendRequest('http://localhost:3000/api/users/signup',
+        const responseData = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/users/signup`,
           'POST',
           JSON.stringify({
             account_name: formState.inputs.account_name.val,

@@ -67,7 +67,7 @@ export const saveData = (boardId, token) => async (dispatch, getState) => {
   };
 
   await axios.patch(
-    `http://localhost:3000/api/boards/${boardId}`,
+    `${process.env.REACT_APP_BACKEND_URL}/boards/${boardId}`,
     boardStructure,
     { headers },
   ).then(value => console.log(value));

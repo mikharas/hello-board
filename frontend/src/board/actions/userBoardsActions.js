@@ -24,7 +24,7 @@ export const getUserBoardsData = (userId, token) => async (dispatch) => {
   };
 
   await axios.get(
-    `http://localhost:3000/api/boards/user/${userId}`,
+    `${process.env.REACT_APP_BACKEND_URL}/boards/user/${userId}`,
     { headers },
   ).then((response) => {
     const idToBoard = R.groupBy(
@@ -49,7 +49,7 @@ export const postUserBoard = (userId, token) => (dispatch) => {
   };
 
   axios.post(
-    'http://localhost:3000/api/boards/',
+    `${process.env.REACT_APP_BACKEND_URL}/boards/`,
     JSON.stringify({
       creator: userId,
       title: 'New Board',
@@ -67,7 +67,7 @@ export const delUserBoard = (boardId, token) => (dispatch) => {
   };
 
   axios.delete(
-    `http://localhost:3000/api/boards/${boardId}`,
+    `${process.env.REACT_APP_BACKEND_URL}/boards/${boardId}`,
     { headers },
   ).then(() => {
     dispatch(delBoard(boardId));
