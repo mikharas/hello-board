@@ -70,5 +70,5 @@ export const saveData = (boardId, token) => async (dispatch, getState) => {
     `${process.env.REACT_APP_BACKEND_URL}/boards/${boardId}`,
     boardStructure,
     { headers },
-  ).then(value => console.log(value));
+  );
 };
