@@ -8,9 +8,11 @@ import { IconButton, Button } from '@material-ui/core';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { isMobile } from 'react-device-detect';
 import AuthContext from '../../shared/context/authContext';
 import TimeoutContext from '../../shared/context/timeoutContext';
-import BoardCard from './BoardCard';
+import BoardCardMobile from './BoardCardMobile';
+import BoardCardDesktop from './BoardCardDesktop';
 import WarningDialog from '../../shared/components/WarningDialog';
 
 const Title = styled.h1`
@@ -67,6 +69,8 @@ const UserBoards = ({
   const { resetTimeout } = useContext(TimeoutContext);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
 
+  const BoardCard = isMobile ? <BoardCardMobile /> : <BoardCardDesktop />;
+
   const createBoardHandler = () => {
     postUserBoard(userId, token);
     resetTimeout();
@@ -111,12 +115,22 @@ const UserBoards = ({
         <FlipMove typeName={null}>
           {boardsList.map(({ id, title }) => (
             <div key={id}>
-              <BoardCard
-                title={title}
-                id={id}
-                setOpenDialog={setOpenDialog}
-                setWillBeDeleted={setWillBeDeleted}
-              />
+              {isMobile
+                ? (
+                  <BoardCardMobile
+                    title={title}
+                    id={id}
+                    setOpenDialog={setOpenDialog}
+                    setWillBeDeleted={setWillBeDeleted}
+                  />
+                ) : (
+                  <BoardCardDesktop
+                    title={title}
+                    id={id}
+                    setOpenDialog={setOpenDialog}
+                    setWillBeDeleted={setWillBeDeleted}
+                  />
+                )}
             </div>
           ))}
         </FlipMove>

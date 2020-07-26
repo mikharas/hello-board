@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
-import Task from './Task';
-import { delTask } from '../actions/columnActions';
-import {
-  changeTitle, changeDescription, moveTodosInTask, addTodoItem, addDate, delDate, delAllTodoItem,
-} from '../actions/taskActions';
-import {
-  getUserBoardsData,
-} from '../actions/userBoardsActions';
-import { saveData } from '../actions/boardActions';
+import { isMobile } from 'react-device-detect';
+import TaskMobile from './TaskMobile';
+import TaskDesktop from './TaskDesktop';
+import { changeTitle } from '../actions/taskActions';
 import { setSelectedTask } from '../../globalActions';
+
+const Task = isMobile ? TaskMobile : TaskDesktop;
 
 const mapStateToProps = (state, props) => {
   const task = state.tasks[props.taskId];

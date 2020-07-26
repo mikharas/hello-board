@@ -21,6 +21,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-card-flip": "^1.0.10",
     "react-date-picker": "^8.0.1",
+    "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-flip-move": "^3.0.4",
     "react-magic-move": "^0.1.0",
