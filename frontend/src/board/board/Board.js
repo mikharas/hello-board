@@ -46,6 +46,12 @@ const BackButton = styled(ButtonStyled)`
   color: red;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ColumnWrapper = styled.div`
   width: ${({ isLargeScreen }) => (isLargeScreen ? '350px' : '100%')};
 `;
@@ -53,11 +59,11 @@ const ColumnWrapper = styled.div`
 const titleInputStyle = {
   outline: 'none',
   border: '1px solid lightgray',
-  borderRadius: '15px',
+  borderRadius: '10px',
   background: 'white',
   marginTop: '13px',
   marginBottom: '15px',
-  width: '50%',
+  width: '100%',
   fontSize: '30px',
   fontFamily: 'inherit',
   fontWeight: 'bold',
@@ -111,7 +117,7 @@ const Board = ({
   };
 
   if (!title) {
-    return <LoadingOverlay />
+    return <LoadingOverlay />;
   }
 
   return (
@@ -137,13 +143,15 @@ const Board = ({
       >
         BACK
       </BackButton>
-      <EditableTitle
-        title={title}
-        changeTitle={changeTitle}
-        style={titleInputStyle}
-        rows={1}
-        allowEnter
-      />
+      <TitleWrapper>
+        <EditableTitle
+          title={title}
+          changeTitle={changeTitle}
+          style={titleInputStyle}
+          rows={1}
+          allowEnter
+        />
+      </TitleWrapper>
       <Columns>
         <DragDropContext
           onDragEnd={onDragEnd}

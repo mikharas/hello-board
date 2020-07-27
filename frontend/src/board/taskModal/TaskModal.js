@@ -108,7 +108,7 @@ const editDescriptionStyle = {
 };
 
 const normalTitleStyle = {
-  width: '100%',
+  width: '80%',
   outline: 'none',
   border: 'none',
   margin: '6px 8px',
@@ -119,7 +119,7 @@ const normalTitleStyle = {
 };
 
 const editTitleStyle = {
-  width: '100%',
+  width: '80%',
   outline: 'none',
   margin: '6px 8px',
   border: 'solid 1px teal',
