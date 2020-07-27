@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faTrash, faCalendar, faAlignJustify, faComment, faCheckSquare,
+  faTrash, faCalendar, faAlignJustify, faComment, faCheckSquare, faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 import EditableTitle from '../subcomponents/editableTitle';
@@ -79,10 +79,13 @@ const TaskModalStyled = styled(Modal)`
     top: 0;
   }
 
-  .iconDelete {
+  .closeModal {
     top: 40px;
     right: 20px;
     z-index: 10;
+  }
+
+  .deleteButton {
     color: red;
   }
 `;
@@ -172,14 +175,13 @@ const TaskModal = ({
       <Fade in={open}>
         <Paper className="card">
           <IconButton
-            className="stickyRight iconDelete"
+            className="stickyRight closeModal"
             onClick={() => {
-              delTask(columnId, taskId);
               setOpen(false);
               setSelectedTask(null);
             }}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTimes} />
           </IconButton>
           <div className="row">
             <FontAwesomeIcon className="icon" icon={faAlignJustify} />
@@ -280,6 +282,19 @@ const TaskModal = ({
 
             )}
           </DragDropContext>
+          <div className="row">
+            <FontAwesomeIcon className="icon deleteButton" icon={faTrash} />
+            <Button
+              className="deleteButton"
+              onClick={() => {
+                delTask(columnId, taskId);
+                setOpen(false);
+                setSelectedTask(null);
+              }}
+            >
+              Delete Task
+            </Button>
+          </div>
         </Paper>
       </Fade>
     </TaskModalStyled>
