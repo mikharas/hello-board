@@ -1,4 +1,10 @@
-const globalReducer = (state = {}, { type, payload }) => {
+const initialState = {
+  selectedTask: null,
+  isLoading: false,
+  filterStr: 'modal',
+};
+
+const globalReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'SET_SELECTED_TASK':
       return {
@@ -10,6 +16,12 @@ const globalReducer = (state = {}, { type, payload }) => {
       return {
         ...state,
         isLoading: payload,
+      };
+
+    case 'SET_FILTER_STR':
+      return {
+        ...state,
+        filterStr: payload,
       };
 
     default:
