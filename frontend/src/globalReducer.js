@@ -1,7 +1,7 @@
 const initialState = {
   selectedTask: null,
   isLoading: false,
-  filterStr: 'modal',
+  filterStr: '',
 };
 
 const globalReducer = (state = initialState, { type, payload }) => {

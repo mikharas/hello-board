@@ -6,6 +6,7 @@ import {
   addTask, delTask, moveTasksInColumn, moveTaskBetweenColumn,
 } from '../actions/columnActions';
 import { getUserBoardsData } from '../actions/userBoardsActions';
+import { setFilterStr } from '../../globalActions';
 
 import Board from './Board';
 
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   getData,
   resetBoardData,
   getUserBoardsData,
+  setFilterStr,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

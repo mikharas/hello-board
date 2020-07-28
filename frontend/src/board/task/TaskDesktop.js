@@ -85,8 +85,11 @@ const Task = ({
   const [filterMatch, setFilterMatch] = useState(false);
 
   useEffect(() => {
+    if (!filterStr) {
+      setFilterMatch(false);
+      return;
+    }
     setFilterMatch(title.toLowerCase().includes(filterStr.toLowerCase()));
-    console.log(title.toLowerCase().includes(filterStr.toLowerCase()));
   }, [filterStr]);
 
   const getDaysLeft = useCallback(() => {
@@ -117,7 +120,7 @@ const Task = ({
               style={style}
             >
               <TaskCard
-                elevation={snapshot.isDragging || filterMatch ? 16 : 2}
+                elevation={snapshot.isDragging ? 16 : 2}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 isFilterMatched={filterMatch}

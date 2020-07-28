@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+import { Button, InputBase } from '@material-ui/core';
 import { DragDropContext } from 'react-beautiful-dnd';
 import FlipMove from 'react-flip-move';
 import { useMediaQuery } from 'react-responsive';
@@ -31,6 +31,7 @@ const BoardStyled = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 const ButtonStyled = styled(Button)`
@@ -48,12 +49,22 @@ const BackButton = styled(ButtonStyled)`
 
 const TitleWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5px;
 `;
 
 const ColumnWrapper = styled.div`
   width: ${({ isLargeScreen }) => (isLargeScreen ? '350px' : '100%')};
+`;
+
+const SearchBar = styled(InputBase)`
+  border-radius: 5px;
+  background-color: #EBECF0;
+
+  padding: 5px;
+  width: 300px;
 `;
 
 const titleInputStyle = {
@@ -70,12 +81,13 @@ const titleInputStyle = {
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData, isLoading,
+  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData, isLoading, setFilterStr,
 }) => {
   const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
   const [openDialog, setOpenDialog] = useState(false);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
+  const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {
     resetTimeout();
@@ -151,6 +163,26 @@ const Board = ({
           rows={1}
           allowEnter
         />
+        <div className="search-bar">
+          <SearchBar
+            placeholder="Search for tasks.."
+            className="search-input"
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={(e) => {
+              setSearchVal(e.target.value);
+              setFilterStr(e.target.value);
+            }}
+            value={searchVal}
+          />
+          <Button
+            onClick={() => {
+              setFilterStr('');
+              setSearchVal('');
+            }}
+          >
+            Reset
+          </Button>
+        </div>
       </TitleWrapper>
       <Columns>
         <DragDropContext

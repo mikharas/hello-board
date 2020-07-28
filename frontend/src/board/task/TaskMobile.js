@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Card, LinearProgress } from '@material-ui/core';
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faComment } from '@fortawesome/free-solid-svg-icons';
 
 const TaskCard = styled(Card)`
+  border: ${({ isFilterMatched }) => (isFilterMatched ? '3px solid black' : 'none')};
   padding: 10px;
   position: relative;
   margin-bottom: 8px;
@@ -67,8 +68,18 @@ const Title = styled.h1`
 `;
 
 const Task = ({
-  changeTitle, title, description, taskId, index, todo, date, completedPercentage, setSelectedTask,
+  changeTitle, title, description, taskId, index, todo, date, completedPercentage, setSelectedTask, filterStr,
 }) => {
+  const [filterMatch, setFilterMatch] = useState(false);
+
+  useEffect(() => {
+    if (!filterStr) {
+      setFilterMatch(false);
+      return;
+    }
+    setFilterMatch(title.toLowerCase().includes(filterStr.toLowerCase()));
+  }, [filterStr]);
+
   const getDaysLeft = useCallback(() => {
     const today = new Date();
     const differenceMS = new Date(date) - today;
@@ -99,6 +110,7 @@ const Task = ({
               <TaskCard
                 elevation={snapshot.isDragging ? 16 : 2}
                 onClick={() => setSelectedTask(taskId)}
+                isFilterMatched={filterMatch}
               >
                 {todo.length !== 0 && (
                   <ProgressBar
