@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 let logoutTimer;
-const IDLETIMEOUT = 1000 * 60 * 60 * 24;
+const IDLETIMEOUT = 1000 * 60 * 60 * 6;
 
 const useAuth = () => {
   const [userId, setUserId] = useState(null);
