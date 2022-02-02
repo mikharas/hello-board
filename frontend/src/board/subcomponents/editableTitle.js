@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import { ClickAwayListener, Button } from '@material-ui/core';
+import { ClickAwayListener, Button } from '@mui/material';
 import TextareaAutosize from 'react-autosize-textarea';
 import showdown from 'showdown';
 import showdownHighlight from 'showdown-highlight';

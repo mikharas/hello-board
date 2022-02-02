@@ -1,45 +1,70 @@
-import * as R from 'ramda';
-import data from '../reducers/monthsData';
+import * as R from "ramda";
+import data from "../reducers/monthsData";
+import authHeader from "../../services/authHeader";
+import axios from 'axios';
+
+const api = 'http://localhost:3000/api'
 
 const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
   const firstDayIndex = newDate.getDay();
   const newDateNumber = prevWeekIndex * 7 + (prevDateIndex - firstDayIndex + 1);
-  if (newDateNumber <= 0 || newDateNumber > data[newDate.getMonth()].daysCount) {
+  if (
+    newDateNumber <= 0 ||
+    newDateNumber > data[newDate.getMonth()].daysCount
+  ) {
     return null;
-  } return new Date(newDate.getFullYear(), newDate.getMonth(), newDateNumber);
+  }
+  return new Date(newDate.getFullYear(), newDate.getMonth(), newDateNumber);
 };
 
-export const getEvents = () => (dispatch, getState) => {
-  const boards = getState().userBoards;
-  const events = {};
-
-  R.forEachObjIndexed(({ tasks }, boardId) => {
-    Object.values(tasks).forEach((task) => {
-      if (task.date != null) {
-        events[task.id] = { ...task, boardId };
-      }
-    });
-  }, boards);
-
+export const getEvents = (userId) => async (dispatch, getState) => {
   dispatch({
-    type: 'SET_EVENTS_DATA',
-    payload: { events },
+    type: "SET_LOADING",
+    payload: true,
   });
+  await axios
+    .get(`${api}/boards/user/${userId}`, { headers: authHeader() })
+    .then((response) => {
+      const idToBoard = R.groupBy(
+        (boardData) => boardData.id,
+        response.data.boards
+      );
+      Object.keys(idToBoard).forEach((id) => {
+        idToBoard[id] = idToBoard[id][0];
+      });
+
+      const events = {};
+      R.forEachObjIndexed(({ tasks }, boardId) => {
+        Object.values(tasks).forEach((task) => {
+          if (task.date != null) {
+            events[task.id] = { ...task, boardId };
+          }
+        });
+      }, idToBoard);
+
+      dispatch({
+        type: "SET_EVENTS_DATA",
+        payload: { events },
+      });
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
+    });
 };
 
-export const changeMonth = newDate => (dispatch, getState) => {
+export const changeMonth = (newDate) => (dispatch, getState) => {
   const dateIds = Object.keys(getState().dates);
   // get the new dates for each date id
   const dateIdToNewDate = R.reduceBy(
     (acc, dateId) => {
       const { dateIndex } = getState().dates[dateId];
       const { weekIndex } = getState().dates[dateId];
-      return acc.concat(
-        getNewDate(newDate, dateIndex, weekIndex),
-      );
-    }, [],
-    dateId => dateId,
-    dateIds,
+      return acc.concat(getNewDate(newDate, dateIndex, weekIndex));
+    },
+    [],
+    (dateId) => dateId,
+    dateIds
   );
 
   // Now we should make a date to event ids dictionary
@@ -50,7 +75,7 @@ export const changeMonth = newDate => (dispatch, getState) => {
     (acc, { id }) => acc.concat(id), // value fn
     [],
     ({ date }) => date, // key fn
-    events,
+    events
   );
 
   const dateIdToEventIds = R.reduceBy(
@@ -59,18 +84,22 @@ export const changeMonth = newDate => (dispatch, getState) => {
         const dateISOString = dateIdToNewDate[dateId][0].toISOString();
         if (dateToEventIds[dateISOString]) {
           return acc.concat(dateToEventIds[dateISOString]);
-        } return acc;
-      } return acc;
+        }
+        return acc;
+      }
+      return acc;
     },
     [],
-    dateId => dateId,
-    dateIds,
+    (dateId) => dateId,
+    dateIds
   );
 
   dispatch({
-    type: 'CHANGE_MONTH',
+    type: "CHANGE_MONTH",
     payload: {
-      newDate, dateIdToEventIds, dateIdToNewDate,
+      newDate,
+      dateIdToEventIds,
+      dateIdToNewDate,
     },
   });
 };

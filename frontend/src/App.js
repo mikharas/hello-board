@@ -1,40 +1,38 @@
-import React from 'react';
-import { StylesProvider } from '@material-ui/core/styles';
+import React from "react";
+import { connect } from "react-redux";
+import { StylesProvider } from "@material-ui/core/styles";
 import {
-  BrowserRouter as Router, Route, Redirect, Switch,
-} from 'react-router-dom';
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 
-import Board from './board/board/BoardContainer';
-import Auth from './user/pages/Auth';
-import UserBoards from './board/userBoard/UserBoardsContainer';
-import Calendar from './calendar/calendar/CalendarContainer';
+import Board from "./board/board/BoardContainer";
+// import Auth from './user/pages/Auth';
+import Auth from "./auth/index";
+import UserBoards from "./board/userBoard/UserBoardsContainer";
+import Calendar from "./calendar/calendar/CalendarContainer";
 
-import AuthContext from './shared/context/authContext';
-import TimeoutContext from './shared/context/timeoutContext';
-import { useAuth } from './shared/hooks/auth-hook';
+import AuthContext from "./shared/context/authContext";
+import TimeoutContext from "./shared/context/timeoutContext";
+import { useAuth } from "./shared/hooks/auth-hook";
 
-const App = () => {
+const App = ({ isLoggedIn, userId }) => {
   let routes;
-  const {
-    token, login, logout, resetTimeout, userId,
-  } = useAuth();
 
-  if (token && userId) {
+  console.log(userId)
+  if (isLoggedIn) {
     routes = (
       <>
         <Switch>
-          <Route
-            exact
-            path="/:userId/boards"
-          >
+          <Route exact path="/:userId/boards">
             <UserBoards />
           </Route>
           <Route
             exact
             path="/boards/:boardId"
-            render={({ match }) => (
-              <Board boardId={match.params.boardId} />
-            )}
+            render={({ match }) => <Board boardId={match.params.boardId} />}
           />
           <Route
             exact
@@ -59,26 +57,16 @@ const App = () => {
   }
   return (
     <StylesProvider injectFirst>
-      <AuthContext.Provider value={{
-        userId,
-        token,
-        login,
-        logout,
-      }}
-      >
-        <TimeoutContext.Provider value={{
-          resetTimeout,
-        }}
-        >
-          <Router>
-            <Switch>
-              {routes}
-            </Switch>
-          </Router>
-        </TimeoutContext.Provider>
-      </AuthContext.Provider>
+      <Router>
+        <Switch>{routes}</Switch>
+      </Router>
     </StylesProvider>
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+  userId: state.auth.user && state.auth.user.userId
+});
+
+export default connect(mapStateToProps)(App);

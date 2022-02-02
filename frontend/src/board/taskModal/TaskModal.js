@@ -136,7 +136,6 @@ const TaskModal = ({
   title, columnId, description, taskId, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem, isLoading, setSelectedTask,
 }) => {
   const [open, setOpen] = useState(false);
-  const { userId, token } = useContext(AuthContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -154,12 +153,10 @@ const TaskModal = ({
   };
 
   const saveHandler = async () => {
-    saveData(boardId, token).then(() => {
-      getUserBoardsData(userId, token).then(() => {
-        setOpen(false);
-        setSelectedTask(null);
-        history.push(`/calendar/${moment(date).format('YYYY-MM')}`);
-      });
+    saveData(boardId).then(() => {
+      setOpen(false);
+      setSelectedTask(null);
+      history.push(`/calendar/${moment(date).format('YYYY-MM')}`);
     });
   };
 

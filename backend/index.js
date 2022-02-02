@@ -35,6 +35,6 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-	.connect('mongodb+srv://mikharas:Lllala12008050@hello.rclvm.mongodb.net/hello?retryWrites=true&w=majority')
-	.then(() => app.listen(process.env.PORT || 3000))
+	.connect('mongodb+srv://mikharas:xUE9EhjXS8kfNvAU@cluster0.5tnko.mongodb.net/hello')
+	.then(() => app.listen(3000))
 	.catch(err => console.log(err));

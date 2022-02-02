@@ -1,20 +1,19 @@
-import React, {
-  useCallback, useEffect, useContext, useState,
-} from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Button, InputBase } from '@material-ui/core';
-import { DragDropContext } from 'react-beautiful-dnd';
-import FlipMove from 'react-flip-move';
-import { useMediaQuery } from 'react-responsive';
-import { v4 as uuidv4 } from 'uuid';
-import TimeoutContext from '../../shared/context/timeoutContext';
-import AuthContext from '../../shared/context/authContext';
-import ColumnContainer from '../column/ColumnContainer';
-import TaskModal from '../taskModal/TaskModalContainer';
-import EditableTitle from '../subcomponents/editableTitle';
-import WarningDialog from '../../shared/components/WarningDialog';
-import LoadingOverlay from '../../shared/components/LoadingOverlay';
+import React, { useCallback, useEffect, useContext, useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Button, InputBase } from "@material-ui/core";
+import { DragDropContext } from "react-beautiful-dnd";
+import FlipMove from "react-flip-move";
+import { useMediaQuery } from "react-responsive";
+import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router-dom";
+import TimeoutContext from "../../shared/context/timeoutContext";
+import AuthContext from "../../shared/context/authContext";
+import ColumnContainer from "../column/ColumnContainer";
+import TaskModal from "../taskModal/TaskModalContainer";
+import EditableTitle from "../subcomponents/editableTitle";
+import WarningDialog from "../../shared/components/WarningDialog";
+import LoadingOverlay from "../../shared/components/LoadingOverlay";
 
 const Columns = styled.div`
   width: 100%;
@@ -56,76 +55,108 @@ const TitleWrapper = styled.div`
 `;
 
 const ColumnWrapper = styled.div`
-  width: ${({ isLargeScreen }) => (isLargeScreen ? '350px' : '100%')};
+  width: ${({ isLargeScreen }) => (isLargeScreen ? "350px" : "100%")};
 `;
 
 const SearchBar = styled(InputBase)`
   border-radius: 5px;
-  background-color: #EBECF0;
+  background-color: #ebecf0;
 
   padding: 5px;
   width: 300px;
 `;
 
 const titleInputStyle = {
-  outline: 'none',
-  border: '1px solid lightgray',
-  borderRadius: '10px',
-  background: 'white',
-  marginTop: '13px',
-  marginBottom: '15px',
-  width: '100%',
-  fontSize: '30px',
-  fontFamily: 'inherit',
-  fontWeight: 'bold',
+  outline: "none",
+  border: "1px solid lightgray",
+  borderRadius: "10px",
+  background: "white",
+  marginTop: "13px",
+  marginBottom: "15px",
+  width: "100%",
+  fontSize: "30px",
+  fontFamily: "inherit",
+  fontWeight: "bold",
 };
 
 const Board = ({
-  title, columnOrder, changeTitle, addColumn, delColumn, selectedColumn, setSelectedColumn, swapColumns, moveTasksInColumn, moveTaskBetweenColumn, delTask, boardId, saveData, resetBoardData, getData, getUserBoardsData, isLoading, setFilterStr,
+  title,
+  columnOrder,
+  changeTitle,
+  addColumn,
+  delColumn,
+  selectedColumn,
+  setSelectedColumn,
+  swapColumns,
+  moveTasksInColumn,
+  moveTaskBetweenColumn,
+  delTask,
+  boardId,
+  saveData,
+  resetBoardData,
+  getData,
+  getUserBoardsData,
+  isLoading,
+  setFilterStr,
 }) => {
-  const { token, userId } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
   const [openDialog, setOpenDialog] = useState(false);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
-  const [searchVal, setSearchVal] = useState('');
+  const [searchVal, setSearchVal] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     resetTimeout();
     getData(boardId);
   }, []);
 
-  const saveDataHandler = () => {
+  const saveDataHandler = async () => {
     resetTimeout();
-    saveData(boardId, token);
-    getUserBoardsData(userId, token);
+    saveData(boardId);
+  };
+
+  const goBackHandler = async () => {
+    await saveData(boardId);
+    resetBoardData();
+    history.push(`/`);
   };
 
   const isLargeScreen = useMediaQuery({ minWidth: 700 });
 
-  const flagColumnHandler = useCallback((columnId, ignore) => {
-    if (!selectedColumn && !ignore) {
-      setSelectedColumn(columnId);
-    } else if (selectedColumn === columnId) {
-      setSelectedColumn(null);
-    } else if (!ignore) {
-      swapColumns(selectedColumn, columnId);
-      setSelectedColumn(null);
-    }
-  }, [selectedColumn]);
+  const flagColumnHandler = useCallback(
+    (columnId, ignore) => {
+      if (!selectedColumn && !ignore) {
+        setSelectedColumn(columnId);
+      } else if (selectedColumn === columnId) {
+        setSelectedColumn(null);
+      } else if (!ignore) {
+        swapColumns(selectedColumn, columnId);
+        setSelectedColumn(null);
+      }
+    },
+    [selectedColumn]
+  );
 
   const onDragEnd = ({ destination, source, draggableId }) => {
     if (!destination) return;
     if (
-      destination.droppableId === source.droppableId
-      && destination.index === source.index
-    ) return;
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
 
     if (source.droppableId === destination.droppableId) {
       moveTasksInColumn(source.droppableId, source.index, destination.index);
       return;
     }
 
-    moveTaskBetweenColumn(source.droppableId, destination.droppableId, source.index, destination.index, draggableId);
+    moveTaskBetweenColumn(
+      source.droppableId,
+      destination.droppableId,
+      source.index,
+      destination.index,
+      draggableId
+    );
   };
 
   if (!title) {
@@ -147,11 +178,7 @@ const Board = ({
       />
       <BackButton
         component={Link}
-        to="/"
-        onClick={() => {
-          saveDataHandler();
-          resetBoardData();
-        }}
+        onClick={goBackHandler}
       >
         BACK
       </BackButton>
@@ -167,7 +194,7 @@ const Board = ({
           <SearchBar
             placeholder="Search for tasks.."
             className="search-input"
-            inputProps={{ 'aria-label': 'search' }}
+            inputProps={{ "aria-label": "search" }}
             onChange={(e) => {
               setSearchVal(e.target.value);
               setFilterStr(e.target.value);
@@ -176,8 +203,8 @@ const Board = ({
           />
           <Button
             onClick={() => {
-              setFilterStr('');
-              setSearchVal('');
+              setFilterStr("");
+              setSearchVal("");
             }}
           >
             Reset
@@ -185,15 +212,10 @@ const Board = ({
         </div>
       </TitleWrapper>
       <Columns>
-        <DragDropContext
-          onDragEnd={onDragEnd}
-        >
+        <DragDropContext onDragEnd={onDragEnd}>
           <FlipMove typeName={null}>
-            {columnOrder.map(columnId => (
-              <ColumnWrapper
-                key={`${columnId}`}
-                isLargeScreen={isLargeScreen}
-              >
+            {columnOrder.map((columnId) => (
+              <ColumnWrapper key={`${columnId}`} isLargeScreen={isLargeScreen}>
                 <ColumnContainer
                   boardId={boardId}
                   key={columnId}
@@ -210,9 +232,7 @@ const Board = ({
         </DragDropContext>
       </Columns>
       {columnOrder.length === 0 && (
-        <Button onClick={() => addColumn(0, uuidv4())}>
-          + Add column
-        </Button>
+        <Button onClick={() => addColumn(0, uuidv4())}>+ Add column</Button>
       )}
       <ButtonStyled onClick={saveDataHandler}>Save Board</ButtonStyled>
     </BoardStyled>

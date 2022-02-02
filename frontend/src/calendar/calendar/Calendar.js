@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import TimeoutContext from '../../shared/context/timeoutContext';
-import DateSquare from '../date/DateSquareContainer';
-import FilterBoardSelector from './FilterBoardSelectorContainer';
-import Header from './Header';
+import React, { useEffect, useState, useContext } from "react";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import TimeoutContext from "../../shared/context/timeoutContext";
+import DateSquare from "../date/DateSquareContainer";
+import FilterBoardSelector from "./FilterBoardSelectorContainer";
+import Header from "./Header";
 
 const BackButton = styled(Button)`
   position: absolute;
@@ -38,13 +38,12 @@ const Wrapper = styled.div`
     left: 30px;
     top: 30px;
   }
-
 `;
 
-const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
 const Body = styled.div`
-  background: #EBECF0;
+  background: #ebecf0;
   padding: 15px;
 `;
 
@@ -74,8 +73,18 @@ const DayLabel = styled.div`
 `;
 
 const Calendar = ({
-  monthName, yearName, dates, changeMonth, moveEventBetweenDates,
-  addEvent, delEvent, boardIds, getEvents, yearMonth, userBoards,
+  monthName,
+  yearName,
+  dates,
+  changeMonth,
+  moveEventBetweenDates,
+  addEvent,
+  delEvent,
+  boardIds,
+  getEvents,
+  yearMonth,
+  userBoards,
+  userId,
 }) => {
   const [showBoard, setShowBoard] = useState(boardIds);
 
@@ -89,27 +98,21 @@ const Calendar = ({
     changeMonth(new Date(date));
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     resetTimeout();
-    getEvents();
+    await getEvents(userId);
     goToDate(yearMonth);
   }, [userBoards]);
 
   return (
     <Wrapper>
       <div className="topLeft">
-        <BackButton
-          component={Link}
-          to="/"
-        >
+        <BackButton component={Link} to="/">
           BACK
         </BackButton>
       </div>
       <div className="topRight">
-        <Button
-          onClick={goToday}
-          style={{ marginRight: '20px' }}
-        >
+        <Button onClick={goToday} style={{ marginRight: "20px" }}>
           Today
         </Button>
         <FilterBoardSelector
@@ -125,13 +128,13 @@ const Calendar = ({
       />
       <Body>
         <DayLabel>
-          {weekdays.map(day => (
+          {weekdays.map((day) => (
             <p>{day}</p>
           ))}
         </DayLabel>
-        {dates.map(week => (
+        {dates.map((week) => (
           <WeekContainer>
-            {week.map(day => (
+            {week.map((day) => (
               <DateSquare showBoard={showBoard} id={day} />
             ))}
           </WeekContainer>

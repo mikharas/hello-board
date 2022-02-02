@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
-import { Card, Button, ClickAwayListener } from '@material-ui/core';
-import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useCallback } from "react";
+import TextareaAutosize from "react-autosize-textarea";
+import { Card, Button, ClickAwayListener } from "@mui/material";
+import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 const TextArea = styled(TextareaAutosize)`
   min-height: 45px;
@@ -25,17 +25,17 @@ const TaskCard = styled(Card)`
 `;
 
 const style = {
-  width: '100%',
-  outline: 'none',
-  border: 'none',
-  background: 'transparent',
-  fontSize: '15px',
-  fontFamily: 'inherit',
-  fontWeight: 'bold',
+  width: "100%",
+  outline: "none",
+  border: "none",
+  background: "transparent",
+  fontSize: "15px",
+  fontFamily: "inherit",
+  fontWeight: "bold",
 };
 
 const NewTask = ({ columnId, addTask }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [isButton, setIsButton] = useState(true);
 
   const toggleIsButton = useCallback(() => {
@@ -46,7 +46,10 @@ const NewTask = ({ columnId, addTask }) => {
     return (
       <Button
         className="button"
-        onClick={toggleIsButton}
+        onClick={() => {
+          console.log("clicked");
+          toggleIsButton();
+        }}
       >
         + Add Task
       </Button>
@@ -54,13 +57,14 @@ const NewTask = ({ columnId, addTask }) => {
   }
 
   return (
-    <ClickAwayListener onClickAway={() => {
-      if (value) {
-        addTask(columnId, uuidv4(), value);
-        setValue('');
-      }
-      toggleIsButton();
-    }}
+    <ClickAwayListener
+      onClickAway={() => {
+        if (value) {
+          addTask(columnId, uuidv4(), value);
+          setValue("");
+        }
+        toggleIsButton();
+      }}
     >
       <TaskCard>
         <TextArea
@@ -71,12 +75,12 @@ const NewTask = ({ columnId, addTask }) => {
           type="text"
           elevation={3}
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           onKeyDown={(event) => {
-            if (event.key === 'Enter') {
+            if (event.key === "Enter") {
               if (value) {
                 addTask(columnId, uuidv4(), value);
-                setValue('');
+                setValue("");
               }
               toggleIsButton();
             }

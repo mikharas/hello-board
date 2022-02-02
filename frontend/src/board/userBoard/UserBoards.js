@@ -61,28 +61,26 @@ const NewBoard = styled(Button)`
 `;
 
 const UserBoards = ({
-  boardsList, getUserBoardsData, postUserBoard, delUserBoard,
+  boardsList, getUserBoardsData, postUserBoard, delUserBoard, logout
 }) => {
   const { userId } = useParams();
   const [openDialog, setOpenDialog] = useState(false);
-  const { token, logout } = useContext(AuthContext);
   const { resetTimeout } = useContext(TimeoutContext);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
 
   const BoardCard = isMobile ? <BoardCardMobile /> : <BoardCardDesktop />;
 
   const createBoardHandler = () => {
-    postUserBoard(userId, token);
+    postUserBoard(userId);
     resetTimeout();
   };
 
   const deleteBoardHandler = (boardId) => {
-    delUserBoard(boardId, token);
+    delUserBoard(boardId);
   };
 
   useEffect(() => {
-    resetTimeout();
-    getUserBoardsData(userId, token);
+    getUserBoardsData(userId);
   }, []);
 
   if (!boardsList) {
@@ -106,7 +104,7 @@ const UserBoards = ({
       <Title>
         My Boards
       </Title>
-      <IconButton className="icon" size="large">
+      <IconButton className="icon">
         <NavLink className="link" to={`/calendar/${moment(new Date()).format('YYYY-MM')}`}>
           <FontAwesomeIcon icon={faCalendar} />
         </NavLink>

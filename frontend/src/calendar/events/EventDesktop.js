@@ -102,7 +102,7 @@ const Event = ({
         anchorEl={anchorEl}
         placement="bottom-start"
         onClose={handlePopoverClose}
-        disableRestoreFocus
+        disablerestorefocus
       >
         <PopperWrapper>
           <h1>{title}</h1>

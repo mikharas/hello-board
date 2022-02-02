@@ -1,6 +1,8 @@
 import * as R from 'ramda';
+import authHeader from '../../services/authHeader';
 
 const axios = require('axios');
+const api = 'http://localhost:3000/api'
 
 export const setUserBoardsData = data => ({
   type: 'SET_USER_BOARDS_DATA',
@@ -17,15 +19,14 @@ export const delBoard = id => ({
   payload: { id },
 });
 
-export const getUserBoardsData = (userId, token) => async (dispatch) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer: ${token}`,
-  };
-
+export const getUserBoardsData = (userId) => async (dispatch) => {
+  dispatch({
+    type: 'SET_LOADING',
+    payload: true,
+  });
   await axios.get(
-    `${process.env.REACT_APP_BACKEND_URL}/boards/user/${userId}`,
-    { headers },
+    `${api}/boards/user/${userId}`,
+    { headers: authHeader() },
   ).then((response) => {
     const idToBoard = R.groupBy(
       boardData => boardData.id,
@@ -42,33 +43,23 @@ export const getUserBoardsData = (userId, token) => async (dispatch) => {
   });
 };
 
-export const postUserBoard = (userId, token) => (dispatch) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer: ${token}`,
-  };
-
+export const postUserBoard = (userId) => (dispatch) => {
   axios.post(
-    `${process.env.REACT_APP_BACKEND_URL}/boards/`,
+    `${api}/boards/`,
     JSON.stringify({
       creator: userId,
       title: 'New Board',
     }),
-    { headers },
+    { headers: authHeader() },
   ).then((response) => {
     dispatch(addBoard(response.data.board));
   });
 };
 
 export const delUserBoard = (boardId, token) => (dispatch) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer: ${token}`,
-  };
-
   axios.delete(
-    `${process.env.REACT_APP_BACKEND_URL}/boards/${boardId}`,
-    { headers },
+    `${api}/boards/${boardId}`,
+    { headers: authHeader() },
   ).then(() => {
     dispatch(delBoard(boardId));
   });

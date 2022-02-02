@@ -15,8 +15,8 @@ const LoadingOverlay = () => (
     <CircularProgress
       color="secondary"
       size="50px"
-      thickness="5"
-      value="50"
+      thickness={5}
+      value={50}
     />
   </Background>
 );

@@ -4,11 +4,11 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const isUniqueName =  async (account_name) => {
+const isUniqueName = async (account_name) => {
 	let userName;
 	try {
 		userName = await User.findOne({ account_name: account_name });
-	} catch(err) {
+	} catch (err) {
 		throw new HttpError('Something went wrong finding user', 404);
 	}
 	if (userName) {
@@ -20,17 +20,15 @@ const getUsers = async (req, res, next) => {
 	let users;
 	try {
 		users = await User.find();
-	} catch(err) {
+	} catch (err) {
 		return next(new HttpError('Something went wrong retrieving users'), 404);
 	}
 
-	res.json({ users: users.map(user => user.toObject({ getters: true })) });
+	res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
 const signup = async (req, res, next) => {
 	const errors = validationResult(req).array();
-
-	console.log(errors);
 
 	if (errors.length > 0) {
 		return next(new HttpError(`${errors[0].msg}`, 422));
@@ -41,33 +39,35 @@ const signup = async (req, res, next) => {
 	let hashedPasswd;
 	try {
 		hashedPasswd = await bcrypt.hash(password, 12);
-	} catch(err) {
-		return next( new HttpError('Failed to hash password', 500) );
+	} catch (err) {
+		return next(new HttpError('Failed to hash password', 500));
 	}
 
 	const newUser = new User({
 		account_name,
 		password: hashedPasswd,
-		places: []
+		places: [],
 	});
 
 	try {
 		await newUser.save();
-	} catch(err) {
+	} catch (err) {
 		return next(new HttpError('Something went wrong creating account', 404));
 	}
 
 	let token;
 	try {
-		token = jwt.sign({ userId: newUser.id, account_name }, 'secret_key', { expiresIn: '1h' });
-	} catch(err) {
+		token = jwt.sign({ userId: newUser.id, account_name }, 'secret_key', {
+			expiresIn: '1h',
+		});
+	} catch (err) {
 		return next(new HttpError('Something went wrong creating token', 500));
 	}
 
-	res.json({
+	res.send({
+		accessToken: token,
 		userId: newUser.id,
 		account_name: newUser.account_name,
-		token
 	});
 };
 
@@ -78,12 +78,12 @@ const login = async (req, res, next) => {
 		return next(new HttpError('Something went wrong with validation', 422));
 	}
 
-	const { account_name, password } = req.body;
+	const { username, password } = req.body;
 
 	let user;
 	try {
-		user = await User.findOne({ account_name: account_name });
-	} catch(err) {
+		user = await User.findOne({ account_name: username });
+	} catch (err) {
 		const error = new HttpError('Something went wrong', 500);
 		return next(error);
 	}
@@ -96,7 +96,7 @@ const login = async (req, res, next) => {
 
 	try {
 		isValidPasswd = await bcrypt.compare(password, user.password);
-	} catch(err) {
+	} catch (err) {
 		return next(new HttpError('Something went wrong comparing password', 500));
 	}
 
@@ -107,14 +107,14 @@ const login = async (req, res, next) => {
 	let token;
 	try {
 		token = jwt.sign({ userId: user.id }, 'secret_key', { expiresIn: '1h' });
-	} catch(err) {
+	} catch (err) {
 		return next(new HttpError('Something went wrong creating token', 500));
 	}
 
-	res.json({
+	res.send({
 		userId: user.id,
 		account_name: user.account_name,
-		token
+		accessToken: token,
 	});
 };
 
@@ -122,4 +122,3 @@ exports.isUniqueName = isUniqueName;
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
-

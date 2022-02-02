@@ -102,7 +102,7 @@ const Event = ({
           setSelectedTask(id);
           history.push(`/boards/${boardId}`);
         }}
-        disableRestoreFocus
+        disablerestorefocus
       >
         <PopperWrapper>
           <h1>{title}</h1>
