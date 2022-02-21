@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Checkbox,
   styled,
+  Typography,
 } from "@mui/material";
 import { css } from "@emotion/css";
 import { useHistory } from "react-router-dom";
@@ -86,16 +87,18 @@ const Auth = ({ isLoggedIn, login, register }) => {
           }
         `}
       >
-        <h1
-          className={css`
-            font-size: 55px;
-            margin-top: 0;
-            margin-bottom: 10px;
-          `}
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: "55px",
+            mt: 0,
+          }}
         >
           hello.
-        </h1>
-        <h1 className="title">{isLoginMode ? "Welcome back!" : "New user!"}</h1>
+        </Typography>
+        <Typography variant="h3" sx={{ my: "10px", mb: "20px" }}>
+          {isLoginMode ? "Welcome back!" : "New user!"}
+        </Typography>
         <form
           className={css`
             display: flex;

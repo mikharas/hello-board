@@ -24,7 +24,7 @@ const theme = createTheme({
 
 theme.typography.h1 = {
   fontFamily: 'Avenir Black',
-  fontSize: theme.spacing(7),
+  fontSize: theme.spacing(5),
   [theme.breakpoints.down(`sm`)]: {
     fontSize: theme.spacing(5.5),
   },
@@ -48,7 +48,7 @@ theme.typography.h2 = {
 theme.typography.h3 = {
   ...theme.typography.h3,
   fontFamily: 'Avenir',
-  fontSize: theme.spacing(4),
+  fontSize: theme.spacing(3.3),
   [theme.breakpoints.down(`sm`)]: {
     fontSize: theme.spacing(4),
   },

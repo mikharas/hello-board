@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
-import { Card, Button } from '@material-ui/core';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { Card, Button, Typography } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 const BoardCardFront = styled(Card)`
   width: 300px;
-  height: 100px;
+  height: 200px;
   margin-bottom: 20px;
   border-radius: 10px;
   display: flex;
@@ -24,7 +25,7 @@ const BoardCardFront = styled(Card)`
 
 const BoardCardBack = styled(Card)`
   width: 300px;
-  height: 100px;
+  height: 200px;
   margin-bottom: 20px;
   border-radius: 15px;
   display: flex;
@@ -45,34 +46,49 @@ const BoardCardBack = styled(Card)`
     color: gray;
   }
 `;
-
-const BoardCard = ({
-  title, id, setOpenDialog, setWillBeDeleted,
-}) => {
+const BoardCard = ({ title, id, setOpenDialog, setWillBeDeleted }) => {
   const [selected, setSelected] = useState(false);
-  if (!selected) {
-    return (
-      <BoardCardFront
-        onMouseEnter={() => setSelected(true)}
-      >
-        <h2>{title}</h2>
-      </BoardCardFront>
-    );
-  } return (
-    <BoardCardBack
+  const history = useHistory();
+  return (
+    <Card
+      onMouseEnter={() => setSelected(true)}
       onMouseLeave={() => setSelected(false)}
+      sx={{
+        bgcolor: "secondary.light",
+        width: 300,
+        height: 200,
+        borderRadius: 3,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <Button className="button"><NavLink className="link" to={`/boards/${id}`}>OPEN</NavLink></Button>
-      <Button
-        className="button"
-        onClick={() => {
-          setWillBeDeleted(id);
-          setOpenDialog(true);
-        }}
-      >
-        Delete
-      </Button>
-    </BoardCardBack>
+      {!selected ? (
+        <Typography variant="h3">{title}</Typography>
+      ) : (
+        <>
+          <Button
+            onClick={() => history.push(`/boards/${id}`)}
+            sx={{
+              textDecoration: "none",
+              fontSize: "16px",
+              color: "black",
+            }}
+          >
+            OPEN
+          </Button>
+          <Button
+            sx={{ fontSize: "16px", color: "black" }}
+            onClick={() => {
+              setWillBeDeleted(id);
+              setOpenDialog(true);
+            }}
+          >
+            Delete
+          </Button>
+        </>
+      )}
+    </Card>
   );
 };
 

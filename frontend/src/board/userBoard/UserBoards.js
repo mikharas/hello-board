@@ -1,22 +1,17 @@
-import React, {
-  useEffect, useState, useContext,
-} from 'react';
-import { useParams, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
-import FlipMove from 'react-flip-move';
-import { IconButton, Button } from '@material-ui/core';
-import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { isMobile } from 'react-device-detect';
-import AuthContext from '../../shared/context/authContext';
-import TimeoutContext from '../../shared/context/timeoutContext';
-import BoardCardMobile from './BoardCardMobile';
-import BoardCardDesktop from './BoardCardDesktop';
-import WarningDialog from '../../shared/components/WarningDialog';
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { Grid, Stack, IconButton, Button, Typography } from "@mui/material";
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CalendarToday } from "@mui/icons-material";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { isMobile } from "react-device-detect";
+import BoardCardMobile from "./BoardCardMobile";
+import BoardCardDesktop from "./BoardCardDesktop";
+import WarningDialog from "../../shared/components/WarningDialog";
 
-const Title = styled.h1`
-`;
+const Title = styled.h1``;
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -46,7 +41,7 @@ const BoardList = styled.div`
   padding: 50px;
   border-radius: 15px;
   width: 100%;
-  background: #EBECF0;
+  background: #ebecf0;
 `;
 
 const LogoutButton = styled(Button)`
@@ -57,22 +52,23 @@ const LogoutButton = styled(Button)`
   color: red;
 `;
 
-const NewBoard = styled(Button)`
-`;
+const NewBoard = styled(Button)``;
 
 const UserBoards = ({
-  boardsList, getUserBoardsData, postUserBoard, delUserBoard, logout
+  boardsList,
+  getUserBoardsData,
+  postUserBoard,
+  delUserBoard,
+  logout,
 }) => {
   const { userId } = useParams();
   const [openDialog, setOpenDialog] = useState(false);
-  const { resetTimeout } = useContext(TimeoutContext);
   const [willBeDeleted, setWillBeDeleted] = useState(null);
 
   const BoardCard = isMobile ? <BoardCardMobile /> : <BoardCardDesktop />;
 
   const createBoardHandler = () => {
     postUserBoard(userId);
-    resetTimeout();
   };
 
   const deleteBoardHandler = (boardId) => {
@@ -88,7 +84,7 @@ const UserBoards = ({
   }
 
   return (
-    <Wrapper>
+    <Stack direction="column" sx={{ alignItems: "center" }}>
       <WarningDialog
         open={openDialog}
         onContinue={() => {
@@ -98,45 +94,81 @@ const UserBoards = ({
         onClose={() => setOpenDialog(false)}
         msg="Are you sure you want to delete this board?"
       />
-      <LogoutButton onClick={() => { logout(); }}>
+      <Button
+        onClick={() => {
+          logout();
+        }}
+        sx={{
+          position: "absolute",
+          fontSize: 17,
+          left: 30,
+          top: 30,
+        }}
+      >
         Logout
-      </LogoutButton>
-      <Title>
+      </Button>
+      <Typography
+        variant="h2"
+        sx={{
+          my: 10,
+        }}
+      >
         My Boards
-      </Title>
-      <IconButton className="icon">
-        <NavLink className="link" to={`/calendar/${moment(new Date()).format('YYYY-MM')}`}>
-          <FontAwesomeIcon icon={faCalendar} />
+      </Typography>
+      <IconButton
+        sx={{
+          position: "absolute",
+          right: 30,
+          top: 30,
+        }}
+      >
+        <NavLink
+          className="link"
+          to={`/calendar/${moment(new Date()).format("YYYY-MM")}`}
+        >
+          <CalendarToday sx={{color: 'secondary.main'}} />
         </NavLink>
       </IconButton>
-      <BoardList>
-        <FlipMove typeName={null}>
-          {boardsList.map(({ id, title }) => (
-            <div key={id}>
-              {isMobile
-                ? (
-                  <BoardCardMobile
-                    title={title}
-                    id={id}
-                    setOpenDialog={setOpenDialog}
-                    setWillBeDeleted={setWillBeDeleted}
-                  />
-                ) : (
-                  <BoardCardDesktop
-                    title={title}
-                    id={id}
-                    setOpenDialog={setOpenDialog}
-                    setWillBeDeleted={setWillBeDeleted}
-                  />
-                )}
-            </div>
-          ))}
-        </FlipMove>
-        <NewBoard onClick={createBoardHandler}>
-          Create New Board
-        </NewBoard>
-      </BoardList>
-    </Wrapper>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          width: "80%",
+          mb: 10,
+        }}
+      >
+        {boardsList.map(({ id, title }) => (
+          <Grid
+            item
+            xs={3}
+            key={id}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+            }}
+          >
+            {isMobile ? (
+              <BoardCardMobile
+                title={title}
+                id={id}
+                setOpenDialog={setOpenDialog}
+                setWillBeDeleted={setWillBeDeleted}
+              />
+            ) : (
+              <BoardCardDesktop
+                title={title}
+                id={id}
+                setOpenDialog={setOpenDialog}
+                setWillBeDeleted={setWillBeDeleted}
+              />
+            )}
+          </Grid>
+        ))}
+      </Grid>
+      <NewBoard onClick={createBoardHandler}>Create New Board</NewBoard>
+    </Stack>
   );
 };
 
