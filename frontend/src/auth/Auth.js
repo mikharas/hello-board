@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import { Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
-import { css } from '@emotion/css';
-import { useHistory } from 'react-router-dom';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+import React, { useState } from "react";
+import {
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  styled,
+} from "@mui/material";
+import { css } from "@emotion/css";
+import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 const validationSchema = yup.object({
   username: yup
-    .string('Enter a username')
-    .min(3, 'Username should be of minimum 3 characters length')
-    .required('Username is required'),
+    .string("Enter a username")
+    .min(3, "Username should be of minimum 3 characters length")
+    .required("Username is required"),
   password: yup
-    .string('Enter a password')
-    .min(3, 'Password should be of minimum 3 characters length')
-    .required('Password is required'),
+    .string("Enter a password")
+    .min(3, "Password should be of minimum 3 characters length")
+    .required("Password is required"),
 });
+
+const TextFieldStyled = styled(TextField)`
+  width: 100%;
+  margin: 5px 0;
+`;
 
 const Auth = ({ isLoggedIn, login, register }) => {
   const history = useHistory();
@@ -30,12 +41,12 @@ const Auth = ({ isLoggedIn, login, register }) => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      const { username, password} = values;
+      const { username, password } = values;
       handleFormSubmit(username, password);
     },
   });
@@ -56,24 +67,45 @@ const Auth = ({ isLoggedIn, login, register }) => {
     >
       <div
         className={css`
-          border: solid 1px grey;
+          height: 500px;
+          border: 1px solid lightgray;
           border-radius: 15px;
+          margin: auto;
+          padding: 50px;
+          align-items: center;
           display: flex;
           flex-direction: column;
-          margin: 50px;
-          padding: 50px;
-          width: 500px;
+          justify-content: center;
+          width: 400px;
+
+          h2 {
+            font-weight: normal;
+            padding: 0;
+            margin-top: 5px;
+            margin-bottom: 25px;
+          }
         `}
       >
-        <h1 className="title">{isLoginMode ? 'Welcome back!' : 'New user!'}</h1>
+        <h1
+          className={css`
+            font-size: 55px;
+            margin-top: 0;
+            margin-bottom: 10px;
+          `}
+        >
+          hello.
+        </h1>
+        <h1 className="title">{isLoginMode ? "Welcome back!" : "New user!"}</h1>
         <form
           className={css`
             display: flex;
             flex-direction: column;
+            width: 100%;
+            align-items: center;
           `}
           onSubmit={formik.handleSubmit}
         >
-          <TextField
+          <TextFieldStyled
             id="username"
             name="username"
             margin="dense"
@@ -83,7 +115,7 @@ const Auth = ({ isLoggedIn, login, register }) => {
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
           />
-          <TextField
+          <TextFieldStyled
             id="password"
             name="password"
             margin="dense"
@@ -121,14 +153,14 @@ const Auth = ({ isLoggedIn, login, register }) => {
               variant="contained"
               type="submit"
             >
-              {isLoginMode ? 'Login' : 'Signup'}
+              {isLoginMode ? "Login" : "Signup"}
             </Button>
             <Button
               variant="outlined"
               onClick={() => setIsLoginMode(!isLoginMode)}
               type="Button"
             >
-              {`Switch to ${isLoginMode ? 'Sign up' : 'Log in'}`}
+              {`Switch to ${isLoginMode ? "Sign up" : "Log in"}`}
             </Button>
           </div>
         </form>

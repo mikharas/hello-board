@@ -9,19 +9,16 @@ import {
 } from "react-router-dom";
 
 import Board from "./board/board/BoardContainer";
-// import Auth from './user/pages/Auth';
 import Auth from "./auth/index";
 import UserBoards from "./board/userBoard/UserBoardsContainer";
 import Calendar from "./calendar/calendar/CalendarContainer";
-
-import AuthContext from "./shared/context/authContext";
-import TimeoutContext from "./shared/context/timeoutContext";
-import { useAuth } from "./shared/hooks/auth-hook";
+import { ThemeProvider } from "@mui/material";
+import theme from './theme';
 
 const App = ({ isLoggedIn, userId }) => {
   let routes;
 
-  console.log(userId)
+  console.log(userId);
   if (isLoggedIn) {
     routes = (
       <>
@@ -56,17 +53,19 @@ const App = ({ isLoggedIn, userId }) => {
     );
   }
   return (
-    <StylesProvider injectFirst>
-      <Router>
-        <Switch>{routes}</Switch>
-      </Router>
-    </StylesProvider>
+    <ThemeProvider theme={theme}>
+      <StylesProvider injectFirst>
+        <Router>
+          <Switch>{routes}</Switch>
+        </Router>
+      </StylesProvider>
+    </ThemeProvider>
   );
 };
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
-  userId: state.auth.user && state.auth.user.userId
+  userId: state.auth.user && state.auth.user.userId,
 });
 
 export default connect(mapStateToProps)(App);
