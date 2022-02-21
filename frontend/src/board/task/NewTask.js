@@ -46,8 +46,8 @@ const NewTask = ({ columnId, addTask }) => {
     return (
       <Button
         className="button"
-        onClick={() => {
-          console.log("clicked");
+        onClick={(e) => {
+          e.stopPropagation();
           toggleIsButton();
         }}
       >
@@ -75,6 +75,9 @@ const NewTask = ({ columnId, addTask }) => {
           type="text"
           elevation={3}
           value={value}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter") {

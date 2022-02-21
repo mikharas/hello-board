@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useRef } from 'react';
-import styled from 'styled-components';
-import { ClickAwayListener, Button } from '@mui/material';
-import TextareaAutosize from 'react-autosize-textarea';
-import showdown from 'showdown';
-import showdownHighlight from 'showdown-highlight';
-import 'highlight.js/styles/github.css';
-import MarkdownContainer from './MarkdownContainer';
+import React, { useState, useCallback, useRef } from "react";
+import styled from "styled-components";
+import { ClickAwayListener, Button } from "@mui/material";
+import TextareaAutosize from "react-autosize-textarea";
+import showdown from "showdown";
+import showdownHighlight from "showdown-highlight";
+import "highlight.js/styles/github.css";
+import MarkdownContainer from "./MarkdownContainer";
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,24 +15,24 @@ const Wrapper = styled.div`
 `;
 
 const defaultTitleStyle = {
-  outline: 'none',
-  background: 'white',
-  marginTop: '13px',
-  marginBottom: '15px',
-  fontFamily: 'inherit',
-  fontWeight: 'bold',
-  fontSize: '30px',
-  padding: '15px',
-  width: '90%',
-  borderRadius: '15px',
-  border: '0',
+  outline: "none",
+  background: "white",
+  marginTop: "13px",
+  marginBottom: "15px",
+  fontFamily: "inherit",
+  fontWeight: "bold",
+  fontSize: "30px",
+  padding: "15px",
+  width: "90%",
+  borderRadius: "15px",
+  border: "0",
 };
 
 const converter = new showdown.Converter({
   extensions: [showdownHighlight],
   ghCodeBlocks: true,
 });
-converter.setFlavor('github');
+converter.setFlavor("github");
 
 const EditableTitle = ({
   title,
@@ -53,7 +53,7 @@ const EditableTitle = ({
     setIsEditMode(!isEditmode);
   }, [isEditmode]);
 
-  const changeValue = newValue => setValue(newValue);
+  const changeValue = (newValue) => setValue(newValue);
 
   const handleChange = () => {
     if (!value && !allowEmpty) {
@@ -76,7 +76,10 @@ const EditableTitle = ({
   if (!isEditmode) {
     return (
       <h1
-        onClick={() => toggleEditMode()}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleEditMode();
+        }}
         style={style && normalStyle}
       >
         {title}
@@ -85,27 +88,35 @@ const EditableTitle = ({
   }
 
   return (
-    <ClickAwayListener
-      onClickAway={handleChange}
-    >
+    <ClickAwayListener onClickAway={handleChange}>
       <Wrapper>
         <TextareaAutosize
           style={style || defaultTitleStyle}
-          ref={(tag) => { textArea = tag; }}
+          ref={(tag) => {
+            textArea = tag;
+          }}
           autoFocus
-          onFocus={e => e.target.select()}
+          onFocus={(e) => {
+            e.target.select();
+          }}
           value={value}
           rows={rows || 3}
-          onInput={event => changeValue(event.target.value)}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onInput={(event) => changeValue(event.target.value)}
           onKeyDown={(event) => {
-            if (allowEnter && event.key === 'Enter') {
+            if (allowEnter && event.key === "Enter") {
               handleChange();
             }
-            if (event.keyCode === 9) { // tab was pressed
+            if (event.keyCode === 9) {
+              // tab was pressed
               event.preventDefault();
               const start = event.target.selectionStart;
               const end = event.target.selectionEnd;
-              const newValue = `${value.substring(0, start)}  ${value.substring(end)}`;
+              const newValue = `${value.substring(0, start)}  ${value.substring(
+                end
+              )}`;
               setValue(newValue);
 
               setTimeout(() => {
@@ -119,11 +130,12 @@ const EditableTitle = ({
         {showButtons && (
           <div>
             <Button onClick={handleChange}>Save</Button>
-            <Button onClick={() => {
-              setValue('');
-              changeTitle('');
-              toggleEditMode();
-            }}
+            <Button
+              onClick={() => {
+                setValue("");
+                changeTitle("");
+                toggleEditMode();
+              }}
             >
               Delete
             </Button>
