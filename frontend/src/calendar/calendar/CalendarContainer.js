@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { changeMonth, getEvents } from "../actions/calendarActions";
 import Calendar from "./Calendar";
 import { moveEventBetweenDates } from "../actions/dateActions";
+import { getUserBoardsData } from "../../board/actions/userBoardsActions";
 
 const mapStateToProps = (state) => ({
   monthName: state.calendar.monthName,
@@ -16,6 +17,7 @@ const mapDispatchToProps = {
   changeMonth,
   getEvents,
   moveEventBetweenDates,
+  getUserBoardsData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

@@ -1,41 +1,29 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Button } from "@material-ui/core";
+import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { styled as styledMUI } from "@mui/system";
 import TimeoutContext from "../../shared/context/timeoutContext";
 import DateSquare from "../date/DateSquareContainer";
 import FilterBoardSelector from "./FilterBoardSelectorContainer";
 import Header from "./Header";
 
-const BackButton = styled(Button)`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  font-size: 20px;
-  color: red;
-`;
+const BackButton = styledMUI(Button)(({ theme }) => ({
+  position: "absolute",
+  left: "30px",
+  top: "30px",
+  fontSize: "17px",
+  color: theme.palette.primary.main,
+}));
 
 const Wrapper = styled.div`
   position: relative;
-
-  .MuiButton-root.button {
-    color: red;
-    font-size: 20px;
-  }
 
   .topRight {
     display: flex;
     align-items: center;
     position: absolute;
-    right: 30px;
-    top: 30px;
-  }
-
-  .topLeft {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    left: 30px;
+    right: 60px;
     top: 30px;
   }
 `;
@@ -82,6 +70,7 @@ const Calendar = ({
   delEvent,
   boardIds,
   getEvents,
+  getUserBoardsData,
   yearMonth,
   userBoards,
   userId,
@@ -95,11 +84,17 @@ const Calendar = ({
     changeMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
   };
   const goToDate = (date) => {
+    console.log(date);
     changeMonth(new Date(date));
   };
 
   useEffect(async () => {
-    resetTimeout();
+    await getUserBoardsData(userId);
+    await getEvents(userId);
+    goToDate(yearMonth);
+  }, []);
+
+  useEffect(async () => {
     await getEvents(userId);
     goToDate(yearMonth);
   }, [userBoards]);
@@ -112,7 +107,10 @@ const Calendar = ({
         </BackButton>
       </div>
       <div className="topRight">
-        <Button onClick={goToday} style={{ marginRight: "20px" }}>
+        <Button
+          onClick={goToday}
+          sx={{ fontSize: "17px", marginRight: "20px" }}
+        >
           Today
         </Button>
         <FilterBoardSelector
@@ -126,10 +124,20 @@ const Calendar = ({
         monthName={monthName}
         yearName={yearName}
       />
-      <Body>
+      <Box sx={{
+        bgcolor: 'secondary.light',
+        padding: '15px'
+      }}>
         <DayLabel>
           {weekdays.map((day) => (
-            <p>{day}</p>
+            <Typography
+              variant="body1"
+              sx={{
+                mt: 1.5,
+              }}
+            >
+              {day.toLowerCase()}
+            </Typography>
           ))}
         </DayLabel>
         {dates.map((week) => (
@@ -139,7 +147,7 @@ const Calendar = ({
             ))}
           </WeekContainer>
         ))}
-      </Body>
+      </Box>
     </Wrapper>
   );
 };

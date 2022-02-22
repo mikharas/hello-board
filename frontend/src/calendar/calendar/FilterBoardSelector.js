@@ -3,7 +3,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const FilterBoardSelector = ({boardIds, idToTitle, showBoard, setShowBoard}) => {
   const [text, setText] = useState('Show all')

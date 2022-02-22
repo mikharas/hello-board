@@ -50,6 +50,7 @@ export const getEvents = (userId) => async (dispatch, getState) => {
         type: "SET_LOADING",
         payload: false,
       });
+      console.log(events);
     });
 };
 

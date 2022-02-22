@@ -11,7 +11,6 @@ import BoardCardMobile from "./BoardCardMobile";
 import BoardCardDesktop from "./BoardCardDesktop";
 import WarningDialog from "../../shared/components/WarningDialog";
 
-const Title = styled.h1``;
 
 const Wrapper = styled.div`
   margin: 50px 0;

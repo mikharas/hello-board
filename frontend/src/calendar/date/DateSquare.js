@@ -1,6 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Event from '../events/EventContainer';
+import React from "react";
+import styled from "styled-components";
+import Event from "../events/EventContainer";
+import { Box } from "@mui/material";
 
 const Wrapper = styled.div`
   width: 13%;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
   border-radius: 10px;
 
   .circle {
-    background: ${({ isToday }) => (isToday ? 'teal' : 'initial')};
+    background: ${({ isToday }) => (isToday ? "teal" : "initial")};
     border-radius: 25px;
     width: 35px;
     height 35px;
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
     width: 100%;
     text-align: center;
     padding-top: 5px;
-    color: ${({ isToday }) => (isToday ? 'white' : 'initial')};
+    color: ${({ isToday }) => (isToday ? "white" : "initial")};
   }
 
   .events {
@@ -36,21 +37,31 @@ const Wrapper = styled.div`
 const getIsToday = (date) => {
   if (!date) return false;
   let todayDate = new Date();
-  todayDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
+  todayDate = new Date(
+    todayDate.getFullYear(),
+    todayDate.getMonth(),
+    todayDate.getDate()
+  );
   if (todayDate.toISOString() === date.toISOString()) return true;
   return false;
 };
 
 const DateSquare = ({ id, date, eventIds }) => {
   return (
-    <Wrapper
-      isToday={getIsToday(date)}
-    >
-      <div className="circle">
+    <Wrapper isToday={getIsToday(date)}>
+      <Box
+        sx={{
+          bgcolor: getIsToday(date) ? "primary.main" : "initial",
+          borderRadius: "25px",
+          width: "35px",
+          height: "35px",
+          ml: "5px",
+        }}
+      >
         <p>{date && date.getDate()}</p>
-      </div>
+      </Box>
       <div className="events">
-        {eventIds.map(eventId => (
+        {eventIds.map((eventId) => (
           <Event id={eventId} />
         ))}
       </div>

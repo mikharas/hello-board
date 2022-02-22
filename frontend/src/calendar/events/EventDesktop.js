@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { Popper } from '@material-ui/core';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { Popper, Box, Typography, useTheme } from "@mui/material";
 
 const PopperWrapper = styled.div`
   background: teal;
@@ -26,7 +26,6 @@ const Wrapper = styled.div`
   .text {
     padding: 0;
     font-size: 15px;
-    font-family: inherit;
     color: black;
     text-transform: none;
     text-align: left;
@@ -40,11 +39,10 @@ const Wrapper = styled.div`
     white-space: nowrap;
     overflow: hidden;
   }
-
 `;
 
 const Dot = styled.div`
-  background: ${props => props.colour};
+  background: ${(props) => props.colour};
   height: 15px;
   width: 15px;
   border-radius: 20px;
@@ -57,7 +55,7 @@ const Dot = styled.div`
   margin-top: 8px;
   margin-left: 15px;
 
-  .MuiIconButton-root .MuiButton-label{
+  .MuiIconButton-root .MuiButton-label {
     font-size: 15px;
     margin: 0;
     padding: 0;
@@ -66,9 +64,16 @@ const Dot = styled.div`
 `;
 
 const Event = ({
-  id, date, title, description, todo, boardId, setSelectedTask,
+  id,
+  date,
+  title,
+  description,
+  todo,
+  boardId,
+  setSelectedTask,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const theme = useTheme();
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,20 +86,17 @@ const Event = ({
   const open = Boolean(anchorEl);
   return (
     <>
-      <Wrapper
-        onClick={() => setSelectedTask(id)}
-      >
-        <NavLink
-          to={`/boards/${boardId}`}
-        >
-          <Dot colour="teal" />
-          <div
+      <Wrapper onClick={() => setSelectedTask(id)}>
+        <NavLink to={`/boards/${boardId}`}>
+          <Dot colour={theme.palette.primary.main} />
+          <Typography
             onMouseEnter={handlePopoverOpen}
             onMouseLeave={handlePopoverClose}
             className="text"
+            variant="body1"
           >
             {title}
-          </div>
+          </Typography>
         </NavLink>
       </Wrapper>
       <Popper
@@ -104,9 +106,17 @@ const Event = ({
         onClose={handlePopoverClose}
         disablerestorefocus
       >
-        <PopperWrapper>
-          <h1>{title}</h1>
-        </PopperWrapper>
+        <Box
+          sx={{
+            bgcolor: "primary.main",
+            color: "white",
+            padding: "5px",
+            maxWidth: "200px",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="body1">{title}</Typography>
+        </Box>
       </Popper>
     </>
   );

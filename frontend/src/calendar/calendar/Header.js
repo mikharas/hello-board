@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Button, Typography, Menu, MenuItem } from "@mui/material";
 
-const years = [...Array(100).keys()].map(i => i + 2000);
+const years = [...Array(100).keys()].map((i) => i + 2000);
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const getDate = (month, year) => new Date(year, months.indexOf(month), 1);
@@ -30,17 +28,6 @@ const HeaderStyled = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  h1 {
-    font-size: 40px;
-    color: red;
-    margin: 0;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 20px;
-  }
 `;
 
 const Header = ({ monthName, yearName, changeMonth }) => {
@@ -57,18 +44,19 @@ const Header = ({ monthName, yearName, changeMonth }) => {
 
   const handleMonthClose = () => setAnchorMonth(null);
   const handleYearClose = () => setAnchorYear(null);
+  console.log(monthName);
 
   return (
     <HeaderStyled>
-      <Button
-        onClick={handleMonthClick}
-      >
-        <h1>{monthName}</h1>
+      <Button onClick={handleMonthClick} sx={{ textTransform: "none" }}>
+        <Typography variant="h1" sx={{ fontSize: "40px", color: "black" }}>
+          {monthName.toLowerCase() + "."}
+        </Typography>
       </Button>
-      <Button
-        onClick={handleYearClick}
-      >
-        <h2>{yearName}</h2>
+      <Button onClick={handleYearClick}>
+        <Typography variant="h2" sx={{ fontSize: "20px" }}>
+          {yearName}
+        </Typography>
       </Button>
       <Menu
         anchorEl={anchorMonth}
@@ -76,7 +64,7 @@ const Header = ({ monthName, yearName, changeMonth }) => {
         open={Boolean(anchorMonth)}
         onClose={handleMonthClose}
       >
-        {months.map(month => (
+        {months.map((month) => (
           <MenuItem
             onClick={() => {
               changeMonth(getDate(month, yearName));
@@ -93,7 +81,7 @@ const Header = ({ monthName, yearName, changeMonth }) => {
         open={Boolean(anchorYear)}
         onClose={handleYearClose}
       >
-        {years.map(year => (
+        {years.map((year) => (
           <MenuItem
             onClick={() => {
               changeMonth(getDate(monthName, year));
