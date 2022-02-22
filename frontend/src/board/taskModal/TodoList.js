@@ -1,13 +1,9 @@
-import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
-import {
-  List,
-  Paper,
-  LinearProgress,
-} from '@material-ui/core';
-import TodoItem from '../todoitem/TodoItemContainer';
-import NewTodoItem from '../todoitem/NewTodoItem';
+import React from "react";
+import { Droppable } from "react-beautiful-dnd";
+import styled from "styled-components";
+import { List, Paper, LinearProgress, Typography } from "@mui/material";
+import TodoItem from "../todoitem/TodoItemContainer";
+import NewTodoItem from "../todoitem/NewTodoItem";
 
 const Wrapper = styled.div`
   text-align: center;
@@ -24,17 +20,26 @@ const ListWrapper = styled(Paper)`
 `;
 
 const TodoList = ({
-  todo, taskId, addTodoItem, completedPercentage, columnId,
+  todo,
+  taskId,
+  addTodoItem,
+  completedPercentage,
+  columnId,
 }) => {
   const progressBar = (
     <>
-      <p className="progress-text">
-        { Math.floor(completedPercentage) || 0 }
-        % completed
-      </p>
+      <Typography
+        variant="body1"
+        sx={{
+          fontSize: "14px",
+          mb: "8px",
+        }}
+      >
+        {Math.floor(completedPercentage) || 0}% completed
+      </Typography>
       <LinearProgress
         variant="determinate"
-        color="secondary"
+        color="primary"
         value={completedPercentage || 0}
       />
     </>
@@ -46,7 +51,7 @@ const TodoList = ({
     <Wrapper>
       {todo.length !== 0 && progressBar}
       <Droppable droppableId={taskId}>
-        {provided => (
+        {(provided) => (
           <ListWrapper
             ref={provided.innerRef}
             {...provided.droppableProps}
@@ -66,10 +71,7 @@ const TodoList = ({
           </ListWrapper>
         )}
       </Droppable>
-      <NewTodoItem
-        taskId={taskId}
-        addTodoItem={addTodoItem}
-      />
+      <NewTodoItem taskId={taskId} addTodoItem={addTodoItem} />
     </Wrapper>
   );
 };

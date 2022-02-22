@@ -1,6 +1,8 @@
-import React, { useCallback, useState } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
+import React, { useCallback, useState } from "react";
+import { Draggable } from "react-beautiful-dnd";
+import styled from "styled-components";
+import { useTheme } from "@mui/material/styles";
+import { styled as styledMUI } from "@mui/system";
 import {
   Checkbox,
   ClickAwayListener,
@@ -8,63 +10,74 @@ import {
   ListItemText,
   ListItemIcon,
   IconButton,
-  Button,
-} from '@material-ui/core';
-import { v4 as uuidv4 } from 'uuid';
-import EditableTitle from '../subcomponents/editableTitle';
+} from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
+import EditableTitle from "../subcomponents/editableTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 
-const ItemStyled = styled(ListItem)`
-  background: ${({ isHovered, isDragging }) => (isHovered || isDragging ? '#EBECF0' : '#fff')};
-  border-radius: 15px;
-  text-decoration: ${({ isChecked }) => isChecked && 'line-through'};
-  color: ${({ isChecked }) => isChecked && 'red'};
-  // height: 50px;
-`;
+const ItemStyled = styledMUI(ListItem)(
+  ({ theme, isHovered, isDragging, isChecked }) => ({
+    background: isHovered || isDragging ? "#EBECF0" : "#fff",
+    borderRadius: "10px",
+    textDecoration: isChecked && "line-through",
+    color: isChecked && theme.palette.primary.main,
+    // height: 50px;
+  })
+);
 
 const normalTitleStyle = {
-  width: '100%',
-  outline: 'none',
-  border: 'none',
-  fontWeight: 'normal',
-  fontSize: '15px',
-  fontFamily: 'inherit',
+  width: "100%",
+  outline: "none",
+  border: "none",
+  fontWeight: "normal",
+  fontSize: "15px",
 };
 
 const editTitleStyle = {
-  width: '100%',
-  outline: 'none',
-  border: 'none',
-  fontWeight: 'normal',
-  fontSize: '15px',
-  fontFamily: 'inherit',
-};
-
-const normalTitleStyleGrayed = {
-  width: '100%',
-  color: 'red',
-  textDecoration: 'line-through',
-  outline: 'none',
-  border: 'none',
-  fontWeight: 'normal',
-  fontSize: '15px',
-  fontFamily: 'inherit',
+  width: "100%",
+  outline: "none",
+  border: "none",
+  fontWeight: "normal",
+  fontSize: "15px",
 };
 
 const TodoItem = ({
-  key, index, columnId, todoItemId, title, isCompleted, changeTitle, toggleIsCompleted, taskId, incrementCompleted, decrementCompleted, delTodoItem, addTask,
+  key,
+  index,
+  columnId,
+  todoItemId,
+  title,
+  isCompleted,
+  changeTitle,
+  toggleIsCompleted,
+  taskId,
+  incrementCompleted,
+  decrementCompleted,
+  delTodoItem,
+  addTask,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const changeTodoItemTitle = useCallback((newTitle) => {
-    changeTitle(todoItemId, newTitle);
-  }, [todoItemId]);
+  const changeTodoItemTitle = useCallback(
+    (newTitle) => {
+      changeTitle(todoItemId, newTitle);
+    },
+    [todoItemId]
+  );
+  const theme = useTheme();
+  const normalTitleStyleGrayed = {
+    width: "100%",
+    color: theme.palette.primary.main,
+    textDecoration: "line-through",
+    outline: "none",
+    border: "none",
+    fontWeight: "normal",
+    fontSize: "15px",
+  };
 
   return (
-    <Draggable
-      key={todoItemId}
-      draggableId={todoItemId}
-      index={index}
-    >
+    <Draggable key={todoItemId} draggableId={todoItemId} index={index}>
       {(provided, snapshot) => (
         <ItemStyled
           {...provided.draggableProps}
@@ -90,11 +103,14 @@ const TodoItem = ({
             title={title}
             changeTitle={changeTodoItemTitle}
             style={editTitleStyle}
-            normalStyle={isCompleted ? normalTitleStyleGrayed : normalTitleStyle}
+            normalStyle={
+              isCompleted ? normalTitleStyleGrayed : normalTitleStyle
+            }
             rows={1}
             allowEnter
+            variant="body1"
           />
-          <Button
+          <IconButton
             onClick={() => {
               delTodoItem(taskId, todoItemId);
               if (isCompleted) {
@@ -102,16 +118,16 @@ const TodoItem = ({
               }
             }}
           >
-            Del
-          </Button>
-          <Button
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
             onClick={() => {
               addTask(columnId, uuidv4(), title);
               delTodoItem(taskId, todoItemId);
             }}
           >
-            Change
-          </Button>
+            <TrendingFlatIcon />
+          </IconButton>
         </ItemStyled>
       )}
     </Draggable>

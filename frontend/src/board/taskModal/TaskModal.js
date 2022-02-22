@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import DatePicker from 'react-date-picker';
+import React, { useContext, useState, useEffect } from "react";
+import styled from "styled-components";
+import DatePicker from "react-date-picker";
 import {
   Button,
   Paper,
@@ -8,25 +8,40 @@ import {
   Fade,
   Backdrop,
   IconButton,
-} from '@material-ui/core';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { useHistory } from 'react-router-dom';
-import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  Typography,
+} from "@mui/material";
+import { DragDropContext } from "react-beautiful-dnd";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTrash, faCalendar, faAlignJustify, faComment, faCheckSquare, faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { v4 as uuidv4 } from 'uuid';
-import EditableTitle from '../subcomponents/editableTitle';
-import TodoList from './TodoList';
-import AuthContext from '../../shared/context/authContext';
+  faTrash,
+  faCalendar,
+  faAlignJustify,
+  faComment,
+  faCheckSquare,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from "uuid";
+import EditableTitle from "../subcomponents/editableTitle";
+import TodoList from "./TodoList";
+import TitleIcon from "@mui/icons-material/Title";
+import DescriptionIcon from "@mui/icons-material/Description";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import DeleteIcon from "@mui/icons-material/Delete";
 
+const iconStyle = {
+  color: "primary.main",
+  pr: 3,
+};
 const TaskModalStyled = styled(Modal)`
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  border-radius: 15px;
 
   .card {
     width: 550px;
@@ -66,7 +81,6 @@ const TaskModalStyled = styled(Modal)`
 
   .modalH1 {
     font-size: 18px;
-    font-family: inherit;
     font-weight: bold;
     margin: 6px 8px;
     margin-right: 15px;
@@ -91,49 +105,62 @@ const TaskModalStyled = styled(Modal)`
 `;
 
 const normalDescriptionStyle = {
-  width: '100%',
-  outline: 'none',
-  border: '0',
-  fontSize: '15px',
-  fontFamily: 'inherit',
-  fontWeight: 'normal',
-  whiteSpace: 'pre-line',
+  width: "100%",
+  outline: "none",
+  border: "0",
+  fontSize: "15px",
+  fontWeight: "normal",
+  whiteSpace: "pre-line",
 };
 
 const editDescriptionStyle = {
-  width: '100%',
-  outline: 'none',
-  border: 'solid 1px teal',
-  fontSize: '15px',
-  fontFamily: 'inherit',
-  fontWeight: 'normal',
-  whiteSpace: 'pre-line',
+  width: "100%",
+  outline: "none",
+  fontSize: "15px",
+  fontWeight: "normal",
+  whiteSpace: "pre-line",
 };
 
 const normalTitleStyle = {
-  width: '80%',
-  outline: 'none',
-  border: 'none',
-  margin: '6px 8px',
-  background: 'transparent',
-  fontSize: '18px',
-  fontFamily: 'inherit',
-  fontWeight: 'bold',
+  width: "80%",
+  outline: "none",
+  border: "none",
+  margin: "6px 8px",
+  background: "transparent",
+  fontSize: "25px",
+  fontWeight: "bold",
 };
 
 const editTitleStyle = {
-  width: '80%',
-  outline: 'none',
-  margin: '6px 8px',
-  border: 'solid 1px teal',
-  background: 'transparent',
-  fontSize: '18px',
-  fontFamily: 'inherit',
-  fontWeight: 'bold',
+  width: "80%",
+  outline: "none",
+  margin: "6px 8px",
+  background: "transparent",
+  fontSize: "25px",
+  fontWeight: "bold",
 };
 
 const TaskModal = ({
-  title, columnId, description, taskId, todo, changeTitle, changeDescription, addTodoItem, delTask, moveTodosInTask, completedPercentage, date, addDate, getUserBoardsData, saveData, boardId, delDate, delAllTodoItem, isLoading, setSelectedTask,
+  title,
+  columnId,
+  description,
+  taskId,
+  todo,
+  changeTitle,
+  changeDescription,
+  addTodoItem,
+  delTask,
+  moveTodosInTask,
+  completedPercentage,
+  date,
+  addDate,
+  getUserBoardsData,
+  saveData,
+  boardId,
+  delDate,
+  delAllTodoItem,
+  isLoading,
+  setSelectedTask,
 }) => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
@@ -145,9 +172,10 @@ const TaskModal = ({
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
     if (
-      destination.droppableId === source.droppableId
-      && destination.index === source.index
-    ) return;
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
 
     moveTodosInTask(source.droppableId, source.index, destination.index);
   };
@@ -156,7 +184,7 @@ const TaskModal = ({
     saveData(boardId).then(() => {
       setOpen(false);
       setSelectedTask(null);
-      history.push(`/calendar/${moment(date).format('YYYY-MM')}`);
+      history.push(`/calendar/${moment(date).format("YYYY-MM")}`);
     });
   };
 
@@ -181,106 +209,105 @@ const TaskModal = ({
             <FontAwesomeIcon icon={faTimes} />
           </IconButton>
           <div className="row">
-            <FontAwesomeIcon className="icon" icon={faAlignJustify} />
+            <TitleIcon sx={iconStyle} />
             <EditableTitle
               title={title}
-              changeTitle={newTitle => changeTitle(taskId, newTitle)}
+              changeTitle={(newTitle) => changeTitle(taskId, newTitle)}
               normalStyle={normalTitleStyle}
               style={editTitleStyle}
               allowEnter
+              variant="h1"
             />
           </div>
           <div className="row">
-            <FontAwesomeIcon className="icon" icon={faComment} />
-            {description
-              ? (
-                <EditableTitle
-                  title={description}
-                  changeTitle={newVal => changeDescription(taskId, newVal)}
-                  style={editDescriptionStyle}
-                  normalStyle={normalDescriptionStyle}
-                  allowEmpty
-                  showButtons
-                  showMarkdown
-                />
-              )
-              : (
-                <Button onClick={() => changeDescription(taskId, 'New description')}>
-                  Add a description
-                </Button>
-              )}
+            <DescriptionIcon sx={iconStyle} />
+            {description ? (
+              <EditableTitle
+                title={description}
+                changeTitle={(newVal) => changeDescription(taskId, newVal)}
+                style={editDescriptionStyle}
+                normalStyle={normalDescriptionStyle}
+                allowEmpty
+                showButtons
+                showMarkdown
+                variant="body1"
+              />
+            ) : (
+              <Button
+                onClick={() => changeDescription(taskId, "New description")}
+              >
+                Add a description
+              </Button>
+            )}
           </div>
           <div className="row">
-            <FontAwesomeIcon className="icon" icon={faCalendar} />
-            {date
-              ? (
-                <>
-                  <DatePicker
-                    className="item"
-                    onChange={(val) => {
-                      if (!val) {
-                        delDate(taskId);
-                      } else {
-                        addDate(taskId, val.toISOString());
-                      }
-                    }}
-                    value={new Date(date)}
-                  />
-                  <Button
-                    className="modalH1"
-                    onClick={saveHandler}
-                  >
-                    go to calendar
-                  </Button>
-                </>
-              )
-              : (
-                <Button
-                  onClick={() => {
-                    const today = new Date();
-                    addDate(taskId, today.toISOString());
+            <CalendarTodayIcon sx={iconStyle} />
+            {date ? (
+              <>
+                <DatePicker
+                  className="item"
+                  onChange={(val) => {
+                    if (!val) {
+                      delDate(taskId);
+                    } else {
+                      addDate(taskId, val.toISOString());
+                    }
+                  }}
+                  value={new Date(date)}
+                />
+                <Button className="modalH1" onClick={saveHandler}>
+                  go to calendar
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={() => {
+                  const today = new Date();
+                  addDate(taskId, today.toISOString());
+                }}
+              >
+                Add Due Date
+              </Button>
+            )}
+          </div>
+          <div className="row">
+            <FormatListBulletedIcon sx={iconStyle} />
+            {todo && todo.length > 0 ? (
+              <>
+                <Typography
+                  variant="h1"
+                  sx={{
+                    fontSize: "20px",
                   }}
                 >
-                  Add Due Date
-                </Button>
-              )}
+                  Todo list
+                </Typography>
+                <IconButton
+                  className="stickyRight"
+                  onClick={() => delAllTodoItem(taskId)}
+                >
+                  <DeleteIcon sx={iconStyle} />
+                </IconButton>
+              </>
+            ) : (
+              <Button onClick={() => addTodoItem(taskId, uuidv4(), "New item")}>
+                Add todo list
+              </Button>
+            )}
           </div>
-          <div className="row">
-            <FontAwesomeIcon className="icon" icon={faCheckSquare} />
-            {todo && todo.length > 0
-              ? (
-                <>
-                  <h1 className="modalH1">Todo list</h1>
-                  <IconButton
-                    className="stickyRight"
-                    onClick={() => delAllTodoItem(taskId)}
-                  >
-                    <FontAwesomeIcon className="icon iconButton" icon={faTrash} />
-                  </IconButton>
-                </>
-              )
-              : (
-                <Button onClick={() => addTodoItem(taskId, uuidv4(), 'New item')}>
-                  Add todo list
-                </Button>
-              )}
-          </div>
-          <DragDropContext
-            onDragEnd={onDragEnd}
-          >
+          <DragDropContext onDragEnd={onDragEnd}>
             {todo && (
-            <TodoList
-              todo={todo}
-              taskId={taskId}
-              columnId={columnId}
-              addTodoItem={addTodoItem}
-              completedPercentage={completedPercentage}
-            />
-
+              <TodoList
+                todo={todo}
+                taskId={taskId}
+                columnId={columnId}
+                addTodoItem={addTodoItem}
+                completedPercentage={completedPercentage}
+              />
             )}
           </DragDropContext>
           <div className="row">
-            <FontAwesomeIcon className="icon deleteButton" icon={faTrash} />
+            <DeleteIcon sx={{ ...iconStyle, color: "red" }} />
             <Button
               className="deleteButton"
               onClick={() => {

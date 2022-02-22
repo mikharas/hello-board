@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
+  Paper,
   Button,
+  Stack,
   TextField,
   FormControlLabel,
   Checkbox,
@@ -57,20 +59,20 @@ const Auth = ({ isLoggedIn, login, register }) => {
   }
 
   return (
-    <div
-      className={css`
-        width: 100%;
-        height: calc(100vh - 50px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      `}
+    <Stack
+      sx={{
+        width: "100%",
+        height: "calc(100vh - 50px)",
+        bgcolor: "secondary.light",
+      }}
     >
-      <div
+      <Paper
+        elevation={3}
         className={css`
+          background: white;
           height: 500px;
           border: 1px solid lightgray;
-          border-radius: 15px;
+          border-radius: 10px;
           margin: auto;
           padding: 50px;
           align-items: center;
@@ -167,8 +169,8 @@ const Auth = ({ isLoggedIn, login, register }) => {
             </Button>
           </div>
         </form>
-      </div>
-    </div>
+      </Paper>
+    </Stack>
   );
 };
 

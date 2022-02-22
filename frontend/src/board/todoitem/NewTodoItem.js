@@ -3,6 +3,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { Card, Button, ClickAwayListener } from '@material-ui/core';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import "../../fonts/typography.css";
 
 const TextArea = styled(TextareaAutosize)`
   min-height: 45px;
@@ -11,7 +12,7 @@ const TextArea = styled(TextareaAutosize)`
   border: none;
   background: transparent;
   font-size: inherit;
-  font-family: inherit;
+  font-family: Avenir Roman;
 `;
 
 const TaskCard = styled.div`
@@ -19,7 +20,8 @@ const TaskCard = styled.div`
     width: 100%;
     height: 35px;
     outline: none;
-    border: 1px solid teal;
+    border: 1px solid;
+    padding: 10px;
   }
 `;
 

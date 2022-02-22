@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import '../../fonts/typography.css';
 
 const MarkdownContainer = styled.div`
   margin: 6px 8px;
+  font-family: Avenir Roman;
   body {
-    font-family: Helvetica, arial, sans-serif;
     font-size: 14px;
     line-height: 1.6;
     padding-top: 10px;
@@ -104,7 +105,6 @@ const MarkdownContainer = styled.div`
   body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
     margin-top: 0;
     padding-top: 0; }
-
   a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
     margin-top: 0;
     padding-top: 0; }
