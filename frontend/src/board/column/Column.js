@@ -52,27 +52,11 @@ const TaskList = styled.div`
   flex-direction: column;
 `;
 
-const Icons = styled.div`
-  .MuiIconButton-root {
-    font-size: 15px;
-  }
-
-  .del {
-    color: red;
-  }
-
-  .ins {
-    color: green;
-  }
-
-  .swp {
-    color: yellow;
-  }
-`;
-
 const HeaderStyled = styled.div`
   margin-top: 7px;
-  width: 75%;
+  margin-left: 7px;
+  margin-right: 7px;
+  width: 70%;
 `;
 
 const Header = React.memo(({ title, changeColumnTitle }) => (

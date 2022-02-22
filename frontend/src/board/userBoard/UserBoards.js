@@ -108,12 +108,14 @@ const UserBoards = ({
         Logout
       </Button>
       <Typography
-        variant="h2"
+        variant="h1"
         sx={{
-          my: 10,
+          fontSize: "50px",
+          my: "60px",
+          mt: "100px",
         }}
       >
-        My Boards
+        boards.
       </Typography>
       <IconButton
         sx={{
@@ -126,7 +128,7 @@ const UserBoards = ({
           className="link"
           to={`/calendar/${moment(new Date()).format("YYYY-MM")}`}
         >
-          <CalendarToday sx={{color: 'secondary.main'}} />
+          <CalendarToday sx={{ color: "secondary.main" }} />
         </NavLink>
       </IconButton>
       <Grid

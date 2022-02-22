@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Button, InputBase } from "@material-ui/core";
+import { Button, InputBase, Stack } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import FlipMove from "react-flip-move";
 import { useMediaQuery } from "react-responsive";
@@ -25,7 +25,8 @@ const Columns = styled.div`
 `;
 
 const BoardStyled = styled.div`
-  margin: 35px 0;
+  margin-bottom: 35px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,20 +39,12 @@ const ButtonStyled = styled(Button)`
   color: red;
 `;
 
-const BackButton = styled(ButtonStyled)`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  font-size: 20px;
-  color: red;
-`;
-
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
+  margin: 65px 0;
 `;
 
 const ColumnWrapper = styled.div`
@@ -176,41 +169,59 @@ const Board = ({
         onClose={() => setOpenDialog(false)}
         msg="Are you sure you want to delete this column?"
       />
-      <BackButton
-        component={Link}
-        onClick={goBackHandler}
+      <Stack
+        direction="row"
+        sx={{
+          position: "absolute",
+          left: 30,
+          top: 30,
+        }}
       >
-        BACK
-      </BackButton>
+        <Button sx={{ fontSize: 17, color: "secondary.dark" }} onClick={goBackHandler}>
+          BACK
+        </Button>
+        <Button sx={{ fontSize: 17 }} onClick={saveDataHandler}>
+          SAVE
+        </Button>
+      </Stack>
       <TitleWrapper>
         <EditableTitle
           title={title}
+          customizedTitle={title.toLowerCase() + "."}
           changeTitle={changeTitle}
           style={titleInputStyle}
           rows={1}
           allowEnter
+          variant="h1"
         />
-        <div className="search-bar">
-          <SearchBar
-            placeholder="Search for tasks.."
-            className="search-input"
-            inputProps={{ "aria-label": "search" }}
-            onChange={(e) => {
-              setSearchVal(e.target.value);
-              setFilterStr(e.target.value);
-            }}
-            value={searchVal}
-          />
-          <Button
-            onClick={() => {
-              setFilterStr("");
-              setSearchVal("");
-            }}
-          >
-            Reset
-          </Button>
-        </div>
       </TitleWrapper>
+      <Stack
+        direction="row"
+        sx={{
+          position: "absolute",
+          right: "35px",
+          top: "80px",
+        }}
+      >
+        <SearchBar
+          placeholder="Search for tasks.."
+          className="search-input"
+          inputProps={{ "aria-label": "search" }}
+          onChange={(e) => {
+            setSearchVal(e.target.value);
+            setFilterStr(e.target.value);
+          }}
+          value={searchVal}
+        />
+        <Button
+          onClick={() => {
+            setFilterStr("");
+            setSearchVal("");
+          }}
+        >
+          Reset
+        </Button>
+      </Stack>
       <Columns>
         <DragDropContext onDragEnd={onDragEnd}>
           <FlipMove typeName={null}>
@@ -234,7 +245,6 @@ const Board = ({
       {columnOrder.length === 0 && (
         <Button onClick={() => addColumn(0, uuidv4())}>+ Add column</Button>
       )}
-      <ButtonStyled onClick={saveDataHandler}>Save Board</ButtonStyled>
     </BoardStyled>
   );
 };

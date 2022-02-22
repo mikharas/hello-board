@@ -2,8 +2,11 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { styled as styledMUI } from "@mui/system";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
-import { IconButton, Card, LinearProgress } from "@material-ui/core";
+import { IconButton, Card, LinearProgress } from "@mui/material";
 import { Draggable } from "react-beautiful-dnd";
+import DescriptionIcon from "@mui/icons-material/Description";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisH,
@@ -11,50 +14,53 @@ import {
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import EditableTitle from "../subcomponents/editableTitle";
+import { Stack, Typography } from "@mui/material";
 
 const TaskCard = styledMUI(Card)(
   ({ isDragDisabled, isFilterMatched, theme }) => ({
-    border: isFilterMatched
-      ? "3px solid black"
-      : `2px solid ${theme.palette.secondary.main}`,
+    border: isFilterMatched ? "3px solid black" : "none",
     borderRadius: "5px",
     padding: "10px",
+    margin: "4px 8px",
     position: "relative",
     background: isDragDisabled ? "lightgrey" : "white",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    minHeight: "40px",
+    minHeight: "50px",
   })
 );
 
-const ProgressBar = styled(LinearProgress)`
-  width: 100%;
-  height: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
+const ProgressBar = styledMUI(LinearProgress)(({ theme }) => ({
+  background: theme.palette.primary.main,
+  width: "100%",
+  height: "5px",
+  position: "absolute",
+  top: 0,
+  left: 0,
+}));
 
 const titleStyle = {
+  marginTop: "3px",
+  marginBottom: "3px",
   width: "100%",
   outline: "none",
   border: "none",
   background: "transparent",
   fontSize: "15px",
-  fontFamily: "inherit",
-  fontWeight: "bold",
+  minHeight: "50px",
 };
 
 const titleEditStyle = {
+  marginTop: "3px",
+  marginBottom: "3px",
   width: "100%",
+  minHeight: "50px",
   outline: "none",
   border: "none",
   background: "transparent",
   fontSize: "15px",
-  fontFamily: "inherit",
-  fontWeight: "bold",
 };
 
 const Task = ({
@@ -122,19 +128,50 @@ const Task = ({
                   style={titleEditStyle}
                   normalStyle={titleStyle}
                   allowEnter
+                  variant="body1"
                 />
                 {description && (
-                  <FontAwesomeIcon className="icon" icon={faComment} />
+                  <DescriptionIcon
+                    sx={{
+                      fontSize: "20px",
+                      mr: "3px",
+                    }}
+                  />
                 )}
                 {date && (
-                  <div className="date-icons">
-                    <h2>{getDaysLeft()}</h2>
-                    <FontAwesomeIcon className="icon clock" icon={faClock} />
-                  </div>
+                  <Stack
+                    sx={{ alignItems: "center", mr: "3px", mb: "14px", gap: 0 }}
+                  >
+                    <Typography
+                      variant="h1"
+                      sx={{
+                        fontSize: "11px",
+                        mb: "-2px",
+                      }}
+                    >
+                      {getDaysLeft()}
+                    </Typography>
+                    <AccessTimeFilledIcon
+                      size="large"
+                      sx={{
+                        fontSize: "20px",
+                      }}
+                    />
+                  </Stack>
                 )}
                 {hovered && (
-                  <IconButton onClick={() => setSelectedTask(taskId)}>
-                    <FontAwesomeIcon size="sm" icon={faEllipsisH} />
+                  <IconButton
+                    sx={{
+                      height: "35px",
+                      width: "35px",
+                    }}
+                    onClick={() => setSelectedTask(taskId)}
+                  >
+                    <MoreHorizIcon
+                      sx={{
+                        fontSize: "25px",
+                      }}
+                    />
                   </IconButton>
                 )}
               </TaskCard>

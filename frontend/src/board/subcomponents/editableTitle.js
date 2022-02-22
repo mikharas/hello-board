@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { ClickAwayListener, Button, Typography } from "@mui/material";
 import TextareaAutosize from "react-autosize-textarea";
@@ -35,6 +35,7 @@ const converter = new showdown.Converter({
 converter.setFlavor("github");
 
 const EditableTitle = ({
+  customizedTitle,
   title,
   changeTitle,
   style,
@@ -44,7 +45,7 @@ const EditableTitle = ({
   rows,
   showButtons,
   showMarkdown,
-  variant
+  variant,
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
@@ -53,6 +54,7 @@ const EditableTitle = ({
   const toggleEditMode = useCallback(() => {
     setIsEditMode(!isEditmode);
   }, [isEditmode]);
+
 
   const changeValue = (newValue) => setValue(newValue);
 
@@ -66,6 +68,7 @@ const EditableTitle = ({
     }
   };
 
+  useEffect(() => setValue(title), [title]);
   if (!isEditmode && showMarkdown) {
     return (
       <MarkdownContainer
@@ -84,7 +87,7 @@ const EditableTitle = ({
         }}
         style={style && normalStyle}
       >
-        {title}
+        {customizedTitle || title}
       </Typography>
     );
   }

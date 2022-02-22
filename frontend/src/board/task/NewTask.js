@@ -16,6 +16,8 @@ const TextArea = styled(TextareaAutosize)`
 `;
 
 const TaskCard = styled(Card)`
+  margin: 3px 6px;
+  minHeight: 50px;
   .input {
     width: 100%;
     height: 35px;
@@ -30,8 +32,6 @@ const style = {
   border: "none",
   background: "transparent",
   fontSize: "15px",
-  fontFamily: "inherit",
-  fontWeight: "bold",
 };
 
 const NewTask = ({ columnId, addTask }) => {
@@ -73,7 +73,6 @@ const NewTask = ({ columnId, addTask }) => {
           style={style}
           className="input"
           type="text"
-          elevation={3}
           value={value}
           onClick={(e) => {
             e.stopPropagation();
