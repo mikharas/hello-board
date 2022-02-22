@@ -1,5 +1,5 @@
 import authHeader from "../../services/authHeader";
-import axios from 'axios';
+import axios from "axios";
 
 export const setBoardData = (data) => ({
   type: "SET_BOARD_DATA",
@@ -45,16 +45,17 @@ export const getData = (boardId) => async (dispatch, getState) => {
     type: "SET_LOADING",
     payload: true,
   });
-  await axios.get(
-    `http://localhost:3000/api/boards/${boardId}`,
-    { headers: authHeader() }
-  ).then((res) => {
-    dispatch(setBoardData(res.data.board));
-    dispatch({
-      type: 'SET_LOADING',
-      payload: false,
+  await axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/api/boards/${boardId}`, {
+      headers: authHeader(),
+    })
+    .then((res) => {
+      dispatch(setBoardData(res.data.board));
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
     });
-  });
 };
 
 export const saveData = (boardId) => async (dispatch, getState) => {
@@ -75,14 +76,16 @@ export const saveData = (boardId) => async (dispatch, getState) => {
     },
   };
 
-  await axios.patch(
-    `http://localhost:3000/api/boards/${boardId}`,
-    boardStructure,
-    { headers: authHeader() }
-  ).then(() => {
-    dispatch({
-      type: 'SET_LOADING',
-      payload: false,
+  await axios
+    .patch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/boards/${boardId}`,
+      boardStructure,
+      { headers: authHeader() }
+    )
+    .then(() => {
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
     });
-  });
 };

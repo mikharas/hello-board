@@ -4,7 +4,7 @@ export const register = (username, password) => async (dispatch) => {
   try {
     let res = await axios({
       method: "post",
-      url: `http://localhost:3000/api/users/signup`,
+      url: `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`,
       data: {
         account_name: username,
         password,
@@ -32,7 +32,7 @@ export const login = (username, password) => async (dispatch, getState) => {
   try {
     let res = await axios({
       method: "post",
-      url: `http://localhost:3000/api/users/login`,
+      url: `${process.env.REACT_APP_BACKEND_URL}/api/users/login`,
       data: {
         username,
         password,

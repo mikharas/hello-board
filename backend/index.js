@@ -7,6 +7,7 @@ const path = require('path');
 const HttpError = require('./models/http-error');
 const boardRoutes = require('./routes/board-routes');
 const userRoutes = require('./routes/user-routes');
+require('dotenv').config();
 
 const app = express();
 
@@ -35,6 +36,6 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-	.connect('mongodb+srv://mikharas:xUE9EhjXS8kfNvAU@cluster0.5tnko.mongodb.net/hello')
+	.connect(process.env.MONGODB_URI)
 	.then(() => app.listen(3000))
 	.catch(err => console.log(err));

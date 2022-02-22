@@ -1,9 +1,9 @@
 import * as R from "ramda";
 import data from "../reducers/monthsData";
 import authHeader from "../../services/authHeader";
-import axios from 'axios';
+import axios from "axios";
 
-const api = 'http://localhost:3000/api'
+const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
   const firstDayIndex = newDate.getDay();

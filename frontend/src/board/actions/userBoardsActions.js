@@ -1,66 +1,66 @@
-import * as R from 'ramda';
-import authHeader from '../../services/authHeader';
+import * as R from "ramda";
+import authHeader from "../../services/authHeader";
 
-const axios = require('axios');
-const api = 'http://localhost:3000/api'
+const axios = require("axios");
+const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-export const setUserBoardsData = data => ({
-  type: 'SET_USER_BOARDS_DATA',
+export const setUserBoardsData = (data) => ({
+  type: "SET_USER_BOARDS_DATA",
   payload: data,
 });
 
-export const addBoard = boardData => ({
-  type: 'ADD_BOARD',
+export const addBoard = (boardData) => ({
+  type: "ADD_BOARD",
   payload: boardData,
 });
 
-export const delBoard = id => ({
-  type: 'DEL_BOARD',
+export const delBoard = (id) => ({
+  type: "DEL_BOARD",
   payload: { id },
 });
 
 export const getUserBoardsData = (userId) => async (dispatch) => {
   dispatch({
-    type: 'SET_LOADING',
+    type: "SET_LOADING",
     payload: true,
   });
-  await axios.get(
-    `${api}/boards/user/${userId}`,
-    { headers: authHeader() },
-  ).then((response) => {
-    const idToBoard = R.groupBy(
-      boardData => boardData.id,
-      response.data.boards,
-    );
-    Object.keys(idToBoard).forEach((id) => {
-      idToBoard[id] = idToBoard[id][0];
+  await axios
+    .get(`${api}/boards/user/${userId}`, { headers: authHeader() })
+    .then((response) => {
+      const idToBoard = R.groupBy(
+        (boardData) => boardData.id,
+        response.data.boards
+      );
+      Object.keys(idToBoard).forEach((id) => {
+        idToBoard[id] = idToBoard[id][0];
+      });
+      dispatch(setUserBoardsData(idToBoard));
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
     });
-    dispatch(setUserBoardsData(idToBoard));
-    dispatch({
-      type: 'SET_LOADING',
-      payload: false,
-    });
-  });
 };
 
 export const postUserBoard = (userId) => (dispatch) => {
-  axios.post(
-    `${api}/boards/`,
-    JSON.stringify({
-      creator: userId,
-      title: 'New Board',
-    }),
-    { headers: authHeader() },
-  ).then((response) => {
-    dispatch(addBoard(response.data.board));
-  });
+  axios
+    .post(
+      `${api}/boards/`,
+      JSON.stringify({
+        creator: userId,
+        title: "New Board",
+      }),
+      { headers: authHeader() }
+    )
+    .then((response) => {
+      dispatch(addBoard(response.data.board));
+    });
 };
 
 export const delUserBoard = (boardId, token) => (dispatch) => {
-  axios.delete(
-    `${api}/boards/${boardId}`,
-    { headers: authHeader() },
-  ).then(() => {
-    dispatch(delBoard(boardId));
-  });
+  axios
+    .delete(`${api}/boards/${boardId}`, { headers: authHeader() })
+    .then(() => {
+      dispatch(delBoard(boardId));
+    });
 };

@@ -82,7 +82,6 @@ const login = async (req, res, next) => {
 
 	const { username, password } = req.body;
 
-	isUniqueName(username);
 	let user;
 	try {
 		user = await User.findOne({ account_name: username });
