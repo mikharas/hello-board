@@ -17,8 +17,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 
 const ItemStyled = styledMUI(ListItem)(
-  ({ theme, isHovered, isDragging, isChecked }) => ({
-    background: isHovered || isDragging ? "#EBECF0" : "#fff",
+  ({ theme, ishovered, isdragging, isChecked }) => ({
+    background: ishovered || isdragging ? "#EBECF0" : "#fff",
     borderRadius: "10px",
     textDecoration: isChecked && "line-through",
     color: isChecked && theme.palette.primary.main,
@@ -57,7 +57,7 @@ const TodoItem = ({
   delTodoItem,
   addTask,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [ishovered, setishovered] = useState(false);
 
   const changeTodoItemTitle = useCallback(
     (newTitle) => {
@@ -83,10 +83,10 @@ const TodoItem = ({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          isHovered={isHovered}
-          isDragging={snapshot.isDragging}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          ishovered={ishovered ? 1 : 0}
+          isdragging={snapshot.isdragging}
+          onMouseEnter={() => setishovered(true)}
+          onMouseLeave={() => setishovered(false)}
         >
           <Checkbox
             checked={isCompleted}

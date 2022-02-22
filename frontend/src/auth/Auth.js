@@ -131,18 +131,6 @@ const Auth = ({ isLoggedIn, login, register }) => {
             helperText={formik.touched.password && formik.errors.password}
             type="password"
           />
-          {!isLoginMode && (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  id="isAdmin"
-                  value={formik.values.isAdmin}
-                  onClick={formik.handleChange}
-                />
-              }
-              label="Admin"
-            />
-          )}
           <div
             className={css`
               display: flex;

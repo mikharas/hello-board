@@ -60,6 +60,7 @@ const TodoList = ({
             <List>
               {todo.map((todoItemId, index) => (
                 <TodoItem
+                  key={todoItemId}
                   index={index}
                   taskId={taskId}
                   columnId={columnId}

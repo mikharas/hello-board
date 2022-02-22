@@ -104,7 +104,6 @@ const Event = ({
         anchorEl={anchorEl}
         placement="bottom-start"
         onClose={handlePopoverClose}
-        disablerestorefocus
       >
         <Box
           sx={{

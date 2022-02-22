@@ -12,7 +12,7 @@ const isUniqueName = async (account_name) => {
 		throw new HttpError('Something went wrong finding user', 404);
 	}
 	if (userName) {
-		throw new HttpError('This username is taken');
+		throw new HttpError('This username is taken', 409);
 	}
 };
 
@@ -35,6 +35,8 @@ const signup = async (req, res, next) => {
 	}
 
 	const { account_name, password } = req.body;
+
+	isUniqueName(account_name);
 
 	let hashedPasswd;
 	try {
@@ -80,6 +82,7 @@ const login = async (req, res, next) => {
 
 	const { username, password } = req.body;
 
+	isUniqueName(username);
 	let user;
 	try {
 		user = await User.findOne({ account_name: username });

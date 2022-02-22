@@ -44,7 +44,6 @@ const Header = ({ monthName, yearName, changeMonth }) => {
 
   const handleMonthClose = () => setAnchorMonth(null);
   const handleYearClose = () => setAnchorYear(null);
-  console.log(monthName);
 
   return (
     <HeaderStyled>
@@ -66,6 +65,7 @@ const Header = ({ monthName, yearName, changeMonth }) => {
       >
         {months.map((month) => (
           <MenuItem
+          	key={month}
             onClick={() => {
               changeMonth(getDate(month, yearName));
               handleMonthClose();
@@ -83,6 +83,7 @@ const Header = ({ monthName, yearName, changeMonth }) => {
       >
         {years.map((year) => (
           <MenuItem
+            key={year}
             onClick={() => {
               changeMonth(getDate(monthName, year));
               handleYearClose();

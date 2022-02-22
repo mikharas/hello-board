@@ -62,7 +62,7 @@ const DateSquare = ({ id, date, eventIds }) => {
       </Box>
       <div className="events">
         {eventIds.map((eventId) => (
-          <Event id={eventId} />
+          <Event id={eventId} key={eventId}/>
         ))}
       </div>
     </Wrapper>

@@ -17,8 +17,8 @@ import EditableTitle from "../subcomponents/editableTitle";
 import { Stack, Typography } from "@mui/material";
 
 const TaskCard = styledMUI(Card)(
-  ({ isDragDisabled, isFilterMatched, theme }) => ({
-    border: isFilterMatched ? "3px solid black" : "none",
+  ({ isDragDisabled, isfiltermatched, theme }) => ({
+    border: isfiltermatched ? "3px solid black" : "none",
     borderRadius: "5px",
     padding: "10px",
     margin: "4px 8px",
@@ -33,7 +33,6 @@ const TaskCard = styledMUI(Card)(
 );
 
 const ProgressBar = styledMUI(LinearProgress)(({ theme }) => ({
-  background: theme.palette.primary.main,
   width: "100%",
   height: "5px",
   position: "absolute",
@@ -105,20 +104,20 @@ const Task = ({
             <div
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              isDragging={snapshot.isDragging}
+              isdragging={snapshot.isdragging}
               ref={provided.innerRef}
               style={style}
             >
               <TaskCard
-                elevation={snapshot.isDragging ? 16 : 0}
+                elevation={snapshot.isdragging ? 16 : 0}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
-                isFilterMatched={filterMatch}
+                isfiltermatched={filterMatch ? 1 : 0}
               >
                 {todo.length !== 0 && (
                   <ProgressBar
                     variant="determinate"
-                    color="secondary"
+                    color="primary"
                     value={completedPercentage}
                   />
                 )}

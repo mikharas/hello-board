@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faComment } from '@fortawesome/free-solid-svg-icons';
 
 const TaskCard = styled(Card)`
-  border: ${({ isFilterMatched }) => (isFilterMatched ? '3px solid black' : 'none')};
+  border: ${({ isfiltermatched }) => (isfiltermatched ? '3px solid black' : 'none')};
   padding: 10px;
   position: relative;
   margin-bottom: 8px;
@@ -103,14 +103,14 @@ const Task = ({
             <div
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              isDragging={snapshot.isDragging}
+              isdragging={snapshot.isdragging}
               ref={provided.innerRef}
               style={style}
             >
               <TaskCard
-                elevation={snapshot.isDragging ? 16 : 2}
+                elevation={snapshot.isdragging ? 16 : 2}
                 onClick={() => setSelectedTask(taskId)}
-                isFilterMatched={filterMatch}
+                isfiltermatched={filterMatch ? 1 : 0}
               >
                 {todo.length !== 0 && (
                   <ProgressBar

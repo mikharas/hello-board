@@ -25,7 +25,7 @@ const FilterBoardSelector = ({boardIds, idToTitle, showBoard, setShowBoard}) => 
       >
         <option value={boardIds}>Show all</option>
         {boardIds.map(boardId => (
-          <option value={boardId}>{idToTitle[boardId]}</option>
+          <option key={boardId} value={boardId}>{idToTitle[boardId]}</option>
         ))}
       </Select>
     </FormControl>

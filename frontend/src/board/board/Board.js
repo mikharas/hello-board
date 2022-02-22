@@ -48,7 +48,7 @@ const TitleWrapper = styled.div`
 `;
 
 const ColumnWrapper = styled.div`
-  width: ${({ isLargeScreen }) => (isLargeScreen ? "350px" : "100%")};
+  width: ${({ islargescreen }) => (islargescreen ? "350px" : "100%")};
 `;
 
 const SearchBar = styled(InputBase)`
@@ -114,7 +114,7 @@ const Board = ({
     history.push(`/`);
   };
 
-  const isLargeScreen = useMediaQuery({ minWidth: 700 });
+  const islargescreen = useMediaQuery({ minWidth: 700 });
 
   const flagColumnHandler = useCallback(
     (columnId, ignore) => {
@@ -226,11 +226,11 @@ const Board = ({
         <DragDropContext onDragEnd={onDragEnd}>
           <FlipMove typeName={null}>
             {columnOrder.map((columnId) => (
-              <ColumnWrapper key={`${columnId}`} isLargeScreen={isLargeScreen}>
+              <ColumnWrapper key={`${columnId}`} islargescreen={islargescreen ? 1 : 0}>
                 <ColumnContainer
                   boardId={boardId}
                   key={columnId}
-                  isLargeScreen={isLargeScreen}
+                  islargescreen={islargescreen}
                   columnId={columnId}
                   delColumn={delColumn}
                   flagColumnHandler={flagColumnHandler}

@@ -84,7 +84,6 @@ const Calendar = ({
     changeMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
   };
   const goToDate = (date) => {
-    console.log(date);
     changeMonth(new Date(date));
   };
 
@@ -131,6 +130,7 @@ const Calendar = ({
         <DayLabel>
           {weekdays.map((day) => (
             <Typography
+            	key={day}
               variant="body1"
               sx={{
                 mt: 1.5,
@@ -141,9 +141,9 @@ const Calendar = ({
           ))}
         </DayLabel>
         {dates.map((week) => (
-          <WeekContainer>
+          <WeekContainer key={week}>
             {week.map((day) => (
-              <DateSquare showBoard={showBoard} id={day} />
+              <DateSquare showBoard={showBoard} key={day} id={day}/>
             ))}
           </WeekContainer>
         ))}

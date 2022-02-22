@@ -85,7 +85,7 @@ const Column = forwardRef(
       delColumn,
       flagColumnHandler,
       taskOrder,
-      isLargeScreen,
+      islargescreen,
       boardSelectedColumn,
       boardId,
       setOpenDialog,
@@ -113,35 +113,36 @@ const Column = forwardRef(
         }}
       >
         <ColumnStyled
-          isLargeScreen={isLargeScreen}
+          islargescreen={islargescreen ? 1 : 0}
           elevation={boardSelectedColumn === columnId ? 24 : 0}
           onClick={() => flagColumnHandler(columnId, false)}
           onMouseOver={() => setShowButtons(true)}
           onMouseLeave={() => setShowButtons(false)}
         >
-          <Stack
-            direction="row"
-            sx={{ width: "100%", alignItems: "center" }}
-          >
+          <Stack direction="row" sx={{ width: "100%", alignItems: "center" }}>
             <Header title={title} changeColumnTitle={changeColumnTitle} />
             {showButtons && (
               <Stack direction="row" sx={{ float: "right", height: "40px" }}>
-                <IconButton size="small" className="del">
-                  <RemoveCircleOutlineIcon
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setWillBeDeleted(columnId);
-                      setOpenDialog(true);
-                    }}
-                  />
+                <IconButton
+                  size="small"
+                  className="del"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setWillBeDeleted(columnId);
+                    setOpenDialog(true);
+                  }}
+                >
+                  <RemoveCircleOutlineIcon />
                 </IconButton>
-                <IconButton size="small" className="ins">
-                  <AddCircleIcon
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addColumn(columnId, uuidv4());
-                    }}
-                  />
+                <IconButton
+                  size="small"
+                  className="ins"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addColumn(columnId, uuidv4());
+                  }}
+                >
+                  <AddCircleIcon />
                 </IconButton>
               </Stack>
             )}
@@ -151,10 +152,11 @@ const Column = forwardRef(
               <TaskList
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
+                isdraggingOver={snapshot.isdraggingOver}
               >
                 {taskOrder.map((taskId, index) => (
                   <TaskContainer
+                  	key={taskId}
                     columnId={columnId}
                     taskId={taskId}
                     index={index}

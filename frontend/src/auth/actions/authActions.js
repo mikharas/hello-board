@@ -23,7 +23,7 @@ export const register = (username, password) => async (dispatch) => {
       },
     });
   } catch (error) {
-    console.log(error.response); // this is the main part. Use the response property from the error object
+    alert(error.response.data.message); // this is the main part. Use the response property from the error object
     return error.response;
   }
 };
@@ -57,12 +57,12 @@ export const login = (username, password) => async (dispatch, getState) => {
     dispatch({
       type: "LOGIN_FAIL",
     });
-    console.log(error.response);
     return error.response;
   }
 };
 
 export const logout = () => (dispatch) => {
+  localStorage.removeItem("user");
   dispatch({
     type: "LOGOUT",
   });

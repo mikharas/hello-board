@@ -18,7 +18,6 @@ import theme from './theme';
 const App = ({ isLoggedIn, userId }) => {
   let routes;
 
-  console.log(userId);
   if (isLoggedIn) {
     routes = (
       <>
