@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
-import { ClickAwayListener, Button } from "@mui/material";
+import { ClickAwayListener, Button, Typography } from "@mui/material";
 import TextareaAutosize from "react-autosize-textarea";
 import showdown from "showdown";
 import showdownHighlight from "showdown-highlight";
@@ -44,6 +44,7 @@ const EditableTitle = ({
   rows,
   showButtons,
   showMarkdown,
+  variant
 }) => {
   const [value, setValue] = useState(title);
   const [isEditmode, setIsEditMode] = useState(false);
@@ -75,7 +76,8 @@ const EditableTitle = ({
   }
   if (!isEditmode) {
     return (
-      <h1
+      <Typography
+        variant={variant || "body1"}
         onClick={(e) => {
           e.stopPropagation();
           toggleEditMode();
@@ -83,7 +85,7 @@ const EditableTitle = ({
         style={style && normalStyle}
       >
         {title}
-      </h1>
+      </Typography>
     );
   }
 

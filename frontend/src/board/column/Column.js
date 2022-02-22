@@ -1,12 +1,11 @@
-import React, { forwardRef, useCallback } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 import styled from "@emotion/styled";
-import { Paper, ClickAwayListener, IconButton } from "@mui/material";
+import { Stack, Paper, ClickAwayListener, IconButton } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { styled as styledMUI } from "@mui/system";
 import TaskContainer from "../task/TaskContainer";
 import NewTask from "../task/NewTask";
 import EditableTitle from "../subcomponents/editableTitle";
@@ -15,37 +14,38 @@ const titleStyleNormal = {
   outline: "none",
   marginTop: "13px",
   marginBottom: "15px",
-  fontFamily: "inherit",
-  fontWeight: "bold",
-  fontSize: "22px",
+  fontSize: "17px",
   padding: "15px",
+  textAlign: "left",
 };
 
 const titleStyle = {
+  textAlign: "left",
   outline: "none",
   background: "white",
   marginTop: "13px",
   marginBottom: "15px",
-  fontFamily: "inherit",
   fontWeight: "bold",
-  fontSize: "22px",
+  fontSize: "17px",
   padding: "15px",
   width: "90%",
   borderRadius: "15px",
   border: "0",
 };
 
-const ColumnStyled = styled(Paper)`
-  position: relative;
-  background: #ebecf0;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  padding: 6px;
-  padding-bottom: 15px;
-  margin: 10px;
-  flex-grow: 1;
-`;
+const ColumnStyled = styledMUI(Paper)(({ theme }) => {
+  return {
+    position: "relative",
+    background: theme.palette.secondary.light,
+    borderRadius: "5px",
+    display: "flex",
+    flexDirection: "column",
+    px: 0,
+    paddingBottom: "15px",
+    margin: "10px",
+    flexGrow: 1,
+  };
+});
 
 const TaskList = styled.div`
   display: flex;
@@ -53,10 +53,6 @@ const TaskList = styled.div`
 `;
 
 const Icons = styled.div`
-  position: absolute;
-  left: 15px;
-  top: 15px;
-
   .MuiIconButton-root {
     font-size: 15px;
   }
@@ -75,10 +71,8 @@ const Icons = styled.div`
 `;
 
 const HeaderStyled = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: 7px;
+  width: 75%;
 `;
 
 const Header = React.memo(({ title, changeColumnTitle }) => (
@@ -90,6 +84,7 @@ const Header = React.memo(({ title, changeColumnTitle }) => (
       style={titleStyle}
       normalStyle={titleStyleNormal}
       allowEnter
+      variant="h1"
     />
   </HeaderStyled>
 ));
@@ -121,6 +116,8 @@ const Column = forwardRef(
       [columnId]
     );
 
+    const [showButtons, setShowButtons] = useState(false);
+
     if (skipRender) {
       return null;
     }
@@ -135,27 +132,36 @@ const Column = forwardRef(
           isLargeScreen={isLargeScreen}
           elevation={boardSelectedColumn === columnId ? 24 : 0}
           onClick={() => flagColumnHandler(columnId, false)}
+          onMouseOver={() => setShowButtons(true)}
+          onMouseLeave={() => setShowButtons(false)}
         >
-          <Icons>
-            <IconButton size="small" className="del">
-              <RemoveCircleOutlineIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setWillBeDeleted(columnId);
-                  setOpenDialog(true);
-                }}
-              />
-            </IconButton>
-            <IconButton size="small" className="ins">
-              <AddCircleIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addColumn(columnId, uuidv4());
-                }}
-              />
-            </IconButton>
-          </Icons>
-          <Header title={title} changeColumnTitle={changeColumnTitle} />
+          <Stack
+            direction="row"
+            sx={{ width: "100%", alignItems: "center" }}
+          >
+            <Header title={title} changeColumnTitle={changeColumnTitle} />
+            {showButtons && (
+              <Stack direction="row" sx={{ float: "right", height: "40px" }}>
+                <IconButton size="small" className="del">
+                  <RemoveCircleOutlineIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setWillBeDeleted(columnId);
+                      setOpenDialog(true);
+                    }}
+                  />
+                </IconButton>
+                <IconButton size="small" className="ins">
+                  <AddCircleIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addColumn(columnId, uuidv4());
+                    }}
+                  />
+                </IconButton>
+              </Stack>
+            )}
+          </Stack>
           <Droppable droppableId={columnId}>
             {(provided, snapshot) => (
               <TaskList
