@@ -169,6 +169,7 @@ const TaskModal = ({
     setOpen(Boolean(taskId));
   }, [taskId]);
 
+
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
     if (
@@ -263,6 +264,7 @@ const TaskModal = ({
               <Button
                 onClick={() => {
                   const today = new Date();
+                  today.setHours(0, 0, 0, 0);
                   addDate(taskId, today.toISOString());
                 }}
               >

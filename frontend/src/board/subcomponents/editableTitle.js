@@ -55,7 +55,6 @@ const EditableTitle = ({
     setIsEditMode(!isEditmode);
   }, [isEditmode]);
 
-
   const changeValue = (newValue) => setValue(newValue);
 
   const handleChange = () => {
@@ -96,7 +95,7 @@ const EditableTitle = ({
     <ClickAwayListener onClickAway={handleChange}>
       <Wrapper>
         <TextareaAutosize
-          style={style || defaultTitleStyle}
+          style={style ? { ...style, resize: "none" } : defaultTitleStyle}
           ref={(tag) => {
             textArea = tag;
           }}

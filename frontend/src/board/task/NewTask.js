@@ -17,7 +17,7 @@ const TextArea = styled(TextareaAutosize)`
 
 const TaskCard = styled(Card)`
   margin: 3px 6px;
-  minHeight: 50px;
+  minheight: 50px;
   .input {
     width: 100%;
     height: 35px;
@@ -27,11 +27,12 @@ const TaskCard = styled(Card)`
 `;
 
 const style = {
-  width: "100%",
+  width: "90%",
   outline: "none",
   border: "none",
   background: "transparent",
   fontSize: "15px",
+  resize: "none",
 };
 
 const NewTask = ({ columnId, addTask }) => {

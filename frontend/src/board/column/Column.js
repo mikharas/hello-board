@@ -29,7 +29,7 @@ const titleStyle = {
   fontSize: "17px",
   padding: "15px",
   width: "90%",
-  borderRadius: "15px",
+  borderRadius: "10px",
   border: "0",
 };
 
