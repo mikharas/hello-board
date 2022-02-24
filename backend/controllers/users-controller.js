@@ -108,7 +108,7 @@ const login = async (req, res, next) => {
 
 	let token;
 	try {
-		token = jwt.sign({ userId: user.id }, 'secret_key', { expiresIn: '1h' });
+		token = jwt.sign({ userId: user.id }, 'secret_key', { expiresIn: '1h'});
 	} catch (err) {
 		return next(new HttpError('Something went wrong creating token', 500));
 	}

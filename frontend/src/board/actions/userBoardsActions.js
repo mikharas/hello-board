@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import authHeader from "../../services/authHeader";
+import isExpired from "../../services/checkAuthExpiry";
 
 const axios = require("axios");
 const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
@@ -20,6 +21,13 @@ export const delBoard = (id) => ({
 });
 
 export const getUserBoardsData = (userId) => async (dispatch) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   dispatch({
     type: "SET_LOADING",
     payload: true,
@@ -43,6 +51,13 @@ export const getUserBoardsData = (userId) => async (dispatch) => {
 };
 
 export const postUserBoard = (userId) => (dispatch) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   axios
     .post(
       `${api}/boards/`,
@@ -58,6 +73,13 @@ export const postUserBoard = (userId) => (dispatch) => {
 };
 
 export const delUserBoard = (boardId, token) => (dispatch) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   axios
     .delete(`${api}/boards/${boardId}`, { headers: authHeader() })
     .then(() => {

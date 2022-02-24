@@ -2,6 +2,7 @@ import * as R from "ramda";
 import data from "../reducers/monthsData";
 import authHeader from "../../services/authHeader";
 import axios from "axios";
+import isExpired from "../../services/checkAuthExpiry";
 
 const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -18,6 +19,13 @@ const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
 };
 
 export const getEvents = (userId) => async (dispatch, getState) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   dispatch({
     type: "SET_LOADING",
     payload: true,

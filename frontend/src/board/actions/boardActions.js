@@ -1,5 +1,6 @@
 import authHeader from "../../services/authHeader";
 import axios from "axios";
+import isExpired from "../../services/checkAuthExpiry";
 
 export const setBoardData = (data) => ({
   type: "SET_BOARD_DATA",
@@ -41,6 +42,13 @@ export const setSelectedColumn = (columnId) => ({
 });
 
 export const getData = (boardId) => async (dispatch, getState) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   dispatch({
     type: "SET_LOADING",
     payload: true,
@@ -59,6 +67,13 @@ export const getData = (boardId) => async (dispatch, getState) => {
 };
 
 export const saveData = (boardId) => async (dispatch, getState) => {
+  if (isExpired()) {
+    dispatch({
+      type: "LOGOUT"
+    })
+    alert("Your session has ended and was logged out.")
+    return;
+  }
   dispatch({
     type: "SET_LOADING",
     payload: true,
