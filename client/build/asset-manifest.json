@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2931e58e.chunk.css",
+    "main.js": "/static/js/main.c39d40f5.chunk.js",
+    "main.js.map": "/static/js/main.c39d40f5.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.eb59dc74.js",
+    "runtime-main.js.map": "/static/js/runtime-main.eb59dc74.js.map",
+    "static/css/2.84a3227c.chunk.css": "/static/css/2.84a3227c.chunk.css",
+    "static/js/2.501ef869.chunk.js": "/static/js/2.501ef869.chunk.js",
+    "static/js/2.501ef869.chunk.js.map": "/static/js/2.501ef869.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.fffa76269a3fc791fb8046bffb14cdf1.js": "/precache-manifest.fffa76269a3fc791fb8046bffb14cdf1.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.84a3227c.chunk.css.map": "/static/css/2.84a3227c.chunk.css.map",
+    "static/css/main.2931e58e.chunk.css.map": "/static/css/main.2931e58e.chunk.css.map",
+    "static/js/2.501ef869.chunk.js.LICENSE.txt": "/static/js/2.501ef869.chunk.js.LICENSE.txt",
+    "static/media/typography.css": "/static/media/Nickainley-Normal.5bd352df.otf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.eb59dc74.js",
+    "static/css/2.84a3227c.chunk.css",
+    "static/js/2.501ef869.chunk.js",
+    "static/css/main.2931e58e.chunk.css",
+    "static/js/main.c39d40f5.chunk.js"
+  ]
+}
