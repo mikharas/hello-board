@@ -1,4 +1,3 @@
-const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -8,15 +7,14 @@ const HttpError = require('./models/http-error');
 const boardRoutes = require('./routes/board-routes');
 const userRoutes = require('./routes/user-routes');
 const env = process.env.NODE_ENV;
-require('dotenv').config();
 
-const app = express();
+const app = require('express')();
 
 app.use(bodyParser.json());
 app.use(cors());
 
 if (env === 'production') {
-	app.use(express.static(__dirname + '/client/build'));
+	app.use((require('express')).static(__dirname + '/client/build'));
 }
 
 app.use('/api/users', userRoutes);

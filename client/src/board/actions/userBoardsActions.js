@@ -3,7 +3,7 @@ import authHeader from "../../services/authHeader";
 import isExpired from "../../services/checkAuthExpiry";
 
 const axios = require("axios");
-const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const api = `/api`;
 
 export const setUserBoardsData = (data) => ({
   type: "SET_USER_BOARDS_DATA",

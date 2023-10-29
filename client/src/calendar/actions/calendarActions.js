@@ -4,7 +4,7 @@ import authHeader from "../../services/authHeader";
 import axios from "axios";
 import isExpired from "../../services/checkAuthExpiry";
 
-const api = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const api = `/api`;
 
 const getNewDate = (newDate, prevDateIndex, prevWeekIndex) => {
   const firstDayIndex = newDate.getDay();

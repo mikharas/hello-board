@@ -54,7 +54,7 @@ export const getData = (boardId) => async (dispatch, getState) => {
     payload: true,
   });
   await axios
-    .get(`${process.env.REACT_APP_BACKEND_URL}/api/boards/${boardId}`, {
+    .get(`/api/boards/${boardId}`, {
       headers: authHeader(),
     })
     .then((res) => {
@@ -93,7 +93,7 @@ export const saveData = (boardId) => async (dispatch, getState) => {
 
   await axios
     .patch(
-      `${process.env.REACT_APP_BACKEND_URL}/api/boards/${boardId}`,
+      `/api/boards/${boardId}`,
       boardStructure,
       { headers: authHeader() }
     )
