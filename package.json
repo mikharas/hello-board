@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node index.js && cd client && yarn start client && cd .."
+    "dev": "node index.js && cd client && yarn start client && cd ..",
+    "build": "sh ./build-script.sh && node index.js"
   },
   "author": "Sarah <sarahk1280@gmail.com>",
   "license": "MIT",
