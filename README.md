@@ -1,5 +1,5 @@
 # Heroku Deployed Link
-https://hello-todo-board.herokuapp.com
+https://hello-board-app-7f991d65b4b8.herokuapp.com/
 
 # Features
 - Authentication system with JWT
